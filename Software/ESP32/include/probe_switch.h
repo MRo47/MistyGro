@@ -17,7 +17,14 @@ public:
         a_on_time_(a_on_time),
         b_on_time_(b_on_time),
         off_time(off_time){};
-
+    
+    void run(tm& time_now)
+    {
+        if(time_now.tm_min % 5 == 0) //every 5 mins
+        {
+            //take reading
+        }
+    }
     
 
     
