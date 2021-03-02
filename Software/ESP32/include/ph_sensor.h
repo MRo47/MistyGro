@@ -22,12 +22,16 @@ public:
 
     float read() //read pH
     {
+        // power on
+        digitalWrite(power_, HIGH);
         float sum = 0.0;
         for(int i=0; i<samples_; ++i)
         {
             sum += analogRead(p0_);
             delay(10);
         }
+        // power on
+        digitalWrite(power_, LOW);
         return 7 + 
             ((1.65 - (3.3 * samples_ / (constants::adc_res * sum))) / 0.18);
     }
