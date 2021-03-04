@@ -9,33 +9,40 @@ enum class Switch : bool
 // active high
 class RelayAH
 {
-protected:
+private:
     int pin_;
 
 public:
     RelayAH(int pin) : pin_(pin){};
 
-    virtual void begin(Switch sw)
+    void begin(Switch sw)
     {
         pinMode(pin_, OUTPUT);
         digitalWrite(pin_, bool(sw));
     }
 
-    virtual void set(Switch state)
+    void set(Switch state)
     {
         digitalWrite(pin_, bool(state));
     }
 
     void toggle()
     {
-        digitalWrite(pin_, !digitalRead(pin_)); //TODO check this
+        bool state = digitalRead(pin_);
+        delay(10);
+        digitalWrite(pin_, !state); //TODO check this
     }
 };
 
 // active low
-class RelayAL : RelayAH
+class RelayAL
 {
+private:
+    int pin_;
+
 public:
+    RelayAL(int pin) : pin_(pin){};
+
     void begin(Switch sw)
     {
         pinMode(pin_, OUTPUT);
@@ -45,5 +52,12 @@ public:
     void set(Switch state)
     {
         digitalWrite(pin_, !bool(state));
+    }
+
+    void toggle()
+    {
+        bool state = digitalRead(pin_);
+        delay(10);
+        digitalWrite(pin_, !state); //TODO check this
     }
 };
