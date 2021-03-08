@@ -11,8 +11,8 @@ struct PhData
 
 namespace constants
 {
-    const float adc_res = 1024.0;
-    const int ph_data_add = 0;
+    static const float adc_res = 1024.0;
+    static const float ph7_volt_at_25C = 1134;
 }
 
 #endif

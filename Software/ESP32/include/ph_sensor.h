@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "utility.h"
 #include <EEPROM.h>
+#include "custom_eeprom.h"
 
 class PHSensor
 {
@@ -15,12 +16,19 @@ private:
     float ph_;
     float voltage_;
     float temp_;
-    PhData ph_calib_data_;
+    // PhData ph_calib_data_;
+    float m_; //slope
+    float c_; //intercept
+    CustomEEPROM& eeprom;
 
 public:
     PHSensor(int temp_pin, int ph_pin, int power_pin);
 
     void begin();
+
+    float read();
+
+    void calibration();
 
     // void calibration(float voltage, float temperature)
     // {
