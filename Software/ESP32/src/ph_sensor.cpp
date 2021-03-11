@@ -41,7 +41,48 @@ float PHSensor::read()
 
 void PHSensor::calibration()
 {
-    float volt = analogRead(ph_pin_);
+    Serial.println("Entered ph calibartion mode");
+    Serial.println("Dip the ph sensor in an acidic and neutral solution one at " 
+                    "a time and enter the solution ph using the following "
+                    "commands without <>");
+    Serial.println("a<acid solution value>");
+    Serial.println("n<neutral solution value (7.0)>");
+    Serial.println("e - to exit");
+
+    float volt = ;
+
+    long start_time = millis();
+
+    char cmd = '@'; //init value
+
+    while(cmd != 'e' || 
+          millis() - start_time >= constants::ph_calib_timeout)
+    {
+        if (Serial.available() > 0)
+        {
+            cmd = Serial.read();
+
+            if(cmd == 'a') //acid value
+            {
+                float acid_v = 
+                    analogRead(ph_pin_) * 
+                        constants::adc_ref_v / constants::adc_res;
+                
+                start_time = millis(); //reset timer
+            }
+            else if(cmd == 'n') //neutral value
+            {
+                float neutral_v =
+                    analogRead(ph_pin_) * 
+                        constants::adc_ref_v / constants::adc_res;
+                start_time == millis(); //reset timer
+            }
+            else if(cmd == 'e') //exit
+                break;
+
+        }
+
+    }
 
 }
 
