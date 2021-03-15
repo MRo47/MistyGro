@@ -22,9 +22,9 @@ public:
     
     void begin();
 
-    void savePhCalib(const PhData& ph_data);
+    void savePhCalib(const PhCalib& ph_data);
 
-    PhData getPhCalib();
+    PhCalib getPhCalib();
 };
 
 #endif
