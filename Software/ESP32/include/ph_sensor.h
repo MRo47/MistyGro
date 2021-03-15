@@ -13,10 +13,7 @@ private:
     int ph_pin_; //ph input
     int power_pin_; //ph sensor supply
 
-    float ph_;
-    float voltage_;
-    float temp_;
-    // PhData ph_calib_data_;
+    PhCalib ph_calib_;
     float m_; //slope
     float c_; //intercept
     CustomEEPROM& eeprom;
@@ -26,7 +23,9 @@ public:
 
     void begin();
 
-    float read();
+    float read_voltage();
+
+    float read_ph();
 
     void calibration();
 
