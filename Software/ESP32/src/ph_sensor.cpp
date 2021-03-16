@@ -48,9 +48,9 @@ float PHSensor::read_ph()
 void PHSensor::calibration()
 {
     Serial.println("Entered ph calibartion mode");
-    Serial.println("Dip the ph sensor in an acidic and neutral solution one at " 
-                    "a time and enter the solution ph using the following "
-                    "commands without <>");
+    Serial.println("Dip the ph sensor in an acidic neutral and basic solution "
+                    "one at a time and enter the solution ph using the "
+                    "following commands without <> then press enter");
     Serial.println("a - to calibrate acid solution");
     Serial.println("n - to calibrate neutral solution");
     Serial.println("b - to calibrate a basic solution");
@@ -72,41 +72,51 @@ void PHSensor::calibration()
             if(cmd == 'a') //acid value
             {
                 read_ph.acid = read_voltage();
+                Serial.printf("Read acid voltage: ", read_ph.acid);
                 start_time = millis(); //reset timer
             }
             else if(cmd == 'n') //neutral value
             {
                 read_ph.neutral = read_voltage();
+                Serial.printf("Read neutral voltage: ", read_ph.neutral);
                 start_time = millis(); //reset timer
             }
             else if(cmd == 'b') //base value
             {
                 read_ph.base = read_voltage();
+                Serial.printf("Read base voltage: ", read_ph.base);
                 start_time = millis(); //reset timer
             }
             else if(cmd == 'c') //confirm ph values
             {
-                if(read_ph.acid > constants::ph_low_limit.acid &&
-                   read_ph.acid < constants::ph_high_limit.acid &&
-                   read_ph.neutral > constants::ph_low_limit.neutral &&
-                   read_ph.neutral < constants::ph_high_limit.neutral)
+                if (read_ph.acid > constants::ph_low_limit.acid &&
+                    read_ph.acid < constants::ph_high_limit.acid &&
+                    read_ph.neutral > constants::ph_low_limit.neutral &&
+                    read_ph.neutral < constants::ph_high_limit.neutral &&
+                    read_ph.base > constants::ph_low_limit.base &&
+                    read_ph.base < constants::ph_high_limit.base)
                 {
-                    Serial.println("Neutral voltage calibrated: ", 
+                    Serial.printf("Neutral voltage calibrated: %f\n", 
                                    read_ph.neutral);
-                    Serial.println("Acid volatge calibrated: ",
+                    Serial.printf("Acid volatge calibrated: %f\n",
                                    read_ph.acid);
                     eeprom.savePhCalib(read_ph);
-                    setSlopeIntercept(read_ph);
+                    ph_calib_ = read_ph; //reset local ph calib
                     Serial.println("Calibration successful");
+                    return;
                 }
                 else
                     Serial.println("Failed calibration");
-                break;
+                return;
             }
             else if(cmd == 'e') //exit
-                break;
+            {
+                Serial.println("Aborted calibration");
+                return;
+            }
             
         }
     }
 
+    Serial.println("Calibration timed out, internal values unchanged");
 }
