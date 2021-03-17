@@ -5,9 +5,10 @@ class ECMeter
 private:
     int pin_;
     int power_;
-    int samples_;
+    size_t samples_;
+
 public:
-    ECMeter(int pin, int power, int samples)
+    ECMeter(int pin, int power, size_t samples)
     : pin_(pin), power_(power), samples_(samples)
     {
         pinMode(pin_, INPUT);
