@@ -1,7 +1,8 @@
 #include "ph_sensor.h"
 
-PHSensor::PHSensor(int temp_pin, int ph_pin, int power_pin)
-    : temp_pin_(temp_pin), ph_pin_(ph_pin), power_pin_(power_pin),
+PHSensor::PHSensor(int temp_pin, int ph_pin, int power_pin, size_t samples)
+    : temp_pin_(temp_pin), ph_pin_(ph_pin),
+      power_pin_(power_pin), samples_(samples),
       eeprom(CustomEEPROM::getInstance()){}
 
 void PHSensor::begin()
@@ -26,12 +27,16 @@ void PHSensor::begin()
 
 float PHSensor::read_voltage()
 {
+    //switch on
+    digitalWrite(power_pin_, HIGH);
     //return voltage in mv
     float v = 0.f;
-    for(int i = 0; i < constants::sample_size; ++i)
+    for(int i = 0; i < samples_; ++i)
         v += analogRead(ph_pin_) / constants::adc_res * constants::adc_ref_v;
 
-    return v / constants::sample_size;
+    //switch off
+    digitalWrite(power_pin_, LOW);
+    return v / samples_;
 }
 
 float PHSensor::read_ph()

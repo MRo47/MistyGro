@@ -9,17 +9,16 @@
 class PHSensor
 {
 private:
-    int temp_pin_; //temperature input
-    int ph_pin_; //ph input
-    int power_pin_; //ph sensor supply
+    const int temp_pin_; //temperature input
+    const int ph_pin_; //ph input
+    const int power_pin_; //ph sensor supply
+    const size_t samples_; //num of avg samples per reading
 
     PhCalib ph_calib_;
-    float m_; //slope
-    float c_; //intercept
     CustomEEPROM& eeprom;
 
 public:
-    PHSensor(int temp_pin, int ph_pin, int power_pin);
+    PHSensor(int temp_pin, int ph_pin, int power_pin, size_t samples);
 
     void begin();
 
@@ -28,29 +27,6 @@ public:
     float read_ph();
 
     void calibration();
-
-    // void calibration(float voltage, float temperature)
-    // {
-    //     // EEPROM.put
-    // }
-
-    // float read() //read pH
-    // {
-    //     // power on
-    //     digitalWrite(power_, HIGH);
-    //     float sum = 0.0;
-    //     for(int i=0; i<samples_; ++i)
-    //     {
-    //         sum += analogRead(p0_);
-    //         delay(10);
-    //     }
-    //     // power on
-    //     digitalWrite(power_, LOW);
-    //     return 7 + 
-    //         ((1.65 - (3.3 * samples_ / (constants::adc_res * sum))) / 0.18);
-    // }
-
-    //add calib
 
 };
 
