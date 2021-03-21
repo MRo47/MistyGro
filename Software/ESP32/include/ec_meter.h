@@ -1,31 +1,24 @@
 #include <Arduino.h>
+#include "custom_eeprom.h"
+#include "temperature_sensor.h"
 
 class ECMeter
 {
 private:
-    int pin_;
-    int power_;
-    size_t samples_;
+    const int ec_pin_;
+    const int power_pin_;
+    const size_t samples_;
+    float ec_calib_;
+    CustomEEPROM &eeprom;
 
 public:
-    ECMeter(int pin, int power, size_t samples)
-    : pin_(pin), power_(power), samples_(samples)
-    {
-        pinMode(pin_, INPUT);
-        pinMode(power_, OUTPUT);
-    };
+    ECMeter(int ec_pin, int power_pin, size_t samples);
 
-    float read() //read EC
-    {
-        // power on
-        digitalWrite(power_, HIGH);
-        float sum = 0.0;
-        for(int i=0; i<samples_; ++i)
-        {
-            sum += analogRead(pin_);
-        }
-        // power off
-        digitalWrite(power_, LOW);
-        return sum / samples_;
-    }
+    void begin();
+
+    float read_voltage();
+
+    float read_tds(TemperatureSensor& temperature_sensor);
+
+    void calibration(TemperatureSensor &temperature_sensor);
 };
