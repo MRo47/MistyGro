@@ -17,3 +17,17 @@ PhCalib CustomEEPROM::getPhCalib()
     EEPROM.get(ph_addr, temp);
     return temp;
 }
+
+void CustomEEPROM::saveECCalib(const float ec_calib)
+{
+    //offset by ph calib size
+    EEPROM.put(ec_addr, ec_calib);
+    EEPROM.commit();
+}
+
+float CustomEEPROM::getECCalib()
+{
+    float temp;
+    EEPROM.get(ec_addr, temp);
+    return temp;
+}
