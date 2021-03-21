@@ -9,7 +9,6 @@
 class PHSensor
 {
 private:
-    const int temp_pin_; //temperature input
     const int ph_pin_; //ph input
     const int power_pin_; //ph sensor supply
     const size_t samples_; //num of avg samples per reading
@@ -18,7 +17,7 @@ private:
     CustomEEPROM& eeprom;
 
 public:
-    PHSensor(int temp_pin, int ph_pin, int power_pin, size_t samples);
+    PHSensor(int ph_pin, int power_pin, size_t samples);
 
     void begin();
 

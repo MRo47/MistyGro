@@ -1,13 +1,12 @@
 #include "ph_sensor.h"
 
-PHSensor::PHSensor(int temp_pin, int ph_pin, int power_pin, size_t samples)
-    : temp_pin_(temp_pin), ph_pin_(ph_pin),
+PHSensor::PHSensor(int ph_pin, int power_pin, size_t samples)
+    : ph_pin_(ph_pin),
       power_pin_(power_pin), samples_(samples),
       eeprom(CustomEEPROM::getInstance()){}
 
 void PHSensor::begin()
 {
-    pinMode(temp_pin_, INPUT);
     pinMode(ph_pin_, INPUT);
     pinMode(power_pin_, OUTPUT);
 
@@ -17,7 +16,7 @@ void PHSensor::begin()
         || isnan(temp_data.neutral))
     {
         temp_data = constants::default_ph_data;
-        Serial.println("saving");
+        Serial.println("Saving pH Calib");
         eeprom.savePhCalib(temp_data);
     }
     Serial.println("ph_data: acid, neutral: " + String(temp_data.acid) +
