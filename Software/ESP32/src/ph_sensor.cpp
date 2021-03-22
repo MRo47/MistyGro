@@ -76,19 +76,19 @@ void PHSensor::calibration()
             if(cmd == 'a') //acid value
             {
                 read_ph.acid = read_voltage();
-                Serial.printf("Read acid voltage: ", read_ph.acid);
+                Serial.printf("Read acid voltage: %f", read_ph.acid);
                 start_time = millis(); //reset timer
             }
             else if(cmd == 'n') //neutral value
             {
                 read_ph.neutral = read_voltage();
-                Serial.printf("Read neutral voltage: ", read_ph.neutral);
+                Serial.printf("Read neutral voltage: %f", read_ph.neutral);
                 start_time = millis(); //reset timer
             }
             else if(cmd == 'b') //base value
             {
                 read_ph.base = read_voltage();
-                Serial.printf("Read base voltage: ", read_ph.base);
+                Serial.printf("Read base voltage: %f", read_ph.base);
                 start_time = millis(); //reset timer
             }
             else if(cmd == 'c') //confirm ph values

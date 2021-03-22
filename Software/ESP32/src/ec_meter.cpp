@@ -56,13 +56,12 @@ void ECMeter::calibration(TemperatureSensor &temperature_sensor)
     Serial.println("c - to confirm values");
     Serial.println("e - to abort calibration");
 
-    float read_tds;
-
     long start_time = millis();
 
     char cmd = '@'; //init value
     
-    float raw_ec, temp_k;
+    float raw_ec = 0;
+    float temp_k = 0;
 
     while (millis() - start_time >= constants::ec_calib_timeout)
     {
