@@ -22,6 +22,7 @@ namespace constants
     static const float default_ec_calib = 1;
     static const float tds_factor = 0.5; // tds = ec/2
     static const int sample_size = 10;
+    static const int temp_sensor_bus = A7; //pin
 }
 
 #endif
