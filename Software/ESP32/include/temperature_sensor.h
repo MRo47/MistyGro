@@ -17,7 +17,7 @@ private:
 public:
     TemperatureSensor(int pin);
 
-    void setup();
+    void begin();
 
     float read();
 };

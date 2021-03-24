@@ -4,7 +4,7 @@ TemperatureSensor::TemperatureSensor(int pin)
 : pin_(pin), wire_(constants::temp_sensor_bus),
   sensors_(&wire_){};
 
-void TemperatureSensor::setup()
+void TemperatureSensor::begin()
 {
     sensors_.begin();
 }
