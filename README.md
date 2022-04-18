@@ -47,9 +47,10 @@ module mount is provided which has connections to the ESP 32. This chip can be u
 ### Software
 
 - [x] Code hardware drivers
+- [ ] Test code with hardware
 - [ ] Code control/sensing stack
 - [ ] Code management stack
-- [x] Test code with hardware
+- [ ] Integration tests
 
 ### Hardware
 
