@@ -19,6 +19,7 @@ void CustomEEPROM::save_ec_calib(const float ec_calib)
 {
   // offset by ph calib size
   EEPROM.put(ec_addr_, ec_calib);
+  EEPROM.put(ec_set_addr_, constants::ec_calib_magic);
   EEPROM.commit();
 }
 
@@ -27,4 +28,18 @@ float CustomEEPROM::get_ec_calib()
   float temp;
   EEPROM.get(ec_addr_, temp);
   return temp;
+}
+
+bool CustomEEPROM::is_ec_calibrated()
+{
+  int calib;
+  EEPROM.get(ec_set_addr_, calib);
+  return calib == constants::ec_calib_magic;
+}
+
+bool CustomEEPROM::is_ph_calibrated()
+{
+  int calib;
+  EEPROM.get(ph_set_addr_, calib);
+  return calib == constants::ph_calib_magic;
 }

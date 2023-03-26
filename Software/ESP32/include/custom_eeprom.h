@@ -12,6 +12,8 @@ class CustomEEPROM
 private:
   static const int ph_addr_ = 0;
   static const int ec_addr_ = ph_addr_ + sizeof(PhCalib);
+  static const int ec_set_addr_ = ec_addr_ + sizeof(float);
+  static const int ph_set_addr_ = ec_set_addr_ + sizeof(int);
   static const int eeprom_size_ = 255;
   CustomEEPROM(){};
 
@@ -31,6 +33,10 @@ public:
   void save_ec_calib(const float ec_calib);
 
   float get_ec_calib();
+
+  bool is_ec_calibrated();
+
+  bool is_ph_calibrated();
 };
 
 #endif

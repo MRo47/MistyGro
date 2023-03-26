@@ -17,7 +17,8 @@ static const float adc_ref_v = 3.3;
 static const long ph_calib_timeout = 30000;  // 30 sec
 static const long ec_calib_timeout = 20000;  // 20 sec
 static const int ec_samples = 10;            // samples taken for computing mean
-static const char ec_calib_magic = 'e';      // if calib found
+static const int ec_calib_magic = 99;        // if ec calib found
+static const int ph_calib_magic = 88;        // if calib found
 static const PhCalib ph_low_limit{1830, 1300, 775};    // ph low limits
 static const PhCalib ph_high_limit{2230, 1700, 1175};  // ph high limits
 static const PhCalib default_ph_data{2030, 1500, 975};

@@ -1,10 +1,12 @@
 #include <Arduino.h>
 
 #include "adc.h"
+#include "custom_eeprom.h"
 #include "ec_meter.h"
 #include "temperature_sensor.h"
 #include "utility.h"
 
+CustomEEPROM ee = CustomEEPROM::get_instance();
 ADC adc;
 ECMeter ec_meter(pin::ec_enable, constants::ec_samples, &adc);
 // TemperatureSensor temp_sensor(A4);
@@ -12,6 +14,7 @@ ECMeter ec_meter(pin::ec_enable, constants::ec_samples, &adc);
 void setup()
 {
   Serial.begin(115200);
+  ee.begin();
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
   ec_meter.begin();
   // temp_sensor.begin();
