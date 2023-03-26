@@ -1,30 +1,30 @@
 #include "custom_eeprom.h"
 
-void CustomEEPROM::begin() { EEPROM.begin(eeprom_size); }
+void CustomEEPROM::begin() { EEPROM.begin(eeprom_size_); }
 
-void CustomEEPROM::savePhCalib(const PhCalib & ph_data)
+void CustomEEPROM::save_ph_calib(const PhCalib & ph_data)
 {
-  EEPROM.put(ph_addr, ph_data);
+  EEPROM.put(ph_addr_, ph_data);
   EEPROM.commit();
 }
 
-PhCalib CustomEEPROM::getPhCalib()
+PhCalib CustomEEPROM::get_ph_calib()
 {
   PhCalib temp;
-  EEPROM.get(ph_addr, temp);
+  EEPROM.get(ph_addr_, temp);
   return temp;
 }
 
-void CustomEEPROM::saveECCalib(const float ec_calib)
+void CustomEEPROM::save_ec_calib(const float ec_calib)
 {
   // offset by ph calib size
-  EEPROM.put(ec_addr, ec_calib);
+  EEPROM.put(ec_addr_, ec_calib);
   EEPROM.commit();
 }
 
-float CustomEEPROM::getECCalib()
+float CustomEEPROM::get_ec_calib()
 {
   float temp;
-  EEPROM.get(ec_addr, temp);
+  EEPROM.get(ec_addr_, temp);
   return temp;
 }

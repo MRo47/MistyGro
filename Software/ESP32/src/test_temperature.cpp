@@ -14,7 +14,7 @@ void setup()
 void loop()
 {
   Serial.print("Device count: ");
-  Serial.println(temp_sensor.deviceCount());
+  Serial.println(temp_sensor.device_count());
   Serial.print("Temperature: ");
   Serial.println(temp_sensor.read());
   delay(1000);

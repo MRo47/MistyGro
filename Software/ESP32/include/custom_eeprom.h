@@ -10,13 +10,13 @@
 class CustomEEPROM
 {
 private:
-  static const int ph_addr = 0;
-  static const int ec_addr = ph_addr + sizeof(PhCalib);
-  static const int eeprom_size = 255;
+  static const int ph_addr_ = 0;
+  static const int ec_addr_ = ph_addr_ + sizeof(PhCalib);
+  static const int eeprom_size_ = 255;
   CustomEEPROM(){};
 
 public:
-  static CustomEEPROM & getInstance()
+  static CustomEEPROM & get_instance()
   {
     static CustomEEPROM eeprom_obj;
     return eeprom_obj;
@@ -24,13 +24,13 @@ public:
 
   void begin();
 
-  void savePhCalib(const PhCalib & ph_data);
+  void save_ph_calib(const PhCalib & ph_data);
 
-  PhCalib getPhCalib();
+  PhCalib get_ph_calib();
 
-  void saveECCalib(const float ec_calib);
+  void save_ec_calib(const float ec_calib);
 
-  float getECCalib();
+  float get_ec_calib();
 };
 
 #endif

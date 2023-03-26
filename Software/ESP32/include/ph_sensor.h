@@ -15,7 +15,7 @@ private:
   const size_t samples_;  // num of avg samples per reading
 
   PhCalib ph_calib_;
-  CustomEEPROM & eeprom;
+  CustomEEPROM & eeprom_;
 
 public:
   PHSensor(int ph_pin, int power_pin, size_t samples);

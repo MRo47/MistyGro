@@ -4,7 +4,7 @@ PHSensor::PHSensor(int ph_pin, int power_pin, size_t samples)
 : ph_pin_(ph_pin),
   power_pin_(power_pin),
   samples_(samples),
-  eeprom(CustomEEPROM::getInstance())
+  eeprom_(CustomEEPROM::get_instance())
 {
 }
 
@@ -13,12 +13,12 @@ void PHSensor::begin()
   pinMode(ph_pin_, INPUT);
   pinMode(power_pin_, OUTPUT);
 
-  PhCalib temp_data = eeprom.getPhCalib();
+  PhCalib temp_data = eeprom_.get_ph_calib();
 
   if (isnan(temp_data.acid) || isnan(temp_data.neutral)) {
     temp_data = constants::default_ph_data;
     Serial.println("Saving pH Calib");
-    eeprom.savePhCalib(temp_data);
+    eeprom_.save_ph_calib(temp_data);
   }
   Serial.println(
     "ph_data: acid, neutral: " + String(temp_data.acid) + " " +
@@ -100,7 +100,7 @@ void PHSensor::calibration()
           read_ph.base < constants::ph_high_limit.base) {
           Serial.printf("Neutral voltage calibrated: %f\n", read_ph.neutral);
           Serial.printf("Acid volatge calibrated: %f\n", read_ph.acid);
-          eeprom.savePhCalib(read_ph);
+          eeprom_.save_ph_calib(read_ph);
           ph_calib_ = read_ph;  // reset local ph calib
           Serial.println("Calibration successful");
           return;

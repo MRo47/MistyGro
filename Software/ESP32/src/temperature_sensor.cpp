@@ -5,7 +5,7 @@ TemperatureSensor::TemperatureSensor(int pin)
 
 void TemperatureSensor::begin() { sensors_.begin(); }
 
-uint8_t TemperatureSensor::deviceCount() { return sensors_.getDeviceCount(); }
+uint8_t TemperatureSensor::device_count() { return sensors_.getDeviceCount(); }
 
 float TemperatureSensor::read()
 {

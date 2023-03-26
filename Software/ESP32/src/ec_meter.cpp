@@ -4,7 +4,7 @@ ECMeter::ECMeter(int ec_pin, int power_pin, size_t samples)
 : ec_pin_(ec_pin),
   power_pin_(power_pin),
   samples_(samples),
-  eeprom(CustomEEPROM::getInstance())
+  eeprom_(CustomEEPROM::get_instance())
 {
 }
 
@@ -13,12 +13,12 @@ void ECMeter::begin()
   pinMode(ec_pin_, INPUT);
   pinMode(power_pin_, OUTPUT);
 
-  float temp_k = eeprom.getECCalib();
+  float temp_k = eeprom_.get_ec_calib();
 
   if (isnan(temp_k)) {
     temp_k = constants::default_ec_calib;
     Serial.println("Saving EC Calib");
-    eeprom.saveECCalib(temp_k);
+    eeprom_.save_ec_calib(temp_k);
   }
   Serial.println("EC calib: " + String(temp_k));
   ec_calib_ = temp_k;
@@ -87,7 +87,7 @@ void ECMeter::calibration(TemperatureSensor & temperature_sensor)
       {
         if (raw_ec > 0 && raw_ec < 2000 && temp_k > 0.25 && temp_k < 4.0) {
           Serial.printf("EC calibrated: %f\n", temp_k);
-          eeprom.saveECCalib(temp_k);
+          eeprom_.save_ec_calib(temp_k);
           ec_calib_ = temp_k;
           Serial.println("Calibration successful");
           return;

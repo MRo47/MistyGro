@@ -10,7 +10,7 @@ private:
   const int power_pin_;
   const size_t samples_;
   float ec_calib_;
-  CustomEEPROM & eeprom;
+  CustomEEPROM & eeprom_;
 
 public:
   ECMeter(int ec_pin, int power_pin, size_t samples);

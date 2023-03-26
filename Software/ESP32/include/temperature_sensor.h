@@ -19,7 +19,7 @@ public:
 
   void begin();
 
-  uint8_t deviceCount();
+  uint8_t device_count();
 
   float read();
 };

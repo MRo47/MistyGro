@@ -8,7 +8,7 @@ RelayAL misters(12);
 RelayAL light(14);
 RelayAH extra_out(27);
 PHSensor ph_sensor(1, 2, 3);
-CustomEEPROM & eeprom(CustomEEPROM::getInstance());
+CustomEEPROM & eeprom(CustomEEPROM::get_instance());
 
 void setup()
 {
