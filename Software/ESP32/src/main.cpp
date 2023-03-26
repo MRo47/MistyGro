@@ -1,13 +1,14 @@
 #include <Arduino.h>
-#include "relay.h"
-#include "ph_sensor.h"
+
 #include "custom_eeprom.h"
+#include "ph_sensor.h"
+#include "relay.h"
 
 RelayAL misters(12);
 RelayAL light(14);
 RelayAH extra_out(27);
 PHSensor ph_sensor(1, 2, 3);
-CustomEEPROM& eeprom(CustomEEPROM::getInstance());
+CustomEEPROM & eeprom(CustomEEPROM::getInstance());
 
 void setup()
 {
@@ -22,10 +23,10 @@ void setup()
 
 void loop()
 {
-  misters.toggle();
-  delay(2000);
-  light.toggle();
-  delay(2000);
-  extra_out.toggle();
-  delay(2000);
+  // misters.toggle();
+  // delay(2000);
+  // light.toggle();
+  // delay(2000);
+  // extra_out.toggle();
+  // delay(2000);
 }

@@ -2,24 +2,26 @@
 #define _TEMPERATURE_SENSOR_H_
 
 #include <Arduino.h>
-#include <OneWire.h>
 #include <DallasTemperature.h>
-#include "utility.h"
+#include <OneWire.h>
 
+#include "utility.h"
 
 class TemperatureSensor
 {
 private:
-    const int pin_;
-    OneWire wire_;
-    DallasTemperature sensors_;
+  const int pin_;
+  OneWire wire_;
+  DallasTemperature sensors_;
 
 public:
-    TemperatureSensor(int pin);
+  TemperatureSensor(int pin);
 
-    void begin();
+  void begin();
 
-    float read();
+  uint8_t deviceCount();
+
+  float read();
 };
 
 #endif

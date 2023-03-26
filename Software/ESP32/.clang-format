@@ -1,0 +1,23 @@
+# Adapted from ROS 2 format configuration. Original permalink
+
+# <https://github.com/ament/ament_lint/blob/ebd524bb9973d5ec1dc48a670ce54f958a5a0243/ament_clang_format/ament_clang_format/configuration/.clang-format>
+
+---
+Language: Cpp
+BasedOnStyle: Google
+
+AccessModifierOffset: -2
+AlignAfterOpenBracket: AlwaysBreak
+BraceWrapping:
+  AfterClass: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+BreakBeforeBraces: Custom
+ColumnLimit: 80
+ConstructorInitializerIndentWidth: 0
+ContinuationIndentWidth: 2
+DerivePointerAlignment: false
+PointerAlignment: Middle
+ReflowComments: false
+...

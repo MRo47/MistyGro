@@ -2,34 +2,35 @@
 #define _CUSTOM_EEPROM_H_
 
 #include <Arduino.h>
+
 #include "EEPROM.h"
 #include "utility.h"
 
-//singleton eeprom
+// singleton eeprom
 class CustomEEPROM
 {
 private:
-    static const int ph_addr = 0;
-    static const int ec_addr = ph_addr + sizeof(PhCalib);
-    static const int eeprom_size = 255;
-    CustomEEPROM(){};
+  static const int ph_addr = 0;
+  static const int ec_addr = ph_addr + sizeof(PhCalib);
+  static const int eeprom_size = 255;
+  CustomEEPROM(){};
 
 public:
-    static CustomEEPROM &getInstance()
-    {
-        static CustomEEPROM eeprom_obj;
-        return eeprom_obj;
-    }
-    
-    void begin();
+  static CustomEEPROM & getInstance()
+  {
+    static CustomEEPROM eeprom_obj;
+    return eeprom_obj;
+  }
 
-    void savePhCalib(const PhCalib& ph_data);
+  void begin();
 
-    PhCalib getPhCalib();
+  void savePhCalib(const PhCalib & ph_data);
 
-    void saveECCalib(const float ec_calib);
+  PhCalib getPhCalib();
 
-    float getECCalib();
+  void saveECCalib(const float ec_calib);
+
+  float getECCalib();
 };
 
 #endif
