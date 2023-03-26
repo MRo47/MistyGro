@@ -1,7 +1,7 @@
 #include "ec_meter.h"
 
-ECMeter::ECMeter(int ec_pin, int power_pin, size_t samples)
-: ec_pin_(ec_pin),
+ECMeter::ECMeter(int power_pin, int samples, ADC * adc)
+: adc_(adc),
   power_pin_(power_pin),
   samples_(samples),
   eeprom_(CustomEEPROM::get_instance())
@@ -10,12 +10,11 @@ ECMeter::ECMeter(int ec_pin, int power_pin, size_t samples)
 
 void ECMeter::begin()
 {
-  pinMode(ec_pin_, INPUT);
   pinMode(power_pin_, OUTPUT);
 
   float temp_k = eeprom_.get_ec_calib();
 
-  if (isnan(temp_k)) {
+  if (!eeprom_.is_ec_calibrated()) {
     temp_k = constants::default_ec_calib;
     Serial.println("Saving EC Calib");
     eeprom_.save_ec_calib(temp_k);
@@ -26,25 +25,39 @@ void ECMeter::begin()
 
 float ECMeter::read_voltage()
 {
-  // switch on
-  digitalWrite(power_pin_, HIGH);
   // return voltage in v
   float v = 0.f;
-  for (int i = 0; i < samples_; ++i)
-    v += analogRead(ec_pin_) / constants::adc_res * constants::adc_ref_v;
-
-  // switch off
-  digitalWrite(power_pin_, LOW);
-  return v / samples_;
+  for (int i = 0; i < samples_; ++i) v += adc_->read_voltage(ADCChannel::ec);
+  return v / (float)samples_;
 }
 
 float ECMeter::read_tds(TemperatureSensor & temperature_sensor)
 {
+  // switch on
+  digitalWrite(power_pin_, HIGH);
+  delay(100);
   float v = read_voltage();
+  // switch off
+  digitalWrite(power_pin_, LOW);
 
   float ec = (133.42 * v * v * v - 255.86 * v * v + 857.39 * v) * ec_calib_;
 
   float ec_at25 = ec / (1.0 + 0.02 * (temperature_sensor.read() - 25.0));
+  return ec_at25 * constants::tds_factor;
+}
+
+float ECMeter::read_tds(float temperature_c)
+{
+  // switch on
+  digitalWrite(power_pin_, HIGH);
+  delay(200);
+  float v = read_voltage();
+  // switch off
+  digitalWrite(power_pin_, LOW);
+
+  float ec = (133.42 * v * v * v - 255.86 * v * v + 857.39 * v) * ec_calib_;
+
+  float ec_at25 = ec / (1.0 + 0.02 * (temperature_c - 25.0));
   return ec_at25 * constants::tds_factor;
 }
 

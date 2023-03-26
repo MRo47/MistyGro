@@ -1,7 +1,7 @@
 #include "temperature_sensor.h"
 
 TemperatureSensor::TemperatureSensor(int pin)
-: pin_(pin), wire_(constants::temp_sensor_bus), sensors_(&wire_){};
+: pin_(pin), wire_(pin::temp_sensor_bus), sensors_(&wire_){};
 
 void TemperatureSensor::begin() { sensors_.begin(); }
 
