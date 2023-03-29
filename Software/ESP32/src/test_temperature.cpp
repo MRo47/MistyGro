@@ -2,7 +2,7 @@
 
 #include "temperature_sensor.h"
 
-TemperatureSensor temp_sensor(A4);
+TemperatureSensor temp_sensor(pin::temp_sensor_bus);
 
 void setup()
 {

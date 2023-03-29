@@ -31,7 +31,7 @@ static const uint8_t adc_bus_addr = 0x48;
 
 namespace pin
 {
-static const int temp_sensor_bus = A4;  // pin
+static const int temp_sensor_bus = 32;  // pin
 static const int adc_scl = 22;
 static const int adc_sda = 21;
 static const int ec_enable = 17;
