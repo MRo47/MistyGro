@@ -31,21 +31,6 @@ float ECMeter::read_voltage()
   return v / (float)samples_;
 }
 
-float ECMeter::read_tds(TemperatureSensor & temperature_sensor)
-{
-  // switch on
-  digitalWrite(power_pin_, HIGH);
-  delay(100);
-  float v = read_voltage();
-  // switch off
-  digitalWrite(power_pin_, LOW);
-
-  float ec = (133.42 * v * v * v - 255.86 * v * v + 857.39 * v) * ec_calib_;
-
-  float ec_at25 = ec / (1.0 + 0.02 * (temperature_sensor.read() - 25.0));
-  return ec_at25 * constants::tds_factor;
-}
-
 float ECMeter::read_tds(float temperature_c)
 {
   // switch on
@@ -61,7 +46,7 @@ float ECMeter::read_tds(float temperature_c)
   return ec_at25 * constants::tds_factor;
 }
 
-void ECMeter::calibration(TemperatureSensor & temperature_sensor)
+void ECMeter::calibration(float temperature_c)
 {
   Serial.println("Entered EC Meter calibration mode");
   Serial.println(
@@ -90,7 +75,7 @@ void ECMeter::calibration(TemperatureSensor & temperature_sensor)
         float v = read_voltage();
 
         // temperature compensation
-        raw_ec = raw_ec * (1.0 + 0.02 * (temperature_sensor.read() - 25.0));
+        raw_ec = raw_ec * (1.0 + 0.02 * (temperature_c - 25.0));
 
         temp_k = raw_ec / (133.42 * v * v * v - 255.86 * v * v + 857.39 * v);
 

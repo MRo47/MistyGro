@@ -2,7 +2,6 @@
 
 #include "adc.h"
 #include "custom_eeprom.h"
-#include "temperature_sensor.h"
 #include "utility.h"
 
 class ECMeter
@@ -21,9 +20,7 @@ public:
 
   float read_voltage();
 
-  float read_tds(TemperatureSensor & temperature_sensor);
-
   float read_tds(float temperature_c = 25.f);
 
-  void calibration(TemperatureSensor & temperature_sensor);
+  void calibration(float temperature_c);
 };
