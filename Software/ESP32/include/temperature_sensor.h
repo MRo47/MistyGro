@@ -10,7 +10,6 @@
 class TemperatureSensor
 {
 private:
-  const int pin_;
   OneWire wire_;
   DallasTemperature sensors_;
 
