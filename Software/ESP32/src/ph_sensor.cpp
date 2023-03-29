@@ -1,7 +1,7 @@
 #include "ph_sensor.h"
 
-PHSensor::PHSensor(int ph_pin, int power_pin, size_t samples)
-: ph_pin_(ph_pin),
+PHSensor::PHSensor(int power_pin, int samples, ADC * adc)
+: adc_(adc),
   power_pin_(power_pin),
   samples_(samples),
   eeprom_(CustomEEPROM::get_instance())
@@ -10,7 +10,6 @@ PHSensor::PHSensor(int ph_pin, int power_pin, size_t samples)
 
 void PHSensor::begin()
 {
-  pinMode(ph_pin_, INPUT);
   pinMode(power_pin_, OUTPUT);
 
   PhCalib temp_data = eeprom_.get_ph_calib();
@@ -28,21 +27,22 @@ void PHSensor::begin()
 
 float PHSensor::read_voltage()
 {
-  // switch on
-  digitalWrite(power_pin_, HIGH);
   // return voltage in mv
   float v = 0.f;
-  for (int i = 0; i < samples_; ++i)
-    v += analogRead(ph_pin_) / constants::adc_res * constants::adc_ref_v;
-
-  // switch off
-  digitalWrite(power_pin_, LOW);
+  for (int i = 0; i < samples_; ++i) v += adc_->read_voltage(ADCChannel::ph);
   return v / samples_;
 }
 
 float PHSensor::read_ph()
 {
+  // switch on
+  digitalWrite(power_pin_, HIGH);
+  delay(200);
+
   float v = read_voltage();
+  // switch off
+  digitalWrite(power_pin_, LOW);
+
   if (v > ph_calib_.neutral)  // high voltage return acid calib value
     return 7.0 -
            3.0 / (ph_calib_.acid - ph_calib_.neutral) * (v - ph_calib_.neutral);
