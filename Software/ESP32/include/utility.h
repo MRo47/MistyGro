@@ -12,8 +12,6 @@ struct PhCalib
 
 namespace constants
 {
-static const float adc_res = 1024.0;
-static const float adc_ref_v = 3.3;
 static const long ph_calib_timeout = 30000;  // 30 sec
 static const long ec_calib_timeout = 20000;  // 20 sec
 static const int ec_samples = 10;            // samples taken for computing mean
@@ -41,5 +39,13 @@ static const int light = 14;
 static const int extra_relay = 27;
 static const int ph_enable = 5;
 }  // namespace pin
+
+inline float median(float * arr, int size)
+{
+  if (size % 2 == 0) {
+    return (arr[int(size * 0.5)] + arr[int((size - 1) * 0.5)]) * 0.5;
+  }
+  return arr[int(size * 0.5)];
+}
 
 #endif
