@@ -5,7 +5,7 @@
 
 ADC adc;
 
-PHSensor ph_sensor(pin::ph_enable, 10, &adc);
+PHSensor ph_sensor(pin::ph_enable, 100, &adc);
 
 void setup()
 {

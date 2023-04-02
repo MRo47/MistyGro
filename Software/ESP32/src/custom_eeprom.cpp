@@ -18,7 +18,6 @@ PhCalib CustomEEPROM::get_ph_calib()
 
 void CustomEEPROM::save_ec_calib(const float ec_calib)
 {
-  // offset by ph calib size
   EEPROM.put(ec_addr_, ec_calib);
   EEPROM.put(ec_set_addr_, constants::ec_calib_magic);
   EEPROM.commit();
