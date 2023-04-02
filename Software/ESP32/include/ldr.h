@@ -20,12 +20,12 @@ public:
   float read_voltage()
   {
     // return voltage in v
-    float v = 0.f;
+    float v[samples_] = {0.f};
     for (int i = 0; i < samples_; ++i) {
-      v += adc_->read_voltage(ADCChannel::ldr);
+      v[i] = adc_->read_voltage(ADCChannel::ldr);
       delay(10);
     }
-    return v / (float)samples_;
+    return median(v, samples_);
   }
 
   // float read_tds(float temperature_c = 25.f);

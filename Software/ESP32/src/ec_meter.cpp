@@ -10,6 +10,7 @@ ECMeter::ECMeter(int power_pin, int samples, ADC * adc)
 
 void ECMeter::begin()
 {
+  eeprom_.begin();
   pinMode(power_pin_, OUTPUT);
 
   float temp_k = eeprom_.get_ec_calib();
@@ -26,9 +27,12 @@ void ECMeter::begin()
 float ECMeter::read_voltage()
 {
   // return voltage in v
-  float v = 0.f;
-  for (int i = 0; i < samples_; ++i) v += adc_->read_voltage(ADCChannel::ec);
-  return v / (float)samples_;
+  float v[samples_] = {0.f};
+  for (int i = 0; i < samples_; ++i) {
+    v[i] = adc_->read_voltage(ADCChannel::ec);
+    delay(10);
+  }
+  return median(v, samples_);
 }
 
 float ECMeter::read_tds(float temperature_c)

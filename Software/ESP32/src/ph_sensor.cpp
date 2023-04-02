@@ -10,6 +10,7 @@ PHSensor::PHSensor(int power_pin, int samples, ADC * adc)
 
 void PHSensor::begin()
 {
+  eeprom_.begin();
   pinMode(power_pin_, OUTPUT);
 
   PhCalib temp_data = eeprom_.get_ph_calib();
@@ -28,19 +29,19 @@ void PHSensor::begin()
 float PHSensor::read_voltage()
 {
   // return voltage in mv
-  float v = 0.f;
+  float v[samples_] = {0.f};
   for (int i = 0; i < samples_; ++i) {
-    v += adc_->read_voltage(ADCChannel::ph);
+    v[i] = adc_->read_voltage(ADCChannel::ph);
     delay(10);
   }
-  return v / samples_;
+  return median(v, samples_);
 }
 
 float PHSensor::read_ph()
 {
   // switch on
   digitalWrite(power_pin_, HIGH);
-  delay(200);
+  delay(5000);
 
   float v = read_voltage();
   // switch off
