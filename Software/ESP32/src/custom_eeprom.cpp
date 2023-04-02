@@ -5,6 +5,7 @@ void CustomEEPROM::begin() { EEPROM.begin(eeprom_size_); }
 void CustomEEPROM::save_ph_calib(const PhCalib & ph_data)
 {
   EEPROM.put(ph_addr_, ph_data);
+  EEPROM.put(ph_set_addr_, constants::ph_calib_magic);
   EEPROM.commit();
 }
 
