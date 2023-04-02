@@ -14,7 +14,7 @@ void PHSensor::begin()
 
   PhCalib temp_data = eeprom_.get_ph_calib();
 
-  if (isnan(temp_data.acid) || isnan(temp_data.neutral)) {
+  if (!eeprom_.is_ph_calibrated()) {
     temp_data = constants::default_ph_data;
     Serial.println("Saving pH Calib");
     eeprom_.save_ph_calib(temp_data);
@@ -29,7 +29,10 @@ float PHSensor::read_voltage()
 {
   // return voltage in mv
   float v = 0.f;
-  for (int i = 0; i < samples_; ++i) v += adc_->read_voltage(ADCChannel::ph);
+  for (int i = 0; i < samples_; ++i) {
+    v += adc_->read_voltage(ADCChannel::ph);
+    delay(10);
+  }
   return v / samples_;
 }
 

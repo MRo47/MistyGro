@@ -1,12 +1,16 @@
 #include <Arduino.h>
 
 #include "ph_sensor.h"
+#include "utility.h"
 
-PHSensor ph_sensor(A3, 5, 10);
+ADC adc;
+
+PHSensor ph_sensor(pin::ph_enable, 10, &adc);
 
 void setup()
 {
   Serial.begin(115200);
+  adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
   ph_sensor.begin();
   Serial.println("Enter commands as below");
   Serial.println("r - to read ph");
