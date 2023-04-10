@@ -5,9 +5,8 @@
 
 struct PhCalib
 {
-  float acid;
-  float neutral;
-  float base;
+  float slope;
+  float intercept;
 };
 
 namespace constants
@@ -18,9 +17,7 @@ static const int ec_samples = 10;            // samples taken for computing mean
 static const int ec_calib_magic = 99;        // if ec calib found
 static const int ph_calib_magic = 88;        // if calib found
 static const int ph_samples = 10;            // samples of ph to compute mean
-static const PhCalib ph_low_limit{1830, 1300, 775};    // ph low limits
-static const PhCalib ph_high_limit{2230, 1700, 1175};  // ph high limits
-static const PhCalib default_ph_data{2030, 1500, 975};
+static const PhCalib default_ph_data{2030, 1500};
 static const float default_ec_calib = 1;
 static const float tds_factor = 0.5;  // tds = ec/2
 static const int sample_size = 10;
