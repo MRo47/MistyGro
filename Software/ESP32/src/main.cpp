@@ -4,26 +4,28 @@
 #include "ec_meter.h"
 #include "ph_sensor.h"
 #include "relay.h"
+#include "temperature_sensor.h"
 #include "utility.h"
 
+CustomEEPROM & eeprom(CustomEEPROM::get_instance());
 ADC adc;
+TemperatureSensor temp_sensor(pin::temp_sensor_bus);
 RelayAL misters(pin::misters);
 RelayAL light(pin::light);
 RelayAH extra_relay(pin::extra_relay);
-ECMeter ec_meter(pin::ph_enable, constants::ec_samples, &adc);
-PHSensor ph_sensor(pin::ph_enable, constants::ph_samples, &adc);
-CustomEEPROM & eeprom(CustomEEPROM::get_instance());
 
 void setup()
 {
   Serial.begin(115200);
   eeprom.begin();
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
+  temp_sensor.begin();
   misters.begin(Switch::ON);
   light.begin(Switch::ON);
   extra_relay.begin(Switch::OFF);
-  ph_sensor.begin();
   delay(1000);
+  Serial.printf("Found temperature sensors: %d", temp_sensor.device_count());
+  Serial.printf("Initialisation complete");
 }
 
 void loop()
