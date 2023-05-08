@@ -1,4 +1,3 @@
-#include <FirebaseESP32.h>  // if exculded complaints about SPIFFS.h header at compile
 #include <WiFi.h>
 
 #include "secrets.h"
