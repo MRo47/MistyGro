@@ -7,7 +7,6 @@
 class FireLogger
 {
 private:
-  WiFiClass * wifi_;
   FirebaseAuth auth_;
   FirebaseConfig config_;
   FirebaseData fbdo_;
@@ -18,10 +17,10 @@ private:
   MB_String full_path(const char * path);
 
 public:
-  FireLogger(
-    WiFiClass * wifi, const char * fire_url, const char * fire_token,
-    const char * email, const char * pass);
-  void begin();
+  FireLogger();
+  void begin(
+    const char * fire_url, const char * fire_token, const char * email,
+    const char * pass);
 
   void set_int(const char * path, int value);
 

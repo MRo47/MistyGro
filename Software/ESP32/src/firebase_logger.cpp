@@ -9,26 +9,24 @@ void FireLogger::print_error()
   Serial.println(fbdo_.errorReason());
 }
 
-FireLogger::FireLogger(
-  WiFiClass * wifi, const char * fire_url, const char * fire_token,
-  const char * email, const char * pass)
-: wifi_(wifi), path_prefix_("/users/")
-{
-  config_.database_url = fire_url;
-  config_.api_key = fire_token;
-  auth_.user.email = email;
-  auth_.user.password = pass;
-}
+FireLogger::FireLogger() : path_prefix_("/users/") {}
 
-void FireLogger::begin()
+void FireLogger::begin(
+  const char * fire_url, const char * fire_token, const char * email,
+  const char * pass)
 {
-  while (wifi_->status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {
     Serial.println("WiFi not connected ...");
     delay(1000);
   }
   Serial.print("WiFi connected at IP: ");
-  Serial.println(wifi_->localIP());
+  Serial.println(WiFi.localIP());
   Serial.println("Signing up to Firebase");
+
+  config_.database_url = fire_url;
+  config_.api_key = fire_token;
+  auth_.user.email = email;
+  auth_.user.password = pass;
 
   Firebase.reconnectWiFi(true);
   fbdo_.setResponseSize(4096);
