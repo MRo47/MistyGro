@@ -22,9 +22,9 @@ public:
     const char * fire_url, const char * fire_token, const char * email,
     const char * pass);
 
-  void set_int(const char * path, int value);
+  void set_int(const char * path, int64_t value);
 
-  void set_float(const char * path, float value);
+  void set_float(const char * path, double value);
 
   void set_string(const char * path, const char * value);
 

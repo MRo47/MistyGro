@@ -53,16 +53,16 @@ MB_String FireLogger::full_path(const char * path)
   return temp += path;
 }
 
-void FireLogger::set_int(const char * path, int value)
+void FireLogger::set_int(const char * path, int64_t value)
 {
   if (!Firebase.RTDB.setInt(&fbdo_, full_path(path), value)) {
     print_error();
   }
 }
 
-void FireLogger::set_float(const char * path, float value)
+void FireLogger::set_float(const char * path, double value)
 {
-  if (!Firebase.RTDB.setFloat(&fbdo_, full_path(path), value)) {
+  if (!Firebase.RTDB.setDouble(&fbdo_, full_path(path), value)) {
     print_error();
   }
 }
