@@ -6,13 +6,16 @@
 
 int count = 0;
 
-FireLogger flog(&WiFi, FIREBASE_URL, FIREBASE_TOKEN);
+FireLogger flog(
+  &WiFi, FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL,
+  FIREBASE_USER_PASSWORD);
 
 void setup()
 {
   Serial.begin(115200);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   flog.begin();
+  Serial.println("Done setup");
 }
 
 void loop()

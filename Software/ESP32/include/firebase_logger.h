@@ -11,12 +11,16 @@ private:
   FirebaseAuth auth_;
   FirebaseConfig config_;
   FirebaseData fbdo_;
-  bool signup_ok_;
+  String path_prefix_;
 
   void print_error();
 
+  MB_String full_path(const char * path);
+
 public:
-  FireLogger(WiFiClass * wifi, const char * fire_url, const char * fire_token);
+  FireLogger(
+    WiFiClass * wifi, const char * fire_url, const char * fire_token,
+    const char * email, const char * pass);
   void begin();
 
   void set_int(const char * path, int value);
