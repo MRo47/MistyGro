@@ -21,7 +21,7 @@ public:
 
   void print_utc_time();
 
-  void begin(long int sync_interval_ms = 600000);
+  void begin(long int sync_interval_ms = 600000);  // 10 mins
 };
 
 #endif
