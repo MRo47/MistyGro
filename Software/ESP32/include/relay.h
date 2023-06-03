@@ -19,6 +19,8 @@ public:
 
   void set(Switch state) { digitalWrite(pin_, bool(state)); }
 
+  int get_state() { return digitalRead(pin_); }
+
   void toggle()
   {
     bool state = digitalRead(pin_);
@@ -43,6 +45,11 @@ public:
   }
 
   void set(Switch state) { digitalWrite(pin_, !bool(state)); }
+
+  int get_state()
+  {
+    return !digitalRead(pin_);  // negate the state as this is an active low
+  }
 
   void toggle()
   {
