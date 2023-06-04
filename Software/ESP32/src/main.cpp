@@ -61,6 +61,15 @@ void check_and_set_light()
   flog.set_bool(wrap_date_time("lights").c_str(), (bool)light.get_state());
 }
 
+void init_wifi_and_related()
+{
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  timer.begin();
+  flog.begin(
+    FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL, FIREBASE_USER_PASSWORD);
+  flog.push_time("wifi_inits", timer.get_epoch_time());
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -68,10 +77,7 @@ void setup()
   light.begin(Switch::OFF);
   extra.begin(Switch::OFF);
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  timer.begin();
-  flog.begin(
-    FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL, FIREBASE_USER_PASSWORD);
+  init_wifi_and_related();
   temp_sensor.begin();
   delay(1000);
   Serial.printf("Found temperature sensors: %d\n", temp_sensor.device_count());
@@ -85,4 +91,12 @@ void setup()
 
 int count = 0;
 
-void loop() { scheduler.run(); }
+void loop()
+{
+  if (WiFi.isConnected()) {
+    scheduler.run();
+  } else {
+    Serial.println("WiFi disconnected");
+    init_wifi_and_related();
+  }
+}
