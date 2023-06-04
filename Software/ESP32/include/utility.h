@@ -24,6 +24,9 @@ static const int sample_size = 10;
 static const uint8_t adc_bus_num = 0;
 static const uint8_t adc_bus_addr = 0x48;
 static const float ldr_thresh_v = 2.5;
+static const unsigned long mister_toggle_time = 15 * 60;      // sec
+static const unsigned long temperature_check_time = 10 * 60;  // sec
+static const unsigned long light_check_n_set_time = 5 * 60;   // sec
 }  // namespace constants
 
 namespace pin

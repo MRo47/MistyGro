@@ -13,8 +13,7 @@ ADC adc;
 LDR ldr(10, &adc);
 TemperatureSensor temp_sensor(pin::temp_sensor_bus);
 RelayAH misters(pin::misters);
-RelayAL light(pin::light);
-RelayAH extra_relay(pin::extra_relay);
+RelayAH light(pin::extra_relay);
 Timer timer;
 FireLogger flog;
 Scheduler scheduler;
@@ -43,7 +42,7 @@ void toggle_misters()
 void check_temperature()
 {
   float temp = temp_sensor.read();
-  // TODO: set on DB day_ts/temperature/ts : value
+  // set on DB day_ts/temperature/ts : value
   flog.set_float(wrap_date_time("temperature").c_str(), temp);
 }
 
@@ -55,9 +54,9 @@ void check_and_set_light()
   } else {
     light.set(Switch::OFF);
   }
-  // TODO: set on DB /day_ts/ldr/ts : value
+  // set on DB /day_ts/ldr/ts : value
   flog.set_float(wrap_date_time("ldr").c_str(), volt);
-  // TODO: set on DB /day_ts/lights/ts : value
+  // set on DB /day_ts/lights/ts : value
   flog.set_bool(wrap_date_time("lights").c_str(), (bool)light.get_state());
 }
 
@@ -72,13 +71,12 @@ void setup()
   temp_sensor.begin();
   misters.begin(Switch::OFF);
   light.begin(Switch::ON);
-  extra_relay.begin(Switch::OFF);
   delay(1000);
   Serial.printf("Found temperature sensors: %d\n", temp_sensor.device_count());
   scheduler.begin();
-  scheduler.create_task(toggle_misters, 15);
-  scheduler.create_task(check_temperature, 10);
-  scheduler.create_task(check_and_set_light, 20);
+  scheduler.create_task(toggle_misters, constants::mister_toggle_time);
+  scheduler.create_task(check_temperature, constants::temperature_check_time);
+  scheduler.create_task(check_and_set_light, constants::light_check_n_set_time);
   Serial.println("Initialisation complete");
   flog.push_time("inits", timer.get_epoch_time());
 }
