@@ -23,6 +23,7 @@ static const float tds_factor = 0.5;  // tds = ec/2
 static const int sample_size = 10;
 static const uint8_t adc_bus_num = 0;
 static const uint8_t adc_bus_addr = 0x48;
+static const float ldr_thresh_v = 2.5;
 }  // namespace constants
 
 namespace pin
