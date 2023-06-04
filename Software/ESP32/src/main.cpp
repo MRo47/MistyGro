@@ -1,10 +1,7 @@
 #include <Arduino.h>
 
-#include "custom_eeprom.h"
-#include "ec_meter.h"
 #include "firebase_logger.h"
 #include "ldr.h"
-#include "ph_sensor.h"
 #include "relay.h"
 #include "scheduler.h"
 #include "secrets.h"
@@ -12,7 +9,6 @@
 #include "timer.h"
 #include "utility.h"
 
-CustomEEPROM & eeprom(CustomEEPROM::get_instance());
 ADC adc;
 LDR ldr(10, &adc);
 TemperatureSensor temp_sensor(pin::temp_sensor_bus);
@@ -68,7 +64,6 @@ void check_and_set_light()
 void setup()
 {
   Serial.begin(115200);
-  eeprom.begin();
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   timer.begin();
@@ -83,7 +78,7 @@ void setup()
   scheduler.begin();
   scheduler.create_task(toggle_misters, 15);
   scheduler.create_task(check_temperature, 10);
-  // scheduler.create_task(check_and_set_light, 5 * 60);
+  scheduler.create_task(check_and_set_light, 20);
   Serial.println("Initialisation complete");
 }
 
