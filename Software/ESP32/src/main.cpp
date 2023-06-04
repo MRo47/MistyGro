@@ -14,6 +14,7 @@ LDR ldr(10, &adc);
 TemperatureSensor temp_sensor(pin::temp_sensor_bus);
 RelayAH misters(pin::misters);
 RelayAH light(pin::extra_relay);
+RelayAH extra(pin::light);
 Timer timer;
 FireLogger flog;
 Scheduler scheduler;
@@ -55,7 +56,7 @@ void check_and_set_light()
     light.set(Switch::OFF);
   }
   // set on DB /day_ts/ldr/ts : value
-  flog.set_float(wrap_date_time("ldr").c_str(), volt);
+  flog.set_float(wrap_date_time("ldr_volts").c_str(), volt);
   // set on DB /day_ts/lights/ts : value
   flog.set_bool(wrap_date_time("lights").c_str(), (bool)light.get_state());
 }
@@ -63,14 +64,15 @@ void check_and_set_light()
 void setup()
 {
   Serial.begin(115200);
+  misters.begin(Switch::OFF);
+  light.begin(Switch::OFF);
+  extra.begin(Switch::OFF);
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   timer.begin();
   flog.begin(
     FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL, FIREBASE_USER_PASSWORD);
   temp_sensor.begin();
-  misters.begin(Switch::OFF);
-  light.begin(Switch::ON);
   delay(1000);
   Serial.printf("Found temperature sensors: %d\n", temp_sensor.device_count());
   scheduler.begin();
