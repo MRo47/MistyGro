@@ -61,13 +61,13 @@ void check_and_set_light()
   flog.set_bool(wrap_date_time("lights").c_str(), (bool)light.get_state());
 }
 
-void init_wifi_and_related()
+void check_wifi()
 {
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  timer.begin();
-  flog.begin(
-    FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL, FIREBASE_USER_PASSWORD);
-  flog.push_time("wifi_inits", timer.get_epoch_time());
+  if (!WiFi.isConnected()) {
+    WiFi.reconnect();
+    Serial.println("Reconnecting WiFi ...");
+    flog.push_time("wifi_reconnects", timer.get_epoch_time());
+  }
 }
 
 void setup()
@@ -77,11 +77,15 @@ void setup()
   light.begin(Switch::OFF);
   extra.begin(Switch::OFF);
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
-  init_wifi_and_related();
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  timer.begin();
+  flog.begin(
+    FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL, FIREBASE_USER_PASSWORD);
   temp_sensor.begin();
   delay(1000);
   Serial.printf("Found temperature sensors: %d\n", temp_sensor.device_count());
   scheduler.begin();
+  scheduler.create_task(check_wifi, constants::wifi_check_time);
   scheduler.create_task(toggle_misters, constants::mister_toggle_time);
   scheduler.create_task(check_temperature, constants::temperature_check_time);
   scheduler.create_task(check_and_set_light, constants::light_check_n_set_time);
@@ -91,12 +95,4 @@ void setup()
 
 int count = 0;
 
-void loop()
-{
-  if (WiFi.isConnected()) {
-    scheduler.run();
-  } else {
-    Serial.println("WiFi disconnected");
-    init_wifi_and_related();
-  }
-}
+void loop() { scheduler.run(); }
