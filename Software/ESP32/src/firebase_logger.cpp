@@ -81,4 +81,11 @@ void FireLogger::set_bool(const char * path, bool value)
   }
 }
 
+void FireLogger::push_time(const char * path, time_t timestamp)
+{
+  if (!Firebase.RTDB.pushInt(&fbdo_, full_path(path), timestamp)) {
+    print_error();
+  }
+}
+
 bool FireLogger::is_ready() { return Firebase.ready(); }

@@ -19,7 +19,7 @@ Timer timer;
 FireLogger flog;
 Scheduler scheduler;
 
-String wrap_time(const char * path)
+String wrap_date_time(const char * path)
 {
   auto timeinfo = timer.get_utc_time();
   auto tim = mktime(&timeinfo);
@@ -37,14 +37,14 @@ void toggle_misters()
 {
   misters.toggle();
   // set on DB day_ts/misters/ts : value
-  flog.set_bool(wrap_time("misters").c_str(), (bool)misters.get_state());
+  flog.set_bool(wrap_date_time("misters").c_str(), (bool)misters.get_state());
 }
 
 void check_temperature()
 {
   float temp = temp_sensor.read();
   // TODO: set on DB day_ts/temperature/ts : value
-  flog.set_float(wrap_time("temperature").c_str(), temp);
+  flog.set_float(wrap_date_time("temperature").c_str(), temp);
 }
 
 void check_and_set_light()
@@ -56,9 +56,9 @@ void check_and_set_light()
     light.set(Switch::OFF);
   }
   // TODO: set on DB /day_ts/ldr/ts : value
-  flog.set_float(wrap_time("ldr").c_str(), volt);
+  flog.set_float(wrap_date_time("ldr").c_str(), volt);
   // TODO: set on DB /day_ts/lights/ts : value
-  flog.set_bool(wrap_time("lights").c_str(), (bool)light.get_state());
+  flog.set_bool(wrap_date_time("lights").c_str(), (bool)light.get_state());
 }
 
 void setup()
@@ -80,6 +80,7 @@ void setup()
   scheduler.create_task(check_temperature, 10);
   scheduler.create_task(check_and_set_light, 20);
   Serial.println("Initialisation complete");
+  flog.push_time("inits", timer.get_epoch_time());
 }
 
 int count = 0;

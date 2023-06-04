@@ -30,6 +30,8 @@ public:
 
   void set_bool(const char * path, bool value);
 
+  void push_time(const char * path, time_t timestamp);
+
   bool is_ready();
 };
 
