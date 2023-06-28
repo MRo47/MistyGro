@@ -1,102 +1,123 @@
-import 'package:flutter/cupertino.dart';
+// Importing important packages require to connect
+// Flutter and Dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// Main Function
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]).then((value) => runApp(MyApp()));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+// This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // 1 <-- SEE HERE
-    return const CupertinoApp(
-      // 2 <-- SEE HERE
-      theme: CupertinoThemeData(brightness: Brightness.dark),
-      home: CupertinoSimpleHomePage(),
+    return MaterialApp(
+      // title of the application
+      title: 'Hello World Demo Application',
+      // theme of the widget
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+        brightness: Brightness.dark,
+        // listTileTheme: const ListTileThemeData(
+        //   textColor: Colors.black,
+        //   tileColor: Colors.white,
+        // ),
+      ),
+      // Inner UI of the application
+      home: const MyHomePage(title: 'MistyGro'),
     );
   }
 }
 
-class CupertinoSimpleHomePage extends StatefulWidget {
-  const CupertinoSimpleHomePage({Key? key}) : super(key: key);
-
-  @override
-  _CupertinoSimpleHomePageState createState() =>
-      _CupertinoSimpleHomePageState();
-}
-
-class _CupertinoSimpleHomePageState extends State<CupertinoSimpleHomePage> {
-  List<int> bottom = <int>[0];
+/* This class is similar to MyApp instead it
+returns Scaffold Widget */
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    const Key centerKey = ValueKey<String>('bottom-sliver-list');
-    // 3 <-- SEE HERE
-    return CupertinoTabScaffold(
-      // 2 <-- SEE HERE
-      tabBar: CupertinoTabBar(
-        currentIndex: 1,
-        items: const <BottomNavigationBarItem>[
-          // 3 <-- SEE HERE
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.settings), label: 'Settings'),
-        ],
-      ),
-      tabBuilder: (context, index) {
-        late final CupertinoTabView returnValue;
-        switch (index) {
-          case 0:
-            // 4 <-- SEE HERE
-            returnValue = CupertinoTabView(
-              builder: (context) {
-                return CustomScrollView(
-                  slivers: <Widget>[
-                    CupertinoSliverNavigationBar(
-                      largeTitle: Text('MistyGro'),
-                    ),
-                    SliverList(
-                      key: centerKey,
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return const Card(
-                            child: ListTile(
-                              // leading:
-                              //     Icon(Icons.water_drop, color: Colors.blue),
-                              title: Text('Misters'),
-                              trailing:
-                                  Icon(Icons.water_drop, color: Colors.blue),
-                            ),
-                          );
-                        },
-                        childCount: bottom.length,
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
-            break;
-          case 1:
-            returnValue = CupertinoTabView(
-              builder: (context) {
-                return const Text('World');
-              },
-            );
-            break;
-        }
-        return returnValue;
-      },
-    );
+    return Scaffold(
+        appBar: AppBar(
+          actions: const <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: 150),
+              child: Icon(
+                Icons.eco,
+                color: Colors.green,
+                size: 40,
+              ),
+            ),
+          ],
+          // leading:
+          title: Text(title),
+          titleTextStyle: const TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+            // color: Colors.teal,
+          ),
+          toolbarHeight: 70,
+          backgroundColor: Colors.black,
+        ),
+        // Sets the content to the
+        // center of the application page
+        body: ListView(
+          children: const <Widget>[
+            Card(
+              child: ListTile(
+                title: Text('Misters'),
+                subtitle: Text('Last on: 5 minutes ago'),
+                trailing: Icon(
+                  Icons.water_drop,
+                  color: Colors.blue,
+                ),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('Light'),
+                subtitle: Text('Last on: 10 minutes ago'),
+                trailing: Icon(
+                  Icons.light_mode,
+                  color: Colors.amber,
+                ),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('Temperature'),
+                subtitle: Text('15 deg celsius'),
+                trailing: Icon(
+                  Icons.thermostat,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('pH'),
+                subtitle: Text('4.5'),
+                trailing: Icon(
+                  Icons.science,
+                  color: Colors.green,
+                ),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('TDS'),
+                subtitle: Text('1000ppm'),
+                trailing: Icon(
+                  Icons.contrast,
+                  color: Colors.brown,
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
