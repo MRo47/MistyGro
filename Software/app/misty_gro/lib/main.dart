@@ -20,13 +20,15 @@ class MyApp extends StatelessWidget {
       title: 'Hello World Demo Application',
       // theme of the widget
       theme: ThemeData(
-        primarySwatch: Colors.teal,
-        brightness: Brightness.dark,
-        // listTileTheme: const ListTileThemeData(
-        //   textColor: Colors.black,
-        //   tileColor: Colors.white,
-        // ),
-      ),
+          primarySwatch: Colors.teal,
+          brightness: Brightness.dark,
+          listTileTheme: const ListTileThemeData(
+            // textColor: Colors.black,
+            tileColor: Colors.black54,
+          ),
+          cardTheme: const CardTheme(
+            color: Colors.black54,
+          )),
       // Inner UI of the application
       home: const MyHomePage(title: 'MistyGro'),
     );
@@ -66,7 +68,7 @@ class MyHomePage extends StatelessWidget {
         // Sets the content to the
         // center of the application page
         body: ListView(
-          children: const <Widget>[
+          children: <Widget>[
             Card(
               child: ListTile(
                 title: Text('Misters'),
@@ -79,8 +81,13 @@ class MyHomePage extends StatelessWidget {
             ),
             Card(
               child: ListTile(
-                title: Text('Light'),
-                subtitle: Text('Last on: 10 minutes ago'),
+                title: Text(
+                  'Light',
+                  style: TextStyle(fontSize: 20),
+                ),
+                subtitle: Text(
+                  'Last on: 10 minutes ago',
+                ),
                 trailing: Icon(
                   Icons.light_mode,
                   color: Colors.amber,
@@ -99,11 +106,15 @@ class MyHomePage extends StatelessWidget {
             ),
             Card(
               child: ListTile(
-                title: Text('pH'),
+                title: Text(
+                  'pH',
+                  style: TextStyle(fontSize: 20),
+                ),
                 subtitle: Text('4.5'),
                 trailing: Icon(
                   Icons.science,
                   color: Colors.green,
+                  size: 40,
                 ),
               ),
             ),
@@ -114,6 +125,54 @@ class MyHomePage extends StatelessWidget {
                 trailing: Icon(
                   Icons.contrast,
                   color: Colors.brown,
+                ),
+              ),
+            ),
+            Card(
+              child: SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: <Widget>[
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 20),
+                                child: Text(
+                                  'Misters',
+                                  style: TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Text(
+                                'Last updated: 5 minutes ago',
+                                style:
+                                    TextStyle(fontSize: 15, color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: const Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Icon(
+                              Icons.water_drop,
+                              color: Colors.blue,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             )
