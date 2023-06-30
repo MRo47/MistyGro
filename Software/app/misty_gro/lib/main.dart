@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Hello World Demo Application',
       // theme of the widget
       theme: ThemeData(
-          primarySwatch: Colors.teal,
+          primarySwatch: Colors.green,
           brightness: Brightness.dark,
           listTileTheme: const ListTileThemeData(
             // textColor: Colors.black,
@@ -65,6 +65,20 @@ class MyHomePage extends StatelessWidget {
           ),
           toolbarHeight: 70,
           backgroundColor: Colors.black,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+          backgroundColor: Colors.black,
+          selectedItemColor: Colors.green,
         ),
         // Sets the content to the
         // center of the application page
