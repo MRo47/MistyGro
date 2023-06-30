@@ -2,6 +2,7 @@
 // Flutter and Dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 // Main Function
 void main() {
@@ -69,40 +70,35 @@ class MyHomePage extends StatelessWidget {
         // center of the application page
         body: ListView(
           children: <Widget>[
-            Card(
-              child: ListTile(
-                title: Text('Misters'),
-                subtitle: Text('Last on: 5 minutes ago'),
-                trailing: Icon(
-                  Icons.water_drop,
-                  color: Colors.blue,
-                ),
-              ),
+            RelayCard(
+              name: 'Mister',
+              lastUpdate: DateTime.now(),
+              icon: Icons.water_drop,
+              switchOn: true,
+              onColor: Colors.blue,
             ),
-            Card(
-              child: ListTile(
-                title: Text(
-                  'Light',
-                  style: TextStyle(fontSize: 20),
-                ),
-                subtitle: Text(
-                  'Last on: 10 minutes ago',
-                ),
-                trailing: Icon(
-                  Icons.light_mode,
-                  color: Colors.amber,
-                ),
-              ),
+            RelayCard(
+              name: 'Light',
+              lastUpdate: DateTime.now(),
+              icon: Icons.light_mode,
+              switchOn: true,
+              onColor: Colors.amber,
             ),
-            Card(
-              child: ListTile(
-                title: Text('Temperature'),
-                subtitle: Text('15 deg celsius'),
-                trailing: Icon(
-                  Icons.thermostat,
-                  color: Colors.red,
-                ),
-              ),
+            SensorCard(
+              name: 'Temperature',
+              lastUpdate: DateTime.now(),
+              icon: Icons.thermostat,
+              iconColor: Colors.red,
+              value: 18.54,
+              units: '°C',
+            ),
+            SensorCard(
+              name: 'LDR',
+              lastUpdate: DateTime.now(),
+              icon: Icons.blur_circular, // Icons.table_chart_rounded,
+              iconColor: Colors.deepOrange.shade900,
+              value: 4.86,
+              units: 'V',
             ),
             Card(
               child: ListTile(
@@ -128,55 +124,143 @@ class MyHomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Card(
-              child: SizedBox(
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      children: <Widget>[
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  'Misters',
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Text(
-                                'Last updated: 5 minutes ago',
-                                style:
-                                    TextStyle(fontSize: 15, color: Colors.grey),
-                              )
-                            ],
-                          ),
+          ],
+        ));
+  }
+}
+
+class RelayCard extends StatelessWidget {
+  final String name;
+  final DateTime lastUpdate;
+  final IconData icon;
+  final bool switchOn;
+  final Color onColor;
+
+  const RelayCard(
+      {super.key,
+      required this.name,
+      required this.lastUpdate,
+      required this.icon,
+      required this.switchOn,
+      required this.onColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          name,
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
                         ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: const Padding(
-                            padding: EdgeInsets.all(15.0),
-                            child: Icon(
-                              Icons.water_drop,
-                              color: Colors.blue,
-                              size: 40,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
+                      Text(
+                        "Last update: ${DateFormat('yyyy-MM-dd kk:mm').format(lastUpdate)}",
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.grey),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Icon(
+                      icon,
+                      color: switchOn == true ? onColor : Colors.grey.shade800,
+                      size: 40,
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
-        ));
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SensorCard extends StatelessWidget {
+  final String name;
+  final DateTime lastUpdate;
+  final IconData icon;
+  final Color iconColor;
+  final double value;
+  final String units;
+
+  const SensorCard(
+      {super.key,
+      required this.name,
+      required this.lastUpdate,
+      required this.icon,
+      required this.iconColor,
+      required this.value,
+      required this.units});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          '$name: $value $units',
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(
+                        "Last update: ${DateFormat('yyyy-MM-dd kk:mm').format(lastUpdate)}",
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.grey),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Icon(
+                      icon,
+                      color: iconColor,
+                      size: 40,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
