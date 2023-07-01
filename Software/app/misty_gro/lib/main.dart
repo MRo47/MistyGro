@@ -47,17 +47,18 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           actions: const <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 150),
-              child: Icon(
-                Icons.eco,
-                color: Colors.green,
-                size: 40,
-              ),
-            ),
+            Icon(Icons.menu),
           ],
           // leading:
-          title: Text(title),
+          title: Row(
+            children: [
+              Text(title),
+              const Image(
+                image: AssetImage('assets/mistygro_512.png'),
+                width: 45,
+              )
+            ],
+          ),
           titleTextStyle: const TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold,
@@ -66,24 +67,17 @@ class MyHomePage extends StatelessWidget {
           toolbarHeight: 70,
           backgroundColor: Colors.black,
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
-          backgroundColor: Colors.black,
-          selectedItemColor: Colors.green,
-        ),
         // Sets the content to the
         // center of the application page
         body: ListView(
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Relays',
+                style: TextStyle(color: Colors.grey.shade500),
+              ),
+            ),
             RelayCard(
               name: 'Mister',
               lastUpdate: DateTime.now(),
@@ -97,6 +91,13 @@ class MyHomePage extends StatelessWidget {
               icon: Icons.light_mode,
               switchOn: true,
               onColor: Colors.amber,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Sensors',
+                style: TextStyle(color: Colors.grey.shade500),
+              ),
             ),
             SensorCard(
               name: 'Temperature',
@@ -114,6 +115,13 @@ class MyHomePage extends StatelessWidget {
               value: 4.86,
               units: 'V',
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Manual inputs',
+                style: TextStyle(color: Colors.grey.shade500),
+              ),
+            ),
             ManualInputCard(
               name: 'pH',
               lastUpdate: DateTime.now(),
@@ -125,8 +133,8 @@ class MyHomePage extends StatelessWidget {
             ManualInputCard(
               name: 'TDS',
               lastUpdate: DateTime.now(),
-              icon: Icons.invert_colors, // Icons.table_chart_rounded,
-              iconColor: Colors.brown.shade400,
+              icon: Icons.opacity, // Icons.table_chart_rounded,
+              iconColor: Colors.blueGrey,
               initValue: 6.8,
               units: 'ppm',
             ),
