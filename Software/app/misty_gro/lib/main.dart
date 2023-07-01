@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             color: Colors.black54,
           )),
       // Inner UI of the application
-      home: const MyHomePage(title: 'MistyGro'),
+      home: MyHomePage(title: 'MistyGro'),
     );
   }
 }
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
 /* This class is similar to MyApp instead it
 returns Scaffold Widget */
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -114,29 +114,21 @@ class MyHomePage extends StatelessWidget {
               value: 4.86,
               units: 'V',
             ),
-            Card(
-              child: ListTile(
-                title: Text(
-                  'pH',
-                  style: TextStyle(fontSize: 20),
-                ),
-                subtitle: Text('4.5'),
-                trailing: Icon(
-                  Icons.science,
-                  color: Colors.green,
-                  size: 40,
-                ),
-              ),
+            ManualInputCard(
+              name: 'pH',
+              lastUpdate: DateTime.now(),
+              icon: Icons.science, // Icons.table_chart_rounded,
+              iconColor: Colors.green,
+              initValue: 6.8,
+              units: '',
             ),
-            Card(
-              child: ListTile(
-                title: Text('TDS'),
-                subtitle: Text('1000ppm'),
-                trailing: Icon(
-                  Icons.contrast,
-                  color: Colors.brown,
-                ),
-              ),
+            ManualInputCard(
+              name: 'TDS',
+              lastUpdate: DateTime.now(),
+              icon: Icons.invert_colors, // Icons.table_chart_rounded,
+              iconColor: Colors.brown.shade400,
+              initValue: 6.8,
+              units: 'ppm',
             ),
           ],
         ));
@@ -276,5 +268,87 @@ class SensorCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ManualInputCard extends StatefulWidget {
+  final String name;
+  final DateTime lastUpdate;
+  final IconData icon;
+  final Color iconColor;
+  final double initValue;
+  final String units;
+
+  const ManualInputCard({
+    super.key,
+    required this.name,
+    required this.lastUpdate,
+    required this.icon,
+    required this.iconColor,
+    required this.initValue,
+    required this.units,
+  });
+
+  @override
+  State<ManualInputCard> createState() => _ManualInputCardState();
+}
+
+class _ManualInputCardState extends State<ManualInputCard> {
+  final _textFieldController = TextEditingController();
+  late double value;
+
+  @override
+  void initState() {
+    super.initState();
+    value = widget.initValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async {
+        var gotValue = await _showTextInputDialog(context);
+        if (gotValue != null) {
+          setState(() {
+            value = double.parse(gotValue);
+          });
+        }
+      },
+      child: SensorCard(
+        name: widget.name,
+        lastUpdate: widget.lastUpdate,
+        icon: widget.icon, // Icons.table_chart_rounded,
+        iconColor: widget.iconColor,
+        value: value,
+        units: widget.units,
+      ),
+    );
+  }
+
+  Future<String?> _showTextInputDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Sensor reading'),
+            content: TextField(
+              controller: _textFieldController,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(hintText: "Enter value"),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text("Cancel"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              TextButton(
+                child: const Text('Submit'),
+                onPressed: () =>
+                    Navigator.pop(context, _textFieldController.text),
+              ),
+            ],
+          );
+        });
   }
 }
