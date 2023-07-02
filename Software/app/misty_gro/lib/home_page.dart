@@ -2,19 +2,34 @@ import 'package:flutter/material.dart';
 import 'relay_card.dart';
 import 'sensor_card.dart';
 import 'manual_input_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+enum MenuItem { one, two, three }
+
+class _HomePageState extends State<HomePage> {
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: const <Widget>[
+          actions: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 15),
-              child: Icon(Icons.menu),
-            ),
+                padding: const EdgeInsets.only(right: 15),
+                child: IconButton(
+                  onPressed: () {
+                    print("Signing out");
+                    FirebaseAuth.instance.signOut();
+                  },
+                  icon: const Icon(Icons.logout),
+                )),
           ],
           // leading:
           title: const Row(
