@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "674246714636",
+    "firebase_url": "https://mistygro-24ea9-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "mistygro-24ea9",
+    "storage_bucket": "mistygro-24ea9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674246714636:android:8e9501d0ea793f4e3cd529",
+        "android_client_info": {
+          "package_name": "com.example.misty_gro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674246714636-gqt77fhv59r0jgbfuspe0m6a21c3fire.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCODdKOXwz6e3OLfz8jIe__IGUk2ZfN_Ks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674246714636-gqt77fhv59r0jgbfuspe0m6a21c3fire.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "674246714636-5eeviao1otn3mton92ltf305a225a8j9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mistyGro"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
