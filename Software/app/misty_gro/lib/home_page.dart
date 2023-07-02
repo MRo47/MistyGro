@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(right: 15),
                 child: IconButton(
                   onPressed: () {
-                    print("Signing out");
                     FirebaseAuth.instance.signOut();
                   },
                   icon: const Icon(Icons.logout),
