@@ -1,8 +1,11 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'relay_card.dart';
 import 'sensor_card.dart';
 import 'manual_input_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,6 +18,34 @@ enum MenuItem { one, two, three }
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
+
+  DateTime _dateTime = DateTime(0);
+
+  _getDateTime() {
+    setState(() {
+      _dateTime = DateTime.now();
+    });
+  }
+  // doc ids
+  // Future getDocId() async {
+  //   // FirebaseDatabase database = FirebaseDatabase.instance;
+
+  // }
+
+  @override
+  void initState() {
+    _getDateTime();
+    // TODO:  DatabaseReference ref = FirebaseDatabase.instance.ref("users/${user.uid}/${DateFormat('yyyy-MM-dd').format(_dateTime)}");
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref("users/${user.uid}/2023-06-25");
+    // ref.update({"test": 19});
+    ref.onValue.listen((event) {
+      final data = event.snapshot.value;
+      print(data);
+    });
+    super.initState();
+    // Timer.periodic(Duration(seconds: 1), (_) => _getDateTime());
+  }
 
   @override
   Widget build(BuildContext context) {
