@@ -26,6 +26,7 @@ class RelayCard extends StatelessWidget {
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
                   child: Column(
@@ -47,16 +48,12 @@ class RelayCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Icon(
-                      icon,
-                      color: switchOn == true ? onColor : Colors.grey.shade800,
-                      size: 40,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Icon(
+                    icon,
+                    color: switchOn == true ? onColor : Colors.grey.shade800,
+                    size: 40,
                   ),
                 ),
               ],
