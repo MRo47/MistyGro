@@ -70,6 +70,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.grey.shade800,
         appBar: AppBar(
           actions: <Widget>[
             Padding(
@@ -101,76 +102,79 @@ class _HomePageState extends State<HomePage> {
         ),
         // Sets the content to the
         // center of the application page
-        body: ListView(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Relays',
-                style: TextStyle(color: Colors.grey.shade500),
+        body: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: ListView(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Relays',
+                  style: TextStyle(color: Colors.grey.shade300),
+                ),
               ),
-            ),
-            RelayCard(
-              name: 'Mister',
-              lastUpdate: _misterStamped.timeStamp,
-              icon: Icons.water_drop,
-              switchOn: _check,
-              onColor: Colors.blue,
-            ),
-            RelayCard(
-              name: 'Light',
-              lastUpdate: DateTime.now(),
-              icon: Icons.light_mode,
-              switchOn: true,
-              onColor: Colors.amber,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Sensors',
-                style: TextStyle(color: Colors.grey.shade500),
+              RelayCard(
+                name: 'Mister',
+                lastUpdate: _misterStamped.timeStamp,
+                icon: Icons.water_drop,
+                switchOn: _check,
+                onColor: Colors.blue,
               ),
-            ),
-            SensorCard(
-              name: 'Temperature',
-              lastUpdate: DateTime.now(),
-              icon: Icons.thermostat,
-              iconColor: Colors.red,
-              value: 18.54,
-              units: '°C',
-            ),
-            SensorCard(
-              name: 'LDR',
-              lastUpdate: DateTime.now(),
-              icon: Icons.blur_circular, // Icons.table_chart_rounded,
-              iconColor: Colors.deepOrange.shade900,
-              value: 4.86,
-              units: 'V',
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Manual inputs',
-                style: TextStyle(color: Colors.grey.shade500),
+              RelayCard(
+                name: 'Light',
+                lastUpdate: DateTime.now(),
+                icon: Icons.light_mode,
+                switchOn: true,
+                onColor: Colors.amber,
               ),
-            ),
-            ManualInputCard(
-              name: 'pH',
-              lastUpdate: DateTime.now(),
-              icon: Icons.science, // Icons.table_chart_rounded,
-              iconColor: Colors.green,
-              initValue: 6.8,
-              units: '',
-            ),
-            ManualInputCard(
-              name: 'TDS',
-              lastUpdate: DateTime.now(),
-              icon: Icons.opacity, // Icons.table_chart_rounded,
-              iconColor: Colors.blueGrey,
-              initValue: 6.8,
-              units: 'ppm',
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Sensors',
+                  style: TextStyle(color: Colors.grey.shade300),
+                ),
+              ),
+              SensorCard(
+                name: 'Temperature',
+                lastUpdate: DateTime.now(),
+                icon: Icons.thermostat,
+                iconColor: Colors.red,
+                value: 18.54,
+                units: '°C',
+              ),
+              SensorCard(
+                name: 'LDR',
+                lastUpdate: DateTime.now(),
+                icon: Icons.blur_circular, // Icons.table_chart_rounded,
+                iconColor: Colors.deepOrange.shade900,
+                value: 4.86,
+                units: 'V',
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Manual inputs',
+                  style: TextStyle(color: Colors.grey.shade300),
+                ),
+              ),
+              ManualInputCard(
+                name: 'pH',
+                lastUpdate: DateTime.now(),
+                icon: Icons.science, // Icons.table_chart_rounded,
+                iconColor: Colors.green,
+                initValue: 6.8,
+                units: '',
+              ),
+              ManualInputCard(
+                name: 'TDS',
+                lastUpdate: DateTime.now(),
+                icon: Icons.opacity, // Icons.table_chart_rounded,
+                iconColor: Colors.blueGrey,
+                initValue: 6.8,
+                units: 'ppm',
+              ),
+            ],
+          ),
         ));
   }
 }

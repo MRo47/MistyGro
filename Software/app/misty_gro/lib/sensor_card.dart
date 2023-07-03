@@ -21,6 +21,11 @@ class SensorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(),
+        borderRadius: BorderRadius.circular(15.0), //<-- SEE HERE
+      ),
       child: SizedBox(
         width: double.infinity,
         child: Padding(
@@ -39,19 +44,19 @@ class SensorCard extends StatelessWidget {
                         child: Text(
                           '$name: $value $units',
                           style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Text(
                         "Last update: ${DateFormat('yyyy-MM-dd kk:mm').format(lastUpdate)}",
-                        style:
-                            const TextStyle(fontSize: 15, color: Colors.grey),
+                        style: TextStyle(
+                            fontSize: 15, color: Colors.grey.shade400),
                       )
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Icon(
                     icon,
                     color: iconColor,
