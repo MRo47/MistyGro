@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'relay_card.dart';
@@ -6,6 +8,8 @@ import 'manual_input_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'database.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +22,8 @@ enum MenuItem { one, two, three }
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
+  var _misterStamped = StampedValue("", DateTime(0));
+  bool _check = false;
 
   DateTime _dateTime = DateTime(0);
 
@@ -40,8 +46,22 @@ class _HomePageState extends State<HomePage> {
         FirebaseDatabase.instance.ref("users/${user.uid}/2023-06-25");
     // ref.update({"test": 19});
     ref.onValue.listen((event) {
-      final data = event.snapshot.value;
-      print(data);
+      // final data = event.snapshot.value!;
+
+      final data = event.snapshot;
+      final ldrStamped = getLatestValue(data.child('ldr_volts'));
+      print("this ${ldrStamped.timeStamp} : ${ldrStamped.value}");
+
+      _misterStamped = getLatestValue(data.child('misters'));
+      _check = bool.parse(_misterStamped.value);
+      print("this ${_misterStamped.timeStamp} : $_check");
+      // print(ldr.value.toString());
+      // data
+      // print(data['ldr_volts']);
+      // Map<String, dynamic> parsedJson = data.snapshot;
+      // print(parsedJson);
+      // final ldr = parsedJson['ldr_volts'];
+      // print(ldr);
     });
     super.initState();
     // Timer.periodic(Duration(seconds: 1), (_) => _getDateTime());
@@ -92,9 +112,9 @@ class _HomePageState extends State<HomePage> {
             ),
             RelayCard(
               name: 'Mister',
-              lastUpdate: DateTime.now(),
+              lastUpdate: _misterStamped.timeStamp,
               icon: Icons.water_drop,
-              switchOn: true,
+              switchOn: _check,
               onColor: Colors.blue,
             ),
             RelayCard(
