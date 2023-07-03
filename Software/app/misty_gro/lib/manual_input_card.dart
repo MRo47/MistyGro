@@ -25,7 +25,7 @@ class ManualInputCard extends StatefulWidget {
 
 class _ManualInputCardState extends State<ManualInputCard> {
   final _textFieldController = TextEditingController();
-  late double value;
+  double value = 0.0;
 
   @override
   void initState() {

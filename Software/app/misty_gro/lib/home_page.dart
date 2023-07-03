@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'database.dart';
+import 'data_utils.dart' as data_utils;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,8 +22,13 @@ enum MenuItem { one, two, three }
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
-  var _misterStamped = StampedValue("", DateTime(0));
-  bool _check = false;
+  var _misterStamped = data_utils.StampedValue("false", DateTime(0));
+  var _lightsStamped = data_utils.StampedValue("false", DateTime(0));
+  var _temperatureStamped = data_utils.StampedValue("0.0", DateTime(0));
+  var _ldrStamped = data_utils.StampedValue("0.0", DateTime(0));
+  var _phStamped = data_utils.StampedValue("0.0", DateTime(0));
+  var _tdsStamped = data_utils.StampedValue("0.0", DateTime(0));
+  // bool _check = false;
 
   DateTime _dateTime = DateTime(0);
 
@@ -32,11 +37,24 @@ class _HomePageState extends State<HomePage> {
       _dateTime = DateTime.now();
     });
   }
-  // doc ids
-  // Future getDocId() async {
-  //   // FirebaseDatabase database = FirebaseDatabase.instance;
 
-  // }
+  _getData(DataSnapshot snapshot) {
+    setState(() {
+      _misterStamped = data_utils.getLatestValue(snapshot.child('misters')) ??
+          data_utils.StampedValue("false", DateTime(0));
+      _lightsStamped = data_utils.getLatestValue(snapshot.child('lights')) ??
+          data_utils.StampedValue("false", DateTime(0));
+      _temperatureStamped =
+          data_utils.getLatestValue(snapshot.child('temperature')) ??
+              data_utils.StampedValue("0.0", DateTime(0));
+      _ldrStamped = data_utils.getLatestValue(snapshot.child('ldr_volts')) ??
+          data_utils.StampedValue("0.0", DateTime(0));
+      _phStamped = data_utils.getLatestValue(snapshot.child('ph')) ??
+          data_utils.StampedValue("0.0", DateTime(0));
+      _tdsStamped = data_utils.getLatestValue(snapshot.child('tds')) ??
+          data_utils.StampedValue("0.0", DateTime(0));
+    });
+  }
 
   @override
   void initState() {
@@ -46,22 +64,7 @@ class _HomePageState extends State<HomePage> {
         FirebaseDatabase.instance.ref("users/${user.uid}/2023-06-25");
     // ref.update({"test": 19});
     ref.onValue.listen((event) {
-      // final data = event.snapshot.value!;
-
-      final data = event.snapshot;
-      final ldrStamped = getLatestValue(data.child('ldr_volts'));
-      print("this ${ldrStamped.timeStamp} : ${ldrStamped.value}");
-
-      _misterStamped = getLatestValue(data.child('misters'));
-      _check = bool.parse(_misterStamped.value);
-      print("this ${_misterStamped.timeStamp} : $_check");
-      // print(ldr.value.toString());
-      // data
-      // print(data['ldr_volts']);
-      // Map<String, dynamic> parsedJson = data.snapshot;
-      // print(parsedJson);
-      // final ldr = parsedJson['ldr_volts'];
-      // print(ldr);
+      _getData(event.snapshot);
     });
     super.initState();
     // Timer.periodic(Duration(seconds: 1), (_) => _getDateTime());
@@ -117,14 +120,14 @@ class _HomePageState extends State<HomePage> {
                 name: 'Mister',
                 lastUpdate: _misterStamped.timeStamp,
                 icon: Icons.water_drop,
-                switchOn: _check,
+                switchOn: bool.parse(_misterStamped.value),
                 onColor: Colors.blue,
               ),
               RelayCard(
                 name: 'Grow lights',
-                lastUpdate: DateTime.now(),
+                lastUpdate: _lightsStamped.timeStamp,
                 icon: Icons.light,
-                switchOn: true,
+                switchOn: bool.parse(_lightsStamped.value),
                 onColor: Colors.purple.shade500,
               ),
               Padding(
@@ -136,18 +139,18 @@ class _HomePageState extends State<HomePage> {
               ),
               SensorCard(
                 name: 'Temperature',
-                lastUpdate: DateTime.now(),
+                lastUpdate: _temperatureStamped.timeStamp,
                 icon: Icons.thermostat,
                 iconColor: Colors.red,
-                value: 18.54,
+                value: double.parse(_temperatureStamped.value),
                 units: '°C',
               ),
               SensorCard(
                 name: 'LDR voltage',
-                lastUpdate: DateTime.now(),
+                lastUpdate: _ldrStamped.timeStamp,
                 icon: Icons.blur_circular, // Icons.table_chart_rounded,
                 iconColor: Colors.yellow,
-                value: 4.86,
+                value: double.parse(_ldrStamped.value),
                 units: 'V',
               ),
               Padding(
@@ -158,19 +161,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               ManualInputCard(
-                name: 'pH',
-                lastUpdate: DateTime.now(),
+                name: 'PH',
+                lastUpdate: _phStamped.timeStamp,
                 icon: Icons.science, // Icons.table_chart_rounded,
                 iconColor: Colors.green,
-                initValue: 6.8,
+                initValue: double.parse(_phStamped.value),
                 units: '',
               ),
               ManualInputCard(
                 name: 'TDS',
-                lastUpdate: DateTime.now(),
+                lastUpdate: _tdsStamped.timeStamp,
                 icon: Icons.opacity, // Icons.table_chart_rounded,
                 iconColor: Colors.blueGrey,
-                initValue: 6.8,
+                initValue: double.parse(_tdsStamped.value),
                 units: 'ppm',
               ),
             ],

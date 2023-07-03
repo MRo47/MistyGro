@@ -42,7 +42,7 @@ class SensorCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Text(
-                          '$name: $value $units',
+                          '$name: ${value.toStringAsFixed(2)} $units',
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),

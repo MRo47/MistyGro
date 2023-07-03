@@ -1,3 +1,5 @@
+library data_utils;
+
 import 'package:firebase_database/firebase_database.dart';
 
 class StampedValue {
@@ -41,9 +43,10 @@ class StampedValue {
 //       latestValue, DateTime.fromMillisecondsSinceEpoch(latestTime * 1000));
 // }
 
-StampedValue getLatestValue(DataSnapshot snapshot) {
+StampedValue? getLatestValue(DataSnapshot snapshot) {
   if (!snapshot.exists) {
-    throw Exception("Snapshot does not exist");
+    return null;
+    //  StampedValue("null", DateTime(0));
   }
   final children = snapshot.children;
   int latestTime = 0;
