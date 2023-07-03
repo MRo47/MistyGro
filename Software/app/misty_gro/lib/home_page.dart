@@ -121,11 +121,11 @@ class _HomePageState extends State<HomePage> {
                 onColor: Colors.blue,
               ),
               RelayCard(
-                name: 'Light',
+                name: 'Grow lights',
                 lastUpdate: DateTime.now(),
-                icon: Icons.light_mode,
+                icon: Icons.light,
                 switchOn: true,
-                onColor: Colors.amber,
+                onColor: Colors.purple.shade500,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -143,10 +143,10 @@ class _HomePageState extends State<HomePage> {
                 units: '°C',
               ),
               SensorCard(
-                name: 'LDR',
+                name: 'LDR voltage',
                 lastUpdate: DateTime.now(),
                 icon: Icons.blur_circular, // Icons.table_chart_rounded,
-                iconColor: Colors.deepOrange.shade900,
+                iconColor: Colors.yellow,
                 value: 4.86,
                 units: 'V',
               ),
