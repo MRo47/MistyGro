@@ -48,7 +48,7 @@ class SensorCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Last update: ${DateFormat('yyyy-MM-dd kk:mm').format(lastUpdate)}",
+                        "Last update: ${DateFormat('yyyy-MM-dd HH:mm').format(lastUpdate)}",
                         style: TextStyle(
                             fontSize: 15, color: Colors.grey.shade400),
                       )

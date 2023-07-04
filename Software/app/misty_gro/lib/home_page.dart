@@ -18,8 +18,6 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-enum MenuItem { one, two, three }
-
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference dataRef = FirebaseDatabase.instance.ref();
@@ -35,7 +33,7 @@ class _HomePageState extends State<HomePage> {
 
   _getDateTime() {
     setState(() {
-      _dateTime = DateTime.now();
+      _dateTime = DateTime.now().toUtc();
     });
   }
 
@@ -71,7 +69,7 @@ class _HomePageState extends State<HomePage> {
     dataRef.child('tds').push();
 
     final Map<String, double> updates = {};
-    updates['/tds/${DateTime.now().millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond}'] =
+    updates['/tds/${DateTime.now().toUtc().millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond}'] =
         value;
 
     await dataRef.update(updates);
