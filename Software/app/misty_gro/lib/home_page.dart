@@ -22,13 +22,16 @@ enum MenuItem { one, two, three }
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
+  DatabaseReference dataRef = FirebaseDatabase.instance.ref();
+  // DatabaseReference initRef =
+  //       FirebaseDatabase.instance.ref();
+
   var _misterStamped = data_utils.StampedValue("false", DateTime(0));
   var _lightsStamped = data_utils.StampedValue("false", DateTime(0));
   var _temperatureStamped = data_utils.StampedValue("0.0", DateTime(0));
   var _ldrStamped = data_utils.StampedValue("0.0", DateTime(0));
   var _phStamped = data_utils.StampedValue("0.0", DateTime(0));
   var _tdsStamped = data_utils.StampedValue("0.0", DateTime(0));
-  // bool _check = false;
 
   DateTime _dateTime = DateTime(0);
 
@@ -56,14 +59,33 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  _setPH(value) async {
+    dataRef.child('ph').push();
+
+    final Map<String, double> updates = {};
+    updates['/ph/${DateTime.now().millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond}'] =
+        value;
+
+    await dataRef.update(updates);
+  }
+
+  _setTDS(value) async {
+    dataRef.child('tds').push();
+
+    final Map<String, double> updates = {};
+    updates['/tds/${DateTime.now().millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond}'] =
+        value;
+
+    await dataRef.update(updates);
+  }
+
   @override
   void initState() {
     _getDateTime();
     // TODO:  DatabaseReference ref = FirebaseDatabase.instance.ref("users/${user.uid}/${DateFormat('yyyy-MM-dd').format(_dateTime)}");
-    DatabaseReference ref =
-        FirebaseDatabase.instance.ref("users/${user.uid}/2023-06-25");
+    dataRef = FirebaseDatabase.instance.ref("users/${user.uid}/2023-06-25");
     // ref.update({"test": 19});
-    ref.onValue.listen((event) {
+    dataRef.onValue.listen((event) {
       _getData(event.snapshot);
     });
     super.initState();
@@ -167,6 +189,9 @@ class _HomePageState extends State<HomePage> {
                 iconColor: Colors.green,
                 initValue: double.parse(_phStamped.value),
                 units: '',
+                onGotValue: (value) {
+                  _setPH(value);
+                },
               ),
               ManualInputCard(
                 name: 'TDS',
@@ -175,6 +200,9 @@ class _HomePageState extends State<HomePage> {
                 iconColor: Colors.blueGrey,
                 initValue: double.parse(_tdsStamped.value),
                 units: 'ppm',
+                onGotValue: (value) {
+                  _setTDS(value);
+                },
               ),
             ],
           ),

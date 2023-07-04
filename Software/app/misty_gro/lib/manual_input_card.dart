@@ -8,6 +8,7 @@ class ManualInputCard extends StatefulWidget {
   final Color iconColor;
   final double initValue;
   final String units;
+  final Function(double value) onGotValue;
 
   const ManualInputCard({
     super.key,
@@ -17,6 +18,7 @@ class ManualInputCard extends StatefulWidget {
     required this.iconColor,
     required this.initValue,
     required this.units,
+    required this.onGotValue,
   });
 
   @override
@@ -25,12 +27,12 @@ class ManualInputCard extends StatefulWidget {
 
 class _ManualInputCardState extends State<ManualInputCard> {
   final _textFieldController = TextEditingController();
-  double value = 0.0;
+  double _value = 0.0;
 
   @override
   void initState() {
     super.initState();
-    value = widget.initValue;
+    _value = widget.initValue;
   }
 
   @override
@@ -40,7 +42,8 @@ class _ManualInputCardState extends State<ManualInputCard> {
         var gotValue = await _showTextInputDialog(context);
         if (gotValue != null) {
           setState(() {
-            value = double.parse(gotValue);
+            _value = double.parse(gotValue);
+            widget.onGotValue(_value);
           });
         }
       },
@@ -49,7 +52,7 @@ class _ManualInputCardState extends State<ManualInputCard> {
         lastUpdate: widget.lastUpdate,
         icon: widget.icon, // Icons.table_chart_rounded,
         iconColor: widget.iconColor,
-        value: value,
+        value: _value,
         units: widget.units,
       ),
     );
@@ -61,19 +64,29 @@ class _ManualInputCardState extends State<ManualInputCard> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Sensor reading'),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            backgroundColor: Colors.grey.shade900,
             content: TextField(
               controller: _textFieldController,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(hintText: "Enter value"),
             ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: <Widget>[
-              TextButton(
-                child: const Text("Cancel"),
+              IconButton(
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.green,
+                ),
                 onPressed: () => Navigator.pop(context),
               ),
-              TextButton(
-                child: const Text('Submit'),
+              IconButton(
+                icon: const Icon(
+                  Icons.done,
+                  color: Colors.green,
+                ),
                 onPressed: () =>
                     Navigator.pop(context, _textFieldController.text),
               ),
