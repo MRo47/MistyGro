@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.grey.shade800,
+        backgroundColor: const Color.fromARGB(255, 50, 50, 50),
         appBar: AppBar(
           actions: <Widget>[
             Padding(
