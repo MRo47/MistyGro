@@ -120,6 +120,24 @@ class _HomePageState extends State<HomePage> {
           toolbarHeight: 70,
           backgroundColor: Colors.black,
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.show_chart),
+              label: 'Analytics',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+          backgroundColor: Colors.black,
+          selectedItemColor: Colors.greenAccent.shade700,
+        ),
         // Sets the content to the
         // center of the application page
         body: Padding(
