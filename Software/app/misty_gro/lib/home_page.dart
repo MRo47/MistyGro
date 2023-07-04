@@ -23,8 +23,6 @@ enum MenuItem { one, two, three }
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference dataRef = FirebaseDatabase.instance.ref();
-  // DatabaseReference initRef =
-  //       FirebaseDatabase.instance.ref();
 
   var _misterStamped = data_utils.StampedValue("false", DateTime(0));
   var _lightsStamped = data_utils.StampedValue("false", DateTime(0));
@@ -82,9 +80,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _getDateTime();
-    // TODO:  DatabaseReference ref = FirebaseDatabase.instance.ref("users/${user.uid}/${DateFormat('yyyy-MM-dd').format(_dateTime)}");
-    dataRef = FirebaseDatabase.instance.ref("users/${user.uid}/2023-06-25");
-    // ref.update({"test": 19});
+    dataRef = FirebaseDatabase.instance
+        .ref("users/${user.uid}/${DateFormat('yyyy-MM-dd').format(_dateTime)}");
     dataRef.onValue.listen((event) {
       _getData(event.snapshot);
     });
