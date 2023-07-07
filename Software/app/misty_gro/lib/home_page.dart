@@ -1,4 +1,7 @@
-import 'dart:math';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
+
+import 'data.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +11,6 @@ import 'manual_input_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
-import 'dart:convert';
 import 'data_utils.dart' as data_utils;
 
 class HomePage extends StatefulWidget {
@@ -21,6 +23,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference dataRef = FirebaseDatabase.instance.ref();
+  final showAnalytics = true;
+
+  final List<PricePoint> points = pricePoints;
 
   var _misterStamped = data_utils.StampedValue("false", DateTime(0));
   var _lightsStamped = data_utils.StampedValue("false", DateTime(0));
@@ -87,138 +92,259 @@ class _HomePageState extends State<HomePage> {
     // Timer.periodic(Duration(seconds: 1), (_) => _getDateTime());
   }
 
+  SideTitles get _bottomTitles => SideTitles(
+        showTitles: true,
+        getTitlesWidget: (value, meta) {
+          String text = '';
+          switch (value.toInt()) {
+            case 1:
+              text = 'Jan';
+              break;
+            case 3:
+              text = 'Mar';
+              break;
+            case 5:
+              text = 'May';
+              break;
+            case 7:
+              text = 'Jul';
+              break;
+            case 9:
+              text = 'Sep';
+              break;
+            case 11:
+              text = 'Nov';
+              break;
+          }
+
+          return Text(text);
+        },
+      );
+
+  Widget _getBody() {
+    if (showAnalytics) {
+      return Card(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+          width: MediaQuery.of(context).size.width,
+          height: 200,
+          child: LineChart(
+            LineChartData(
+              lineBarsData: [
+                LineChartBarData(
+                  spots:
+                      points.map((point) => FlSpot(point.x, point.y)).toList(),
+                  isCurved: false,
+                  dotData: const FlDotData(
+                    show: false,
+                  ),
+                  color: Colors.green,
+
+                  // dotData: FlDotData(
+                  //   show: false,
+                  // ),
+                ),
+              ],
+              borderData: FlBorderData(
+                  border:
+                      const Border(bottom: BorderSide(), left: BorderSide())),
+              gridData: const FlGridData(show: false),
+              titlesData: const FlTitlesData(
+                // bottomTitles: AxisTitles(sideTitles: _bottomTitles),
+                bottomTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: true)),
+                leftTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              ),
+              lineTouchData: LineTouchData(
+                  enabled: true,
+                  // touchCallback:
+                  //     (FlTouchEvent event, LineTouchResponse? touchResponse) {
+                  //   // TODO : Utilize touch event here to perform any operation
+                  // },
+                  touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: Colors.green,
+                    tooltipRoundedRadius: 20.0,
+                    // showOnTopOfTheChartBoxArea: true,
+                    fitInsideHorizontally: true,
+                    tooltipMargin: 0,
+                    getTooltipItems: (touchedSpots) {
+                      return touchedSpots.map(
+                        (LineBarSpot touchedSpot) {
+                          const textStyle = TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          );
+                          return LineTooltipItem(
+                            points[touchedSpot.spotIndex].y.toStringAsFixed(2),
+                            textStyle,
+                          );
+                        },
+                      ).toList();
+                    },
+                  ),
+                  getTouchedSpotIndicator:
+                      (LineChartBarData barData, List<int> indicators) {
+                    return indicators.map(
+                      (int index) {
+                        final line = FlLine(
+                            color: Colors.grey,
+                            strokeWidth: 1,
+                            dashArray: [2, 4]);
+                        return TouchedSpotIndicatorData(
+                          line,
+                          FlDotData(show: false),
+                        );
+                      },
+                    ).toList();
+                  },
+                  getTouchLineEnd: (_, __) => double.infinity),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return ListView(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Relays',
+              style: TextStyle(color: Colors.grey.shade300),
+            ),
+          ),
+          RelayCard(
+            name: 'Mister',
+            lastUpdate: _misterStamped.timeStamp,
+            icon: Icons.water_drop,
+            switchOn: bool.parse(_misterStamped.value),
+            onColor: Colors.blue,
+          ),
+          RelayCard(
+            name: 'Grow lights',
+            lastUpdate: _lightsStamped.timeStamp,
+            icon: Icons.light,
+            switchOn: bool.parse(_lightsStamped.value),
+            onColor: Colors.purple.shade500,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Sensors',
+              style: TextStyle(color: Colors.grey.shade300),
+            ),
+          ),
+          SensorCard(
+            name: 'Temperature',
+            lastUpdate: _temperatureStamped.timeStamp,
+            icon: Icons.thermostat,
+            iconColor: Colors.red,
+            value: double.parse(_temperatureStamped.value),
+            units: '°C',
+          ),
+          SensorCard(
+            name: 'LDR voltage',
+            lastUpdate: _ldrStamped.timeStamp,
+            icon: Icons.blur_circular, // Icons.table_chart_rounded,
+            iconColor: Colors.yellow,
+            value: double.parse(_ldrStamped.value),
+            units: 'V',
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Manual inputs',
+              style: TextStyle(color: Colors.grey.shade300),
+            ),
+          ),
+          ManualInputCard(
+            name: 'PH',
+            lastUpdate: _phStamped.timeStamp,
+            icon: Icons.science, // Icons.table_chart_rounded,
+            iconColor: Colors.green,
+            initValue: double.parse(_phStamped.value),
+            units: '',
+            onGotValue: (value) {
+              _setPH(value);
+            },
+          ),
+          ManualInputCard(
+            name: 'TDS',
+            lastUpdate: _tdsStamped.timeStamp,
+            icon: Icons.opacity, // Icons.table_chart_rounded,
+            iconColor: Colors.blueGrey,
+            initValue: double.parse(_tdsStamped.value),
+            units: 'ppm',
+            onGotValue: (value) {
+              _setTDS(value);
+            },
+          ),
+        ],
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 50, 50, 50),
-        appBar: AppBar(
-          actions: <Widget>[
-            Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: IconButton(
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                  icon: const Icon(Icons.logout),
-                )),
-          ],
-          // leading:
-          title: const Row(
-            children: [
-              Text('MistyGro'),
-              Image(
-                image: AssetImage('assets/mistygro_512.png'),
-                width: 45,
-              ),
-            ],
-          ),
-          titleTextStyle: const TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            // color: Colors.teal,
-          ),
-          toolbarHeight: 70,
-          backgroundColor: Colors.black,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart),
-              label: 'Analytics',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
+      backgroundColor: const Color.fromARGB(255, 50, 50, 50),
+      appBar: AppBar(
+        actions: <Widget>[
+          Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: IconButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                icon: const Icon(Icons.logout),
+              )),
+        ],
+        // leading:
+        title: const Row(
+          children: [
+            Text('MistyGro'),
+            Image(
+              image: AssetImage('assets/mistygro_512.png'),
+              width: 45,
             ),
           ],
-          backgroundColor: Colors.black,
-          selectedItemColor: Colors.greenAccent.shade700,
         ),
-        // Sets the content to the
-        // center of the application page
-        body: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: ListView(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Relays',
-                  style: TextStyle(color: Colors.grey.shade300),
-                ),
-              ),
-              RelayCard(
-                name: 'Mister',
-                lastUpdate: _misterStamped.timeStamp,
-                icon: Icons.water_drop,
-                switchOn: bool.parse(_misterStamped.value),
-                onColor: Colors.blue,
-              ),
-              RelayCard(
-                name: 'Grow lights',
-                lastUpdate: _lightsStamped.timeStamp,
-                icon: Icons.light,
-                switchOn: bool.parse(_lightsStamped.value),
-                onColor: Colors.purple.shade500,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Sensors',
-                  style: TextStyle(color: Colors.grey.shade300),
-                ),
-              ),
-              SensorCard(
-                name: 'Temperature',
-                lastUpdate: _temperatureStamped.timeStamp,
-                icon: Icons.thermostat,
-                iconColor: Colors.red,
-                value: double.parse(_temperatureStamped.value),
-                units: '°C',
-              ),
-              SensorCard(
-                name: 'LDR voltage',
-                lastUpdate: _ldrStamped.timeStamp,
-                icon: Icons.blur_circular, // Icons.table_chart_rounded,
-                iconColor: Colors.yellow,
-                value: double.parse(_ldrStamped.value),
-                units: 'V',
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Manual inputs',
-                  style: TextStyle(color: Colors.grey.shade300),
-                ),
-              ),
-              ManualInputCard(
-                name: 'PH',
-                lastUpdate: _phStamped.timeStamp,
-                icon: Icons.science, // Icons.table_chart_rounded,
-                iconColor: Colors.green,
-                initValue: double.parse(_phStamped.value),
-                units: '',
-                onGotValue: (value) {
-                  _setPH(value);
-                },
-              ),
-              ManualInputCard(
-                name: 'TDS',
-                lastUpdate: _tdsStamped.timeStamp,
-                icon: Icons.opacity, // Icons.table_chart_rounded,
-                iconColor: Colors.blueGrey,
-                initValue: double.parse(_tdsStamped.value),
-                units: 'ppm',
-                onGotValue: (value) {
-                  _setTDS(value);
-                },
-              ),
-            ],
+        titleTextStyle: const TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+          // color: Colors.teal,
+        ),
+        toolbarHeight: 70,
+        backgroundColor: Colors.black,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-        ));
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Analytics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        backgroundColor: Colors.black,
+        selectedItemColor: Colors.greenAccent.shade700,
+      ),
+      // Sets the content to the
+      // center of the application page
+      body: Padding(padding: const EdgeInsets.all(4.0), child: _getBody()),
+    );
   }
 }
