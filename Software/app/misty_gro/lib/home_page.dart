@@ -36,6 +36,8 @@ class _HomePageState extends State<HomePage> {
   var _tdsStamped = data_utils.StampedValue("0.0", DateTime(0));
 
   List<DataPoint> _temperatureData = <DataPoint>[];
+  List<DataPoint> _ldrData = <DataPoint>[];
+  List<DataPoint> _misterData = <DataPoint>[];
 
   DateTime _dateTime = DateTime(0);
 
@@ -61,7 +63,10 @@ class _HomePageState extends State<HomePage> {
       _tdsStamped = data_utils.getLatestValue(snapshot.child('tds')) ??
           data_utils.StampedValue("0.0", DateTime(0));
 
-      _temperatureData = data_utils.getPoints(snapshot.child('temperature'));
+      _temperatureData =
+          data_utils.getPoints<double>(snapshot.child('temperature'));
+      _ldrData = data_utils.getPoints<double>(snapshot.child('ldr_volts'));
+      _misterData = data_utils.getPoints<bool>(snapshot.child('misters'));
     });
   }
 
@@ -101,14 +106,21 @@ class _HomePageState extends State<HomePage> {
     if (showAnalytics) {
       return ListView(children: [
         Chart(
-          title: 'LDR voltage',
-          points: dataPoints,
+          title: "Misters' state",
+          points: _misterData,
           minY: 0,
-          maxY: 1,
+          maxY: 1.5,
+          color: Colors.blue,
+        ),
+        Chart(
+          title: 'LDR voltage (V)',
+          points: _ldrData,
+          minY: 0,
+          maxY: 5,
           color: Colors.yellow,
         ),
         Chart(
-          title: 'Temperature',
+          title: 'Temperature (°C)',
           points: _temperatureData,
           minY: 0,
           maxY: 45,
