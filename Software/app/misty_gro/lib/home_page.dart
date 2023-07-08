@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'data_utils.dart' as data_utils;
+import 'chart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,8 +25,6 @@ class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference dataRef = FirebaseDatabase.instance.ref();
   final showAnalytics = true;
-
-  final List<PricePoint> points = pricePoints;
 
   var _misterStamped = data_utils.StampedValue("false", DateTime(0));
   var _lightsStamped = data_utils.StampedValue("false", DateTime(0));
@@ -92,124 +91,9 @@ class _HomePageState extends State<HomePage> {
     // Timer.periodic(Duration(seconds: 1), (_) => _getDateTime());
   }
 
-  SideTitles get _bottomTitles => SideTitles(
-        showTitles: true,
-        getTitlesWidget: (value, meta) {
-          String text = '';
-          switch (value.toInt()) {
-            case 1:
-              text = 'Jan';
-              break;
-            case 3:
-              text = 'Mar';
-              break;
-            case 5:
-              text = 'May';
-              break;
-            case 7:
-              text = 'Jul';
-              break;
-            case 9:
-              text = 'Sep';
-              break;
-            case 11:
-              text = 'Nov';
-              break;
-          }
-
-          return Text(text);
-        },
-      );
-
   Widget _getBody() {
     if (showAnalytics) {
-      return Card(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-          width: MediaQuery.of(context).size.width,
-          height: 200,
-          child: LineChart(
-            LineChartData(
-              lineBarsData: [
-                LineChartBarData(
-                  spots:
-                      points.map((point) => FlSpot(point.x, point.y)).toList(),
-                  isCurved: false,
-                  dotData: const FlDotData(
-                    show: false,
-                  ),
-                  color: Colors.green,
-
-                  // dotData: FlDotData(
-                  //   show: false,
-                  // ),
-                ),
-              ],
-              borderData: FlBorderData(
-                  border:
-                      const Border(bottom: BorderSide(), left: BorderSide())),
-              gridData: const FlGridData(show: false),
-              titlesData: const FlTitlesData(
-                // bottomTitles: AxisTitles(sideTitles: _bottomTitles),
-                bottomTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: true)),
-                leftTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                topTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              ),
-              lineTouchData: LineTouchData(
-                  enabled: true,
-                  // touchCallback:
-                  //     (FlTouchEvent event, LineTouchResponse? touchResponse) {
-                  //   // TODO : Utilize touch event here to perform any operation
-                  // },
-                  touchTooltipData: LineTouchTooltipData(
-                    tooltipBgColor: Colors.green,
-                    tooltipRoundedRadius: 20.0,
-                    // showOnTopOfTheChartBoxArea: true,
-                    fitInsideHorizontally: true,
-                    tooltipMargin: 0,
-                    getTooltipItems: (touchedSpots) {
-                      return touchedSpots.map(
-                        (LineBarSpot touchedSpot) {
-                          const textStyle = TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          );
-                          return LineTooltipItem(
-                            points[touchedSpot.spotIndex].y.toStringAsFixed(2),
-                            textStyle,
-                          );
-                        },
-                      ).toList();
-                    },
-                  ),
-                  getTouchedSpotIndicator:
-                      (LineChartBarData barData, List<int> indicators) {
-                    return indicators.map(
-                      (int index) {
-                        final line = FlLine(
-                            color: Colors.grey,
-                            strokeWidth: 1,
-                            dashArray: [2, 4]);
-                        return TouchedSpotIndicatorData(
-                          line,
-                          FlDotData(show: false),
-                        );
-                      },
-                    ).toList();
-                  },
-                  getTouchLineEnd: (_, __) => double.infinity),
-            ),
-          ),
-        ),
-      );
+      return const Chart();
     } else {
       return ListView(
         children: <Widget>[
