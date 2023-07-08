@@ -1,69 +1,18 @@
 library data_utils;
 
 import 'package:firebase_database/firebase_database.dart';
-import 'data.dart';
+// import 'data.dart';
 
-class StampedValue {
-  final String value;
-  final DateTime timeStamp;
+class DataPoint {
+  final DateTime time;
+  final double val;
 
-  StampedValue(this.value, this.timeStamp);
-}
+  DataPoint({required this.time, required this.val});
 
-// class Data {
-//   final StampedValue<bool> misters;
-//   final StampedValue<bool> light;
-//   final StampedValue<double> temperature;
-//   final StampedValue<double> ldrVolts;
-//   final StampedValue<double> ph;
-//   final StampedValue<double> tds;
-
-//   StampedValue<T> fetchLatest<T>(List list){
-
-//   }
-
-//   factory Data.fromJson(Map<String, dynamic> parsedJson) {
-//     return Data(
-//       parsedJson['ldr_volts'].toString();
-//     );
-//   }
-// }
-
-// StampedValue<double> getLatestDouble(DataSnapshot snapshot) {
-//   final children = snapshot.children;
-//   int latestTime = 0;
-//   double latestValue = 0;
-//   for (final child in children) {
-//     final timeStamp = int.parse(child.key!);
-//     if (timeStamp > latestTime) {
-//       latestTime = timeStamp;
-//       latestValue = double.parse(child.value.toString());
-//     }
-//   }
-//   return StampedValue(
-//       latestValue, DateTime.fromMillisecondsSinceEpoch(latestTime * 1000));
-// }
-
-StampedValue? getLatestValue(DataSnapshot snapshot) {
-  if (!snapshot.exists) {
-    return null;
-    //  StampedValue("null", DateTime(0));
+  @override
+  String toString() {
+    return "$time, $val\n";
   }
-  final children = snapshot.children;
-  int latestTime = 0;
-  String latestValue = '';
-
-  // double latestValue = 0;
-  for (final child in children) {
-    final timeStamp = int.parse(child.key!);
-    if (timeStamp > latestTime) {
-      latestTime = timeStamp;
-      latestValue = child.value.toString();
-    }
-  }
-
-  return StampedValue(
-      latestValue, DateTime.fromMillisecondsSinceEpoch(latestTime * 1000));
 }
 
 List<DataPoint> getPoints<T>(DataSnapshot snapshot) {
@@ -86,16 +35,15 @@ List<DataPoint> getPoints<T>(DataSnapshot snapshot) {
 
     if (T == double) {
       points.add(DataPoint(
-          x: timeStamp.hour + timeStamp.minute / 60,
-          y: double.parse(child.value.toString())));
+          time: timeStamp, val: double.parse(child.value.toString())));
     } else if (T == bool) {
       points.add(DataPoint(
-          x: timeStamp.hour + timeStamp.minute / 60,
-          y: bool.parse(child.value.toString()) ? 1.0 : 0.0));
+          time: timeStamp,
+          val: bool.parse(child.value.toString()) ? 1.0 : 0.0));
     }
   }
 
-  points.sort((dataPt1, dataPt2) => dataPt1.x.compareTo(dataPt2.x));
+  points.sort((dataPt1, dataPt2) => dataPt1.time.compareTo(dataPt2.time));
 
   return points;
 }

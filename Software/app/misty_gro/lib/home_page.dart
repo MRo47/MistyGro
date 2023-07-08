@@ -1,17 +1,11 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
-import 'data.dart';
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
 import 'relay_card.dart';
 import 'sensor_card.dart';
 import 'manual_input_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'dart:async';
-import 'data_utils.dart' as data_utils;
+import 'data_utils.dart';
 import 'chart.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,18 +18,9 @@ class HomePage extends StatefulWidget {
 enum PageID { home, analytics, settings }
 
 class _HomePageState extends State<HomePage> {
-  // final List<DataPoint> points = dataPoints;
-
   final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference dataRef = FirebaseDatabase.instance.ref();
   var _pageID = PageID.home;
-
-  var _misterStamped = data_utils.StampedValue("false", DateTime(0));
-  var _lightsStamped = data_utils.StampedValue("false", DateTime(0));
-  var _temperatureStamped = data_utils.StampedValue("0.0", DateTime(0));
-  var _ldrStamped = data_utils.StampedValue("0.0", DateTime(0));
-  var _phStamped = data_utils.StampedValue("0.0", DateTime(0));
-  var _tdsStamped = data_utils.StampedValue("0.0", DateTime(0));
 
   List<DataPoint> _temperatureData = <DataPoint>[];
   List<DataPoint> _ldrData = <DataPoint>[];
@@ -54,27 +39,12 @@ class _HomePageState extends State<HomePage> {
 
   _getData(DataSnapshot snapshot) {
     setState(() {
-      _misterStamped = data_utils.getLatestValue(snapshot.child('misters')) ??
-          data_utils.StampedValue("false", DateTime(0));
-      _lightsStamped = data_utils.getLatestValue(snapshot.child('lights')) ??
-          data_utils.StampedValue("false", DateTime(0));
-      _temperatureStamped =
-          data_utils.getLatestValue(snapshot.child('temperature')) ??
-              data_utils.StampedValue("0.0", DateTime(0));
-      _ldrStamped = data_utils.getLatestValue(snapshot.child('ldr_volts')) ??
-          data_utils.StampedValue("0.0", DateTime(0));
-      _phStamped = data_utils.getLatestValue(snapshot.child('ph')) ??
-          data_utils.StampedValue("0.0", DateTime(0));
-      _tdsStamped = data_utils.getLatestValue(snapshot.child('tds')) ??
-          data_utils.StampedValue("0.0", DateTime(0));
-
-      _temperatureData =
-          data_utils.getPoints<double>(snapshot.child('temperature'));
-      _ldrData = data_utils.getPoints<double>(snapshot.child('ldr_volts'));
-      _misterData = data_utils.getPoints<bool>(snapshot.child('misters'));
-      _lightsData = data_utils.getPoints<bool>(snapshot.child('lights'));
-      _phData = data_utils.getPoints<double>(snapshot.child('ph'));
-      _tdsData = data_utils.getPoints<double>(snapshot.child('tds'));
+      _temperatureData = getPoints<double>(snapshot.child('temperature'));
+      _ldrData = getPoints<double>(snapshot.child('ldr_volts'));
+      _misterData = getPoints<bool>(snapshot.child('misters'));
+      _lightsData = getPoints<bool>(snapshot.child('lights'));
+      _phData = getPoints<double>(snapshot.child('ph'));
+      _tdsData = getPoints<double>(snapshot.child('tds'));
     });
   }
 
@@ -123,16 +93,18 @@ class _HomePageState extends State<HomePage> {
           ),
           RelayCard(
             name: 'Mister',
-            lastUpdate: _misterStamped.timeStamp,
+            lastUpdate:
+                _misterData.isEmpty ? DateTime(0) : _misterData.last.time,
             icon: Icons.water_drop,
-            switchOn: bool.parse(_misterStamped.value),
+            switchOn: _misterData.isEmpty ? false : _misterData.last.val == 0.0,
             onColor: Colors.blue,
           ),
           RelayCard(
             name: 'Grow lights',
-            lastUpdate: _lightsStamped.timeStamp,
+            lastUpdate:
+                _lightsData.isEmpty ? DateTime(0) : _lightsData.last.time,
             icon: Icons.light,
-            switchOn: bool.parse(_lightsStamped.value),
+            switchOn: _lightsData.isEmpty ? false : _lightsData.last.val == 0.0,
             onColor: Colors.purple.shade500,
           ),
           Padding(
@@ -144,18 +116,20 @@ class _HomePageState extends State<HomePage> {
           ),
           SensorCard(
             name: 'Temperature',
-            lastUpdate: _temperatureStamped.timeStamp,
+            lastUpdate: _temperatureData.isEmpty
+                ? DateTime(0)
+                : _temperatureData.last.time,
             icon: Icons.thermostat,
             iconColor: Colors.red,
-            value: double.parse(_temperatureStamped.value),
+            value: _temperatureData.isEmpty ? 0.0 : _temperatureData.last.val,
             units: '°C',
           ),
           SensorCard(
             name: 'LDR voltage',
-            lastUpdate: _ldrStamped.timeStamp,
+            lastUpdate: _ldrData.isEmpty ? DateTime(0) : _ldrData.last.time,
             icon: Icons.blur_circular, // Icons.table_chart_rounded,
             iconColor: Colors.yellow,
-            value: double.parse(_ldrStamped.value),
+            value: _ldrData.isEmpty ? 0.0 : _ldrData.last.val,
             units: 'V',
           ),
           Padding(
@@ -167,10 +141,10 @@ class _HomePageState extends State<HomePage> {
           ),
           ManualInputCard(
             name: 'PH',
-            lastUpdate: _phStamped.timeStamp,
+            lastUpdate: _phData.isEmpty ? DateTime(0) : _phData.last.time,
             icon: Icons.science, // Icons.table_chart_rounded,
             iconColor: Colors.green,
-            initValue: double.parse(_phStamped.value),
+            initValue: _phData.isEmpty ? 7.0 : _phData.last.val,
             units: '',
             onGotValue: (value) {
               _setPH(value);
@@ -178,10 +152,10 @@ class _HomePageState extends State<HomePage> {
           ),
           ManualInputCard(
             name: 'TDS',
-            lastUpdate: _tdsStamped.timeStamp,
+            lastUpdate: _tdsData.isEmpty ? DateTime(0) : _tdsData.last.time,
             icon: Icons.opacity, // Icons.table_chart_rounded,
             iconColor: Colors.blueGrey,
-            initValue: double.parse(_tdsStamped.value),
+            initValue: _tdsData.isEmpty ? 0.0 : _tdsData.last.val,
             units: 'ppm',
             onGotValue: (value) {
               _setTDS(value);

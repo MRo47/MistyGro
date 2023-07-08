@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import 'data.dart';
+import 'data_utils.dart';
 
 class Chart extends StatefulWidget {
   final String title;
@@ -22,11 +22,8 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-  String getFormattedTime(double value) {
-    int hour = value.toInt();
-    int mins = ((value - hour) * 60).toInt();
-
-    return "$hour:$mins";
+  String getFormattedTime(DateTime time) {
+    return "${time.hour}:${time.minute}";
   }
 
   @override
@@ -60,7 +57,9 @@ class _ChartState extends State<Chart> {
                   lineBarsData: [
                     LineChartBarData(
                       spots: widget.points
-                          .map((point) => FlSpot(point.x, point.y))
+                          .map((point) => FlSpot(
+                              point.time.hour + point.time.minute / 60,
+                              point.val))
                           .toList(),
                       isCurved: false,
                       dotData: const FlDotData(
@@ -111,8 +110,8 @@ class _ChartState extends State<Chart> {
                                 color: Colors.white,
                               );
                               return LineTooltipItem(
-                                "${getFormattedTime(widget.points[touchedSpot.spotIndex].x)}, "
-                                "${widget.points[touchedSpot.spotIndex].y.toStringAsFixed(2)}",
+                                "${getFormattedTime(widget.points[touchedSpot.spotIndex].time)}, "
+                                "${widget.points[touchedSpot.spotIndex].val.toStringAsFixed(2)}",
                                 textStyle,
                               );
                             },
