@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
     dataRef.child('ph').push();
 
     final Map<String, double> updates = {};
-    updates['/ph/${DateTime.now().millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond}'] =
+    updates['/ph/${DateTime.now().toUtc().millisecondsSinceEpoch ~/ Duration.millisecondsPerSecond}'] =
         value;
 
     await dataRef.update(updates);
@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
             lastUpdate: _phData.isEmpty ? DateTime(0) : _phData.last.time,
             icon: Icons.science, // Icons.table_chart_rounded,
             iconColor: Colors.green,
-            initValue: _phData.isEmpty ? 7.0 : _phData.last.val,
+            initValue: _phData.isEmpty ? 0.0 : _phData.last.val,
             units: '',
             onGotValue: (value) {
               _setPH(value);

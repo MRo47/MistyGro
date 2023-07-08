@@ -29,6 +29,8 @@ class _ChartState extends State<Chart> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 3,
+      margin: const EdgeInsets.fromLTRB(4, 10, 4, 10),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0))),
       child: Container(
