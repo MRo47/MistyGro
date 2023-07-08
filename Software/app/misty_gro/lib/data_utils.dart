@@ -1,6 +1,7 @@
 library data_utils;
 
 import 'package:firebase_database/firebase_database.dart';
+import 'data.dart';
 
 class StampedValue {
   final String value;
@@ -63,4 +64,24 @@ StampedValue? getLatestValue(DataSnapshot snapshot) {
 
   return StampedValue(
       latestValue, DateTime.fromMillisecondsSinceEpoch(latestTime * 1000));
+}
+
+List<DataPoint> getPoints(DataSnapshot snapshot) {
+  if (!snapshot.exists) {
+    return <DataPoint>[];
+    //  StampedValue("null", DateTime(0));
+  }
+  final children = snapshot.children;
+
+  final points = <DataPoint>[];
+
+  for (final child in children) {
+    final timeStamp =
+        DateTime.fromMillisecondsSinceEpoch(int.parse(child.key!) * 1000);
+    points.add(DataPoint(
+        x: timeStamp.hour + timeStamp.minute / 60,
+        y: double.parse(child.value.toString())));
+  }
+
+  return points;
 }

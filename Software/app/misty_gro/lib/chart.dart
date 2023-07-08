@@ -22,34 +22,12 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-  SideTitles get _bottomTitles => SideTitles(
-        showTitles: true,
-        getTitlesWidget: (value, meta) {
-          String text = '';
-          switch (value.toInt()) {
-            case 1:
-              text = 'Jan';
-              break;
-            case 3:
-              text = 'Mar';
-              break;
-            case 5:
-              text = 'May';
-              break;
-            case 7:
-              text = 'Jul';
-              break;
-            case 9:
-              text = 'Sep';
-              break;
-            case 11:
-              text = 'Nov';
-              break;
-          }
+  String getFormattedTime(double value) {
+    int hour = value.toInt();
+    int mins = ((value - hour) * 60).toInt();
 
-          return Text(text);
-        },
-      );
+    return "$hour:$mins";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +111,8 @@ class _ChartState extends State<Chart> {
                                 color: Colors.white,
                               );
                               return LineTooltipItem(
-                                "${widget.points[touchedSpot.spotIndex].x.toStringAsFixed(2)}, ${widget.points[touchedSpot.spotIndex].y.toStringAsFixed(2)}",
+                                "${getFormattedTime(widget.points[touchedSpot.spotIndex].x)}, "
+                                "${widget.points[touchedSpot.spotIndex].y.toStringAsFixed(2)}",
                                 textStyle,
                               );
                             },

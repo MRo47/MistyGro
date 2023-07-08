@@ -35,6 +35,8 @@ class _HomePageState extends State<HomePage> {
   var _phStamped = data_utils.StampedValue("0.0", DateTime(0));
   var _tdsStamped = data_utils.StampedValue("0.0", DateTime(0));
 
+  List<DataPoint> _temperatureData = <DataPoint>[];
+
   DateTime _dateTime = DateTime(0);
 
   _getDateTime() {
@@ -58,6 +60,8 @@ class _HomePageState extends State<HomePage> {
           data_utils.StampedValue("0.0", DateTime(0));
       _tdsStamped = data_utils.getLatestValue(snapshot.child('tds')) ??
           data_utils.StampedValue("0.0", DateTime(0));
+
+      _temperatureData = data_utils.getPoints(snapshot.child('temperature'));
     });
   }
 
@@ -105,9 +109,9 @@ class _HomePageState extends State<HomePage> {
         ),
         Chart(
           title: 'Temperature',
-          points: dataPoints,
+          points: _temperatureData,
           minY: 0,
-          maxY: 1,
+          maxY: 45,
           color: Colors.red,
         ),
       ]);

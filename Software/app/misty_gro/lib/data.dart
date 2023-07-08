@@ -6,6 +6,12 @@ class DataPoint {
   final double y;
 
   DataPoint({required this.x, required this.y});
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "$x, $y\n";
+  }
 }
 
 List<DataPoint> get dataPoints {
