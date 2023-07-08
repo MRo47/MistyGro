@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'sensor_card.dart';
+
+import 'package:misty_gro/sensor_card.dart';
 
 class ManualInputCard extends StatefulWidget {
   final String name;

@@ -1,15 +1,7 @@
-// Importing important packages require to connect
-// Flutter and Dart
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:misty_gro/main_page.dart';
-import 'firebase_options.dart';
 import 'package:misty_gro/main_page.dart';
 
 // Main Function
