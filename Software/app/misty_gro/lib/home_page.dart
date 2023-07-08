@@ -21,12 +21,14 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+enum PageID { home, analytics, settings }
+
 class _HomePageState extends State<HomePage> {
   // final List<DataPoint> points = dataPoints;
 
   final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference dataRef = FirebaseDatabase.instance.ref();
-  final showAnalytics = true;
+  var _pageID = PageID.home;
 
   var _misterStamped = data_utils.StampedValue("false", DateTime(0));
   var _lightsStamped = data_utils.StampedValue("false", DateTime(0));
@@ -103,31 +105,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _getBody() {
-    if (showAnalytics) {
-      return ListView(children: [
-        Chart(
-          title: "Misters' state",
-          points: _misterData,
-          minY: 0,
-          maxY: 1.5,
-          color: Colors.blue,
-        ),
-        Chart(
-          title: 'LDR voltage (V)',
-          points: _ldrData,
-          minY: 0,
-          maxY: 5,
-          color: Colors.yellow,
-        ),
-        Chart(
-          title: 'Temperature (°C)',
-          points: _temperatureData,
-          minY: 0,
-          maxY: 45,
-          color: Colors.red,
-        ),
-      ]);
-    } else {
+    if (_pageID == PageID.home) {
       return ListView(
         children: <Widget>[
           Padding(
@@ -205,6 +183,34 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       );
+    } else if (_pageID == PageID.analytics) {
+      return ListView(children: [
+        Chart(
+          title: "Misters' state",
+          points: _misterData,
+          minY: 0,
+          maxY: 1.5,
+          color: Colors.blue,
+        ),
+        Chart(
+          title: 'LDR voltage (V)',
+          points: _ldrData,
+          minY: 0,
+          maxY: 5,
+          color: Colors.yellow,
+        ),
+        Chart(
+          title: 'Temperature (°C)',
+          points: _temperatureData,
+          minY: 0,
+          maxY: 45,
+          color: Colors.red,
+        ),
+      ]);
+    } else {
+      return const Center(
+        child: Text("settings"),
+      );
     }
   }
 
@@ -258,6 +264,12 @@ class _HomePageState extends State<HomePage> {
         ],
         backgroundColor: Colors.black,
         selectedItemColor: Colors.greenAccent.shade700,
+        currentIndex: _pageID.index,
+        onTap: (value) {
+          setState(() {
+            _pageID = PageID.values[value];
+          });
+        },
       ),
       // Sets the content to the
       // center of the application page
