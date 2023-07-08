@@ -95,5 +95,7 @@ List<DataPoint> getPoints<T>(DataSnapshot snapshot) {
     }
   }
 
+  points.sort((dataPt1, dataPt2) => dataPt1.x.compareTo(dataPt2.x));
+
   return points;
 }

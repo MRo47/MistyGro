@@ -40,6 +40,7 @@ class _HomePageState extends State<HomePage> {
   List<DataPoint> _temperatureData = <DataPoint>[];
   List<DataPoint> _ldrData = <DataPoint>[];
   List<DataPoint> _misterData = <DataPoint>[];
+  List<DataPoint> _lightsData = <DataPoint>[];
 
   DateTime _dateTime = DateTime(0);
 
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
           data_utils.getPoints<double>(snapshot.child('temperature'));
       _ldrData = data_utils.getPoints<double>(snapshot.child('ldr_volts'));
       _misterData = data_utils.getPoints<bool>(snapshot.child('misters'));
+      _lightsData = data_utils.getPoints<bool>(snapshot.child('lights'));
     });
   }
 
@@ -186,11 +188,18 @@ class _HomePageState extends State<HomePage> {
     } else if (_pageID == PageID.analytics) {
       return ListView(children: [
         Chart(
-          title: "Misters' state",
+          title: "Misters",
           points: _misterData,
           minY: 0,
-          maxY: 1.5,
+          maxY: 1.2,
           color: Colors.blue,
+        ),
+        Chart(
+          title: "Lights",
+          points: _lightsData,
+          minY: 0,
+          maxY: 1.2,
+          color: Colors.purple,
         ),
         Chart(
           title: 'LDR voltage (V)',
