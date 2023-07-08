@@ -41,6 +41,8 @@ class _HomePageState extends State<HomePage> {
   List<DataPoint> _ldrData = <DataPoint>[];
   List<DataPoint> _misterData = <DataPoint>[];
   List<DataPoint> _lightsData = <DataPoint>[];
+  List<DataPoint> _phData = <DataPoint>[];
+  List<DataPoint> _tdsData = <DataPoint>[];
 
   DateTime _dateTime = DateTime(0);
 
@@ -71,6 +73,8 @@ class _HomePageState extends State<HomePage> {
       _ldrData = data_utils.getPoints<double>(snapshot.child('ldr_volts'));
       _misterData = data_utils.getPoints<bool>(snapshot.child('misters'));
       _lightsData = data_utils.getPoints<bool>(snapshot.child('lights'));
+      _phData = data_utils.getPoints<double>(snapshot.child('ph'));
+      _tdsData = data_utils.getPoints<double>(snapshot.child('tds'));
     });
   }
 
@@ -214,6 +218,20 @@ class _HomePageState extends State<HomePage> {
           minY: 0,
           maxY: 45,
           color: Colors.red,
+        ),
+        Chart(
+          title: 'PH',
+          points: _phData,
+          minY: 0,
+          maxY: 14,
+          color: Colors.green,
+        ),
+        Chart(
+          title: 'TDS (ppm)',
+          points: _tdsData,
+          minY: 0,
+          maxY: 1500,
+          color: Colors.blueGrey,
         ),
       ]);
     } else {
