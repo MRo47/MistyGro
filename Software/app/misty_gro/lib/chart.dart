@@ -4,15 +4,24 @@ import 'package:flutter/material.dart';
 import 'data.dart';
 
 class Chart extends StatefulWidget {
-  const Chart({super.key});
+  final String title;
+  final double minY;
+  final double maxY;
+  final List<DataPoint> points;
+  final MaterialColor color;
+  const Chart(
+      {super.key,
+      required this.title,
+      required this.points,
+      required this.minY,
+      required this.maxY,
+      this.color = Colors.green});
 
   @override
   State<Chart> createState() => _ChartState();
 }
 
 class _ChartState extends State<Chart> {
-  final List<PricePoint> points = pricePoints;
-
   SideTitles get _bottomTitles => SideTitles(
         showTitles: true,
         getTitlesWidget: (value, meta) {
@@ -54,11 +63,12 @@ class _ChartState extends State<Chart> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Text(
-                'LDR Voltage (V)',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                widget.title,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             AspectRatio(
@@ -67,18 +77,18 @@ class _ChartState extends State<Chart> {
                 LineChartData(
                   minX: 0,
                   maxX: 24,
-                  minY: 0,
-                  maxY: 1,
+                  minY: widget.minY,
+                  maxY: widget.maxY,
                   lineBarsData: [
                     LineChartBarData(
-                      spots: points
+                      spots: widget.points
                           .map((point) => FlSpot(point.x, point.y))
                           .toList(),
                       isCurved: false,
                       dotData: const FlDotData(
                         show: false,
                       ),
-                      color: Colors.green,
+                      color: widget.color,
 
                       // dotData: FlDotData(
                       //   show: false,
@@ -109,7 +119,7 @@ class _ChartState extends State<Chart> {
                       //   // TODO : Utilize touch event here to perform any operation
                       // },
                       touchTooltipData: LineTouchTooltipData(
-                        tooltipBgColor: Colors.green,
+                        tooltipBgColor: widget.color,
                         tooltipRoundedRadius: 20.0,
                         // showOnTopOfTheChartBoxArea: true,
                         fitInsideHorizontally: true,
@@ -123,7 +133,7 @@ class _ChartState extends State<Chart> {
                                 color: Colors.white,
                               );
                               return LineTooltipItem(
-                                "${points[touchedSpot.spotIndex].x.toStringAsFixed(2)}, ${points[touchedSpot.spotIndex].y.toStringAsFixed(2)}",
+                                "${widget.points[touchedSpot.spotIndex].x.toStringAsFixed(2)}, ${widget.points[touchedSpot.spotIndex].y.toStringAsFixed(2)}",
                                 textStyle,
                               );
                             },

@@ -1,20 +1,20 @@
 import 'dart:math';
 // import 'package:collection/collection.dart';
 
-class PricePoint {
+class DataPoint {
   final double x;
   final double y;
 
-  PricePoint({required this.x, required this.y});
+  DataPoint({required this.x, required this.y});
 }
 
-List<PricePoint> get pricePoints {
+List<DataPoint> get dataPoints {
   final Random random = Random();
   final randomNumbers = <double>[];
-  final list = <PricePoint>[];
-  for (var i = 0; i <= 11; i++) {
+  final list = <DataPoint>[];
+  for (var i = 0; i <= 24; i++) {
     randomNumbers.add(random.nextDouble());
-    list.add(PricePoint(x: i.toDouble(), y: random.nextDouble()));
+    list.add(DataPoint(x: i.toDouble(), y: random.nextDouble()));
   }
 
   return list;

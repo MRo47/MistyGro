@@ -22,6 +22,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // final List<DataPoint> points = dataPoints;
+
   final user = FirebaseAuth.instance.currentUser!;
   DatabaseReference dataRef = FirebaseDatabase.instance.ref();
   final showAnalytics = true;
@@ -93,7 +95,22 @@ class _HomePageState extends State<HomePage> {
 
   Widget _getBody() {
     if (showAnalytics) {
-      return const Chart();
+      return ListView(children: [
+        Chart(
+          title: 'LDR voltage',
+          points: dataPoints,
+          minY: 0,
+          maxY: 1,
+          color: Colors.yellow,
+        ),
+        Chart(
+          title: 'Temperature',
+          points: dataPoints,
+          minY: 0,
+          maxY: 1,
+          color: Colors.red,
+        ),
+      ]);
     } else {
       return ListView(
         children: <Widget>[
