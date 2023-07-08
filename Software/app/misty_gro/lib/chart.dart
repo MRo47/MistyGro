@@ -68,10 +68,6 @@ class _ChartState extends State<Chart> {
                         show: false,
                       ),
                       color: widget.color,
-
-                      // dotData: FlDotData(
-                      //   show: false,
-                      // ),
                     ),
                   ],
                   borderData: FlBorderData(
@@ -95,7 +91,7 @@ class _ChartState extends State<Chart> {
                       enabled: true,
                       // touchCallback:
                       //     (FlTouchEvent event, LineTouchResponse? touchResponse) {
-                      //   // TODO : Utilize touch event here to perform any operation
+                      //   Utilize touch event here to perform any operation
                       // },
                       touchTooltipData: LineTouchTooltipData(
                         tooltipBgColor: widget.color,
