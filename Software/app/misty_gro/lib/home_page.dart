@@ -35,6 +35,8 @@ class _HomePageState extends State<HomePage> {
   _getDateTime() {
     setState(() {
       _dateTime = DateTime.now().toUtc();
+      Duration offset = _dateTime
+          .timeZoneOffset; // TODO: use offset to get last day data for non utc
     });
   }
 
@@ -122,7 +124,9 @@ class _HomePageState extends State<HomePage> {
                 : _temperatureData.last.time,
             icon: Icons.thermostat,
             iconColor: Colors.red,
-            value: _temperatureData.isEmpty ? 0.0 : _temperatureData.last.val,
+            value: _temperatureData.isEmpty || _temperatureData.last.val < 0.0
+                ? 0.0
+                : _temperatureData.last.val,
             units: '°C',
           ),
           SensorCard(

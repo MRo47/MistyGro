@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'data_utils.dart';
+import 'dart:math';
 
 class Chart extends StatefulWidget {
   final String title;
@@ -61,7 +62,7 @@ class _ChartState extends State<Chart> {
                       spots: widget.points
                           .map((point) => FlSpot(
                               point.time.hour + point.time.minute / 60,
-                              point.val))
+                              min(max(point.val, widget.minY), widget.maxY)))
                           .toList(),
                       isCurved: false,
                       dotData: const FlDotData(
