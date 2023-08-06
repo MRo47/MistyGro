@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "WiFi.h"
 #include "firebase_logger.h"
 #include "ldr.h"
 #include "relay.h"
@@ -77,6 +78,7 @@ void setup()
   light.begin(Switch::OFF);
   extra.begin(Switch::OFF);
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
+  WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   timer.begin();
   flog.begin(
