@@ -1,60 +1,56 @@
+#ifndef _RELAY_H_
+#define _RELAY_H_
+
 #include <Arduino.h>
 
 enum class Switch : bool { ON = HIGH, OFF = LOW };
 
+class Relay
+{
+public:
+  virtual void begin(Switch sw) = 0;
+
+  virtual void set(Switch state) = 0;
+
+  virtual int get_state() = 0;
+
+  virtual void toggle() = 0;
+};
+
 // active high
-class RelayAH
+class RelayAH : public Relay
 {
 private:
   int pin_;
 
 public:
-  RelayAH(int pin) : pin_(pin){};
+  RelayAH(int pin);
 
-  void begin(Switch sw)
-  {
-    pinMode(pin_, OUTPUT);
-    digitalWrite(pin_, bool(sw));
-  }
+  void begin(Switch sw);
 
-  void set(Switch state) { digitalWrite(pin_, bool(state)); }
+  void set(Switch state);
 
-  int get_state() { return digitalRead(pin_); }
+  int get_state();
 
-  void toggle()
-  {
-    bool state = digitalRead(pin_);
-    delay(10);
-    digitalWrite(pin_, !state);  // TODO check this
-  }
+  void toggle();
 };
 
 // active low
-class RelayAL
+class RelayAL : public Relay
 {
 private:
   int pin_;
 
 public:
-  RelayAL(int pin) : pin_(pin){};
+  RelayAL(int pin);
 
-  void begin(Switch sw)
-  {
-    pinMode(pin_, OUTPUT);
-    digitalWrite(pin_, !bool(sw));
-  }
+  void begin(Switch sw);
 
-  void set(Switch state) { digitalWrite(pin_, !bool(state)); }
+  void set(Switch state);
 
-  int get_state()
-  {
-    return !digitalRead(pin_);  // negate the state as this is an active low
-  }
+  int get_state();
 
-  void toggle()
-  {
-    bool state = digitalRead(pin_);
-    delay(10);
-    digitalWrite(pin_, !state);
-  }
+  void toggle();
 };
+
+#endif
