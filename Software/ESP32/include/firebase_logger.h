@@ -33,6 +33,10 @@ public:
   void push_time(const char * path, time_t timestamp);
 
   bool is_ready();
+
+  bool is_keep_alive();
+
+  bool is_connected();
 };
 
 #endif  // _FIREBASE_LOGGER_H_

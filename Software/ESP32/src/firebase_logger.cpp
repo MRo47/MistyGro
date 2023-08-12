@@ -1,13 +1,21 @@
 #include "firebase_logger.h"
 
 //Provide the token generation process info.
+#include "addons/RTDBHelper.h"
 #include "addons/TokenHelper.h"
 
 void FireLogger::print_error()
 {
   Serial.printf("Error:\ncode: %d\nmsg: ", fbdo_.errorCode());
+  Serial.printf("HTTP code: %d\n", fbdo_.httpCode());
+  Serial.printf(
+    "Firebase http connected: %s\n", fbdo_.httpConnected() ? "true" : "false");
   Serial.println(fbdo_.errorReason());
 }
+
+bool FireLogger::is_keep_alive() { return fbdo_.isKeepAlive(); }
+
+bool FireLogger::is_connected() { return fbdo_.httpConnected(); }
 
 FireLogger::FireLogger() : path_prefix_("/users/") {}
 
@@ -30,6 +38,7 @@ void FireLogger::begin(
 
   Firebase.reconnectWiFi(true);
   fbdo_.setResponseSize(4096);
+  fbdo_.keepAlive(300, 300, 1);
 
   /* Assign the callback function for the long running token generation task */
   config_.token_status_callback =
