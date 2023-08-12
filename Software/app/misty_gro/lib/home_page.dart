@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
             lastUpdate:
                 _misterData.isEmpty ? DateTime(0) : _misterData.last.time,
             icon: Icons.water_drop,
-            switchOn: _misterData.isEmpty ? false : _misterData.last.val == 0.0,
+            switchOn: _misterData.isEmpty ? false : _misterData.last.val != 0.0,
             onColor: Colors.blue,
           ),
           RelayCard(
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             lastUpdate:
                 _lightsData.isEmpty ? DateTime(0) : _lightsData.last.time,
             icon: Icons.light,
-            switchOn: _lightsData.isEmpty ? false : _lightsData.last.val == 0.0,
+            switchOn: _lightsData.isEmpty ? false : _lightsData.last.val != 0.0,
             onColor: Colors.purple.shade500,
           ),
           Padding(
