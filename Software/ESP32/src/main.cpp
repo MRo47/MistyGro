@@ -14,7 +14,7 @@
 ADC adc;
 LDR ldr(10, &adc);
 TemperatureSensor temp_sensor(pin::temp_sensor_bus);
-RelayAL misters(pin::misters);
+RelayAH misters(pin::misters);
 RelayAL light(pin::extra_relay);
 LightScheduler light_scheduler(&light, constants::light_duration);
 RelayAH extra(pin::light);
@@ -73,13 +73,13 @@ void check_wifi()
   }
 
   Serial.printf(
-    "Is firebase connected: %s", flog.is_connected() ? "true" : "false");
+    "Is firebase connected: %s\n", flog.is_connected() ? "true" : "false");
 }
 
 void setup()
 {
   Serial.begin(115200);
-  misters.begin(Switch::ON);
+  misters.begin(Switch::OFF);
   light.begin(Switch::OFF);
   extra.begin(Switch::OFF);
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
