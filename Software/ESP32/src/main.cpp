@@ -3,6 +3,7 @@
 #include "WiFi.h"
 #include "firebase_logger.h"
 #include "ldr.h"
+#include "light_scheduler.h"
 #include "relay.h"
 #include "scheduler.h"
 #include "secrets.h"
@@ -13,8 +14,9 @@
 ADC adc;
 LDR ldr(10, &adc);
 TemperatureSensor temp_sensor(pin::temp_sensor_bus);
-RelayAH misters(pin::misters);
-RelayAH light(pin::extra_relay);
+RelayAL misters(pin::misters);
+RelayAL light(pin::extra_relay);
+LightScheduler light_scheduler(&light, constants::light_duration);
 RelayAH extra(pin::light);
 Timer timer;
 FireLogger flog;
@@ -51,11 +53,11 @@ void check_temperature()
 void check_and_set_light()
 {
   float volt = ldr.read_voltage();
-  if (volt < constants::ldr_thresh_v) {
-    light.set(Switch::ON);
-  } else {
-    light.set(Switch::OFF);
-  }
+
+  auto time_info = timer.get_utc_time();
+
+  light_scheduler.run(&time_info, volt >= constants::ldr_thresh_v);
+
   // set on DB /day_ts/ldr/ts : value
   flog.set_float(wrap_date_time("ldr_volts").c_str(), volt);
   // set on DB /day_ts/lights/ts : value
@@ -69,12 +71,15 @@ void check_wifi()
     Serial.println("Reconnecting WiFi ...");
     flog.push_time("wifi_reconnects", timer.get_epoch_time());
   }
+
+  Serial.printf(
+    "Is firebase connected: %s", flog.is_connected() ? "true" : "false");
 }
 
 void setup()
 {
   Serial.begin(115200);
-  misters.begin(Switch::OFF);
+  misters.begin(Switch::ON);
   light.begin(Switch::OFF);
   extra.begin(Switch::OFF);
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
