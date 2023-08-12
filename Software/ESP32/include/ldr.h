@@ -15,8 +15,6 @@ private:
 public:
   LDR(int samples, ADC * adc) : samples_(samples), adc_(adc) {}
 
-  // void begin();
-
   float read_voltage()
   {
     // return voltage in v
@@ -27,10 +25,6 @@ public:
     }
     return median(v, samples_);
   }
-
-  // float read_tds(float temperature_c = 25.f);
-
-  // void calibration(float temperature_c);
 };
 
 #endif
