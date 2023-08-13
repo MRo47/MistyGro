@@ -28,7 +28,9 @@ void LightScheduler::run(
     end_time_ != 0 && epoch_time < end_time_ &&
     !is_bright) {  // when end set and not end
     light_->set(Switch::ON);
+    Serial.println("Light on");
   } else {
     light_->set(Switch::OFF);
+    Serial.println("Light off");
   }
 }

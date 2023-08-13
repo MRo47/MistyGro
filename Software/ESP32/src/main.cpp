@@ -41,6 +41,7 @@ void check_temperature() { float temp = temp_sensor.read(); }
 void check_and_set_light()
 {
   float volt = ldr.read_voltage();
+  Serial.printf("LDR voltage: %f\n", volt);
 
   auto time_info = timer.get_utc_time();
 
@@ -66,7 +67,7 @@ void setup()
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   timer.begin();
   temp_sensor.begin();
-  delay(1000);
+  delay(2000);
   Serial.printf("Found temperature sensors: %d\n", temp_sensor.device_count());
   scheduler.begin();
   scheduler.create_task(check_wifi, constants::wifi_check_time);
