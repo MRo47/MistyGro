@@ -16,7 +16,9 @@ LDR ldr(10, &adc);
 TemperatureSensor temp_sensor(pin::temp_sensor_bus);
 RelayAH misters(pin::misters);
 RelayAL light(pin::extra_relay);
-LightScheduler light_scheduler(&light, constants::light_duration);
+LightScheduler light_scheduler(
+  &light, constants::light_start_hour, constants::light_start_min,
+  constants::light_duration);
 RelayAH extra(pin::light);
 Timer timer;
 FireLogger flog;
@@ -51,6 +53,7 @@ String wrap_date(const char * path)
 void toggle_misters()
 {
   misters.toggle();
+  Serial.printf("Misters %s\n", (bool)misters.get_state() ? "on" : "off");
   // set on DB day_ts/misters/ts : value
   flog.set_bool(wrap_date_time("misters").c_str(), (bool)misters.get_state());
 }
@@ -58,6 +61,7 @@ void toggle_misters()
 void check_temperature()
 {
   float temp = temp_sensor.read();
+  Serial.printf("Temperature %f\n", temp);
   // set on DB day_ts/temperature/ts : value
   flog.set_float(wrap_date_time("temperature").c_str(), temp);
 }
@@ -79,9 +83,8 @@ void check_and_set_light()
 void check_wifi()
 {
   if (!WiFi.isConnected()) {
+    WiFi.reconnect();
     Serial.println("Reconnecting WiFi ...");
-    flog.push_time(
-      wrap_date("wifi_disconnected").c_str(), timer.get_epoch_time());
   }
 }
 
@@ -95,9 +98,13 @@ void check_and_refresh_firebase_token()
 
 void handle_wifi_connection(WiFiEvent_t event, WiFiEventInfo_t info)
 {
-  timer.begin();
-  flog.begin(
-    FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL, FIREBASE_USER_PASSWORD);
+  if (event == WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_CONNECTED) {
+    Serial.println("WiFi Connected, initialising ...");
+    timer.begin();
+    flog.begin(
+      FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL,
+      FIREBASE_USER_PASSWORD);
+  }
 }
 
 void setup()
@@ -108,13 +115,17 @@ void setup()
   extra.begin(Switch::OFF);
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
   WiFi.mode(WIFI_STA);
-  WiFi.onEvent(handle_wifi_connection, ARDUINO_EVENT_WIFI_STA_CONNECTED);
-  WiFi.setAutoReconnect(true);
+  // WiFi.onEvent(handle_wifi_connection, ARDUINO_EVENT_WIFI_STA_CONNECTED); // TODO: This does not work, wifi wont connect if set
+  // WiFi.setAutoReconnect(true); // TODO: This does not work, wifi wont connect if set
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (!WiFi.isConnected()) {
     Serial.println("Connecting WiFi ...");
     delay(2000);
   }
+  timer.begin();  // TODO: Remove if can be set from handle wifi connection
+  flog.begin(
+    FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL,
+    FIREBASE_USER_PASSWORD);  // TODO: Remove if can be set from handle wifi connection
   temp_sensor.begin();
   delay(1000);
   Serial.printf("Found temperature sensors: %d\n", temp_sensor.device_count());
