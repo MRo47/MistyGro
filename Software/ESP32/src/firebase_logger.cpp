@@ -36,13 +36,13 @@ void FireLogger::begin(
   auth_.user.email = email;
   auth_.user.password = pass;
 
-  Firebase.reconnectWiFi(true);
   fbdo_.setResponseSize(4096);
-  fbdo_.keepAlive(300, 300, 1);
 
   /* Assign the callback function for the long running token generation task */
   config_.token_status_callback =
     tokenStatusCallback;  // see addons/TokenHelper.h
+  // Assign the maximum retry of token generation
+  config_.max_token_generation_retry = 5;
 
   Firebase.begin(&config_, &auth_);
   // Getting the user UID might take a few seconds
@@ -98,3 +98,13 @@ void FireLogger::push_time(const char * path, time_t timestamp)
 }
 
 bool FireLogger::is_ready() { return Firebase.ready(); }
+
+bool FireLogger::check_and_refresh_token()
+{
+  if (Firebase.isTokenExpired()) {
+    Firebase.refreshToken(&config_);
+    Serial.println("Refreshed token");
+    return true;
+  }
+  return false;
+}

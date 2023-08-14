@@ -37,6 +37,13 @@ public:
   bool is_keep_alive();
 
   bool is_connected();
+
+  /**
+ * @brief refresh token if expired
+ * 
+ * @return true if token refreshed
+ */
+  bool check_and_refresh_token();
 };
 
 #endif  // _FIREBASE_LOGGER_H_
