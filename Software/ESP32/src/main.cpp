@@ -15,7 +15,9 @@ LDR ldr(10, &adc);
 TemperatureSensor temp_sensor(pin::temp_sensor_bus);
 RelayAH misters(pin::misters);
 RelayAL light(pin::extra_relay);
-LightScheduler light_scheduler(&light, constants::light_duration);
+LightScheduler light_scheduler(
+  &light, constants::light_start_hour, constants::light_start_min,
+  constants::light_duration);
 RelayAH extra(pin::light);
 Timer timer;
 Scheduler scheduler;
@@ -34,7 +36,11 @@ String wrap_date_time(const char * path)
   return out;
 }
 
-void toggle_misters() { misters.toggle(); }
+void toggle_misters()
+{
+  misters.toggle();
+  Serial.printf("Misters %s\n", (bool)misters.get_state() ? "on" : "off");
+}
 
 void check_temperature() { float temp = temp_sensor.read(); }
 
@@ -56,6 +62,14 @@ void check_wifi()
   }
 }
 
+void handle_wifi_connection(WiFiEvent_t event, WiFiEventInfo_t info)
+{
+  if (event == WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_CONNECTED) {
+    Serial.println("WiFi Connected, initialising ...");
+    timer.begin();
+  }
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -65,6 +79,10 @@ void setup()
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  while (!WiFi.isConnected()) {
+    Serial.println("Connecting WiFi ...");
+    delay(2000);
+  }
   timer.begin();
   temp_sensor.begin();
   delay(2000);
