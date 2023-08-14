@@ -36,6 +36,18 @@ String wrap_date_time(const char * path)
   return out;
 }
 
+String wrap_date(const char * path)
+{
+  auto timeinfo = timer.get_utc_time();
+  auto tim = mktime(&timeinfo);
+  char buf[12];
+  strftime(buf, sizeof(buf), "%F", &timeinfo);
+  String out(buf);
+  out += "/";
+  out += path;
+  return out;
+}
+
 void toggle_misters()
 {
   misters.toggle();
@@ -67,13 +79,25 @@ void check_and_set_light()
 void check_wifi()
 {
   if (!WiFi.isConnected()) {
-    WiFi.reconnect();
     Serial.println("Reconnecting WiFi ...");
-    flog.push_time("wifi_reconnects", timer.get_epoch_time());
+    flog.push_time(
+      wrap_date("wifi_disconnected").c_str(), timer.get_epoch_time());
   }
+}
 
-  Serial.printf(
-    "Is firebase connected: %s\n", flog.is_connected() ? "true" : "false");
+void check_and_refresh_firebase_token()
+{
+  if (flog.check_and_refresh_token()) {
+    flog.push_time(
+      wrap_date("token_refreshed").c_str(), timer.get_epoch_time());
+  }
+}
+
+void handle_wifi_connection(WiFiEvent_t event, WiFiEventInfo_t info)
+{
+  timer.begin();
+  flog.begin(
+    FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL, FIREBASE_USER_PASSWORD);
 }
 
 void setup()
@@ -84,22 +108,25 @@ void setup()
   extra.begin(Switch::OFF);
   adc.begin(constants::adc_bus_addr, pin::adc_sda, pin::adc_scl);
   WiFi.mode(WIFI_STA);
+  WiFi.onEvent(handle_wifi_connection, ARDUINO_EVENT_WIFI_STA_CONNECTED);
+  WiFi.setAutoReconnect(true);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  timer.begin();
-  flog.begin(
-    FIREBASE_URL, FIREBASE_TOKEN, FIREBASE_USER_EMAIL, FIREBASE_USER_PASSWORD);
+  while (!WiFi.isConnected()) {
+    Serial.println("Connecting WiFi ...");
+    delay(2000);
+  }
   temp_sensor.begin();
   delay(1000);
   Serial.printf("Found temperature sensors: %d\n", temp_sensor.device_count());
   scheduler.begin();
   scheduler.create_task(check_wifi, constants::wifi_check_time);
+  scheduler.create_task(
+    check_and_refresh_firebase_token, constants::check_token_refresh_time);
   scheduler.create_task(toggle_misters, constants::mister_toggle_time);
   scheduler.create_task(check_temperature, constants::temperature_check_time);
   scheduler.create_task(check_and_set_light, constants::light_check_n_set_time);
   Serial.println("Initialisation complete");
-  flog.push_time("inits", timer.get_epoch_time());
+  flog.push_time(wrap_date("inits").c_str(), timer.get_epoch_time());
 }
-
-int count = 0;
 
 void loop() { scheduler.run(); }
