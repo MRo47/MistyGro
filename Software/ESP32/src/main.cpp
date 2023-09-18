@@ -15,7 +15,7 @@ ADC adc;
 LDR ldr(10, &adc);
 TemperatureSensor temp_sensor(pin::temp_sensor_bus);
 RelayAH misters(pin::misters);
-RelayAL light(pin::extra_relay);
+RelayAH light(pin::extra_relay);  // changed role on purpose
 LightScheduler light_scheduler(
   &light, constants::light_start_hour, constants::light_start_min,
   constants::light_duration);
