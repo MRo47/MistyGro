@@ -28,10 +28,10 @@ static const unsigned long mister_toggle_time = 10 * 60;       // 10 mins
 static const unsigned long temperature_check_time = 10 * 60;   // 10 mins
 static const unsigned long light_check_n_set_time = 5 * 60;    // 5 mins
 static const unsigned long check_token_refresh_time = 1 * 60;  // 1 min
-static const int light_start_hour = 6;
-static const int light_start_min = 0;
-static const unsigned long light_duration = 12 * 60 * 60;  // 12 hours
-static const unsigned long wifi_check_time = 1 * 60;       // sec
+static const int light_start_hour = 6;                         // GMT
+static const int light_start_min = 0;                          // GMT
+static const unsigned long light_duration = 12 * 60 * 60;      // 12 hours
+static const unsigned long wifi_check_time = 1 * 60;           // sec
 }  // namespace constants
 
 namespace pin
