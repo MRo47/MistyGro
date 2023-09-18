@@ -4,7 +4,6 @@
 #include <Arduino.h>
 
 #include "adc.h"
-#include "utility.h"
 
 class LDR
 {
@@ -13,18 +12,9 @@ private:
   const size_t samples_;
 
 public:
-  LDR(int samples, ADC * adc) : samples_(samples), adc_(adc) {}
+  LDR(int samples, ADC * adc);
 
-  float read_voltage()
-  {
-    // return voltage in v
-    float v[samples_] = {0.f};
-    for (int i = 0; i < samples_; ++i) {
-      v[i] = adc_->read_voltage(ADCChannel::ldr);
-      delay(10);
-    }
-    return median(v, samples_);
-  }
+  float read_voltage();
 };
 
 #endif

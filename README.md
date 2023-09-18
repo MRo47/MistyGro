@@ -42,6 +42,8 @@ These are made of LED panels, enclosure and drivers, so these could be hacked to
 * [LoRa RA-02](https://uk.banggood.com/433MHZ-SX1278-LoRa-Module-433M-10KM-Ra-02-Wireless-Spread-Spectrum-Transmission-Board-2_4G-IPX-Antenna-for-Smart-Home-p-1939044.html?utm_source=googleshopping&utm_medium=cpc_organic&gmcCountry=GB&utm_content=minha&utm_campaign=minha-gbg-en-pc&currency=GBP&cur_warehouse=CN&createTmp=1&utm_source=googleshopping&utm_medium=cpc_us&utm_campaign=jeff-co-pmax-ukbg-allcat-uk-220412&utm_content=jeff&ad_id=)
 module mount is provided which has connections to the ESP 32. This chip can be used for long range radio communications.
 
+## Setting up secrets
+
 ## TODO
 
 ### Software

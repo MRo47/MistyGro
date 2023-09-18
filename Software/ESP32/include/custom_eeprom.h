@@ -19,11 +19,7 @@ private:
   CustomEEPROM(){};
 
 public:
-  static CustomEEPROM & get_instance()
-  {
-    static CustomEEPROM eeprom_obj;
-    return eeprom_obj;
-  }
+  static CustomEEPROM & get_instance();
 
   void begin();
 

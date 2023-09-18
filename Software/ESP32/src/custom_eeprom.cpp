@@ -1,5 +1,11 @@
 #include "custom_eeprom.h"
 
+CustomEEPROM & CustomEEPROM::get_instance()
+{
+  static CustomEEPROM eeprom_obj;
+  return eeprom_obj;
+}
+
 void CustomEEPROM::begin() { EEPROM.begin(eeprom_size_); }
 
 void CustomEEPROM::save_ph_calib(const PhCalib & ph_data)
