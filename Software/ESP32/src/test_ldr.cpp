@@ -1,4 +1,5 @@
 #include "ldr.h"
+#include "utility.h"
 
 ADC adc;
 LDR ldr(10, &adc);
