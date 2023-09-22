@@ -44,21 +44,32 @@ module mount is provided which has connections to the ESP 32. This chip can be u
 
 ## Setting up secrets
 
+
+
+## Install
+
+* **Build the project in Platform.io:**
+Currently the main file is selected in platformio.ini (commented out in the build_src_filter)
+* **Upload to ESP32:**
+Upload by clicking the upload button while press and holding the boot button on ESP32.
+* **Test modules individually:**
+Uncomment the `-<main.cpp>` line and comment out the test cpps for each module, one at a time. Then do step 1 and 2
+
 ## TODO
 
 ### Software
 
 - [x] Code hardware drivers
-- [ ] Test code with hardware
-- [ ] Code control/sensing stack
-- [ ] Code management stack
-- [ ] Integration tests
+- [x] Test code with hardware
+- [x] Code control/sensing stack
+- [x] Code management stack
+- [x] Integration tests
 
 ### Hardware
 
 - [x] Circuit design
 - [x] Calibrate sensors
-- [ ] Soldering
-- [ ] Designing parts for grow chamber
-- [ ] Printing / making parts for grow chamber
-- [ ] Assembly
+- [x] Soldering
+- [x] Designing parts for grow chamber
+- [x] Printing / making parts for grow chamber
+- [x] Assembly
