@@ -1,12 +1,3 @@
-/*! \mainpage My Personal Index Page
+/*! \MistyGro C++ API for ESP32 controller in arduino framework
  *
- * \section intro_sec Introduction
- *
- * This is the introduction.
- *
- * \section install_sec Installation
- *
- * \subsection step1 Step 1: Opening the box
- *
- * etc...
  */

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['firelogger_99',['FireLogger',['../classFireLogger.html',1,'']]]
+  ['firelogger_96',['FireLogger',['../classFireLogger.html',1,'']]]
 ];
