@@ -5,6 +5,10 @@
 
 enum class Switch : bool { ON = HIGH, OFF = LOW };
 
+/**
+ * @brief Abstract relay class
+ * 
+ */
 class Relay
 {
 public:
@@ -17,21 +21,48 @@ public:
   virtual void toggle() = 0;
 };
 
-// active high
+/**
+ * @brief Active high relay
+ * 
+ */
 class RelayAH : public Relay
 {
 private:
   int pin_;
 
 public:
+  /**
+   * @brief Construct a new active high relay
+   * 
+   * @param pin pin number where relay is wired
+   */
   RelayAH(int pin);
 
+  /**
+   * @brief initialise pin and set initial relay state
+   * 
+   * @param sw 
+   */
   void begin(Switch sw);
 
+  /**
+   * @brief set relay state
+   * 
+   * @param state On to switch on, the state is managed internally
+   */
   void set(Switch state);
 
+  /**
+   * @brief Get the current state
+   * 
+   * @return int 1 if ON
+   */
   int get_state();
 
+  /**
+   * @brief Toggle the relay
+   * 
+   */
   void toggle();
 };
 
@@ -42,14 +73,38 @@ private:
   int pin_;
 
 public:
+  /**
+   * @brief Construct a new active low relay
+   * 
+   * @param pin pin number where relay is wired
+   */
   RelayAL(int pin);
 
+  /**
+   * @brief initialise pin and set initial relay state
+   * 
+   * @param sw 
+   */
   void begin(Switch sw);
 
+  /**
+   * @brief set relay state
+   * 
+   * @param state On to switch on, the state is managed internally
+   */
   void set(Switch state);
 
+  /**
+   * @brief Get the current state
+   * 
+   * @return int 1 if ON
+   */
   int get_state();
 
+  /**
+   * @brief Toggle the relay
+   * 
+   */
   void toggle();
 };
 
