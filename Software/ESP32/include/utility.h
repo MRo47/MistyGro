@@ -46,6 +46,13 @@ static const int extra_relay = 27;
 static const int ph_enable = 5;
 }  // namespace pin
 
+/**
+ * @brief Calculate median of a float array
+ * 
+ * @param arr float array
+ * @param size size of array
+ * @return float median
+ */
 inline float median(float * arr, int size)
 {
   if (size % 2 == 0) {
