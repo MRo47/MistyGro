@@ -9,7 +9,7 @@
 
 /**
  * @brief A scheduler for running tasks on the controller, minimum time between events is 1 second
- * based off the ntc timer. Also depends how slow is the loop function. 
+ * based off the ntp timer. Also depends how slow is the loop function. 
  * 
  * Maximum 10 tasks can be added, increase in the header file (MAX_TASKS) if required 
  * but beware of exhausting the heap
@@ -36,7 +36,7 @@ public:
   /**
    * @brief initialise timer
    * 
-   * @param timer_sync_interval_ms time interval in milliseconds to sync the internal ntc clock
+   * @param timer_sync_interval_ms time interval in milliseconds to sync the internal ntp clock
    */
   void begin(long int timer_sync_interval_ms = 600000);  // 10 mins
 
