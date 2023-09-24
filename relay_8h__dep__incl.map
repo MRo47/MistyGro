@@ -1,0 +1,9 @@
+<map id="Software/ESP32/include/relay.h" name="Software/ESP32/include/relay.h">
+<area shape="rect" id="node1" title=" " alt="" coords="277,5,452,47"/>
+<area shape="rect" id="node2" href="$light__scheduler_8h.html" title=" " alt="" coords="41,95,216,136"/>
+<area shape="rect" id="node4" href="$main_8cpp.html" title=" " alt="" coords="181,184,327,225"/>
+<area shape="rect" id="node5" href="$all__off_8cpp.html" title=" " alt="" coords="291,95,438,136"/>
+<area shape="rect" id="node6" href="$relay_8cpp.html" title=" " alt="" coords="462,95,609,136"/>
+<area shape="rect" id="node7" href="$test__relays_8cpp.html" title=" " alt="" coords="633,95,779,136"/>
+<area shape="rect" id="node3" href="$light__scheduler_8cpp.html" title=" " alt="" coords="5,184,156,225"/>
+</map>

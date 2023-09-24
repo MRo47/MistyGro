@@ -1,0 +1,10 @@
+<map id="Software/ESP32/include/utility.h" name="Software/ESP32/include/utility.h">
+<area shape="rect" id="node1" title=" " alt="" coords="350,5,525,47"/>
+<area shape="rect" id="node2" href="$temperature__sensor_8h.html" title=" " alt="" coords="165,95,339,136"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title=" " alt="" coords="5,184,152,225"/>
+<area shape="rect" id="node6" href="$adc_8cpp.html" title=" " alt="" coords="364,95,511,136"/>
+<area shape="rect" id="node7" href="$ldr_8cpp.html" title=" " alt="" coords="535,95,681,136"/>
+<area shape="rect" id="node8" href="$test__ldr_8cpp.html" title=" " alt="" coords="705,95,852,136"/>
+<area shape="rect" id="node4" href="$temperature__sensor_8cpp.html" title=" " alt="" coords="177,184,359,225"/>
+<area shape="rect" id="node5" href="$test__temperature_8cpp.html" title=" " alt="" coords="383,184,550,225"/>
+</map>
