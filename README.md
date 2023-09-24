@@ -44,6 +44,21 @@ module mount is provided which has connections to the ESP 32. This chip can be u
 
 ## Setting up secrets
 
+* Add a `secrets.h` file in `Software/ESP32/include` and fill in the details.
+
+```cpp
+#ifndef _SECRETS_H_
+#define _SECRETS_H_
+
+#define WIFI_SSID ""
+#define WIFI_PASSWORD ""
+#define FIREBASE_TOKEN ""
+#define FIREBASE_USER_EMAIL ""
+#define FIREBASE_USER_PASSWORD ""
+#define FIREBASE_URL ""
+
+#endif
+```
 
 
 ## Install
