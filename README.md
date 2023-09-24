@@ -2,6 +2,10 @@
 
 A portable aeroponics planter/lab to monitor and study crop growth and yeild.
 
+## API documentation
+
+C++ API documentation in arduino platform for the ESP32 controller can be found [here](https://mro47.github.io/MistyGro/annotated.html)
+
 ## Navigating this repository
 
 **BOM:** Bill of materials
