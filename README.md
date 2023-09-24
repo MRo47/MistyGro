@@ -44,6 +44,10 @@ module mount is provided which has connections to the ESP 32. This chip can be u
 
 ## Setting up secrets
 
+### For the Esp32
+
+* Syncing timer with NTC will require WiFi credentials which can be set up following the instructions below.
+* Firebase logging will also require firebase credentials. Which can be set up using [this](https://randomnerdtutorials.com/esp32-data-logging-firebase-realtime-database/) article from Random Nerd tutorials.
 * Add a `secrets.h` file in `Software/ESP32/include` and fill in the details.
 
 ```cpp
@@ -60,6 +64,11 @@ module mount is provided which has connections to the ESP 32. This chip can be u
 #endif
 ```
 
+## For the phone
+
+* Follow [this](https://firebase.google.com/docs/flutter/setup?platform=android) to register the android app. Switch to IOS if you have to set this up on IOS device.
+
+>****NOTE**** This project has been only tested with an android app and I'm (MRo47) a noob at flutter or in general app development. So contributions are welcome here.
 
 ## Install
 
@@ -69,22 +78,3 @@ Currently the main file is selected in platformio.ini (commented out in the buil
 Upload by clicking the upload button while press and holding the boot button on ESP32.
 * **Test modules individually:**
 Uncomment the `-<main.cpp>` line and comment out the test cpps for each module, one at a time. Then do step 1 and 2
-
-## TODO
-
-### Software
-
-- [x] Code hardware drivers
-- [x] Test code with hardware
-- [x] Code control/sensing stack
-- [x] Code management stack
-- [x] Integration tests
-
-### Hardware
-
-- [x] Circuit design
-- [x] Calibrate sensors
-- [x] Soldering
-- [x] Designing parts for grow chamber
-- [x] Printing / making parts for grow chamber
-- [x] Assembly
