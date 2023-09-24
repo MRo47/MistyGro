@@ -1,60 +1,111 @@
+#ifndef _RELAY_H_
+#define _RELAY_H_
+
 #include <Arduino.h>
 
 enum class Switch : bool { ON = HIGH, OFF = LOW };
 
-// active high
-class RelayAH
+/**
+ * @brief Abstract relay class
+ * 
+ */
+class Relay
+{
+public:
+  virtual void begin(Switch sw) = 0;
+
+  virtual void set(Switch state) = 0;
+
+  virtual int get_state() = 0;
+
+  virtual void toggle() = 0;
+};
+
+/**
+ * @brief Active high relay
+ * 
+ */
+class RelayAH : public Relay
 {
 private:
   int pin_;
 
 public:
-  RelayAH(int pin) : pin_(pin){};
+  /**
+   * @brief Construct a new active high relay
+   * 
+   * @param pin pin number where relay is wired
+   */
+  RelayAH(int pin);
 
-  void begin(Switch sw)
-  {
-    pinMode(pin_, OUTPUT);
-    digitalWrite(pin_, bool(sw));
-  }
+  /**
+   * @brief initialise pin and set initial relay state
+   * 
+   * @param sw 
+   */
+  void begin(Switch sw);
 
-  void set(Switch state) { digitalWrite(pin_, bool(state)); }
+  /**
+   * @brief set relay state
+   * 
+   * @param state On to switch on, the state is managed internally
+   */
+  void set(Switch state);
 
-  int get_state() { return digitalRead(pin_); }
+  /**
+   * @brief Get the current state
+   * 
+   * @return int 1 if ON
+   */
+  int get_state();
 
-  void toggle()
-  {
-    bool state = digitalRead(pin_);
-    delay(10);
-    digitalWrite(pin_, !state);  // TODO check this
-  }
+  /**
+   * @brief Toggle the relay
+   * 
+   */
+  void toggle();
 };
 
 // active low
-class RelayAL
+class RelayAL : public Relay
 {
 private:
   int pin_;
 
 public:
-  RelayAL(int pin) : pin_(pin){};
+  /**
+   * @brief Construct a new active low relay
+   * 
+   * @param pin pin number where relay is wired
+   */
+  RelayAL(int pin);
 
-  void begin(Switch sw)
-  {
-    pinMode(pin_, OUTPUT);
-    digitalWrite(pin_, !bool(sw));
-  }
+  /**
+   * @brief initialise pin and set initial relay state
+   * 
+   * @param sw 
+   */
+  void begin(Switch sw);
 
-  void set(Switch state) { digitalWrite(pin_, !bool(state)); }
+  /**
+   * @brief set relay state
+   * 
+   * @param state On to switch on, the state is managed internally
+   */
+  void set(Switch state);
 
-  int get_state()
-  {
-    return !digitalRead(pin_);  // negate the state as this is an active low
-  }
+  /**
+   * @brief Get the current state
+   * 
+   * @return int 1 if ON
+   */
+  int get_state();
 
-  void toggle()
-  {
-    bool state = digitalRead(pin_);
-    delay(10);
-    digitalWrite(pin_, !state);
-  }
+  /**
+   * @brief Toggle the relay
+   * 
+   */
+  void toggle();
 };
+
+#endif

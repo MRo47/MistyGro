@@ -1,13 +1,21 @@
 #include "firebase_logger.h"
 
 //Provide the token generation process info.
+#include "addons/RTDBHelper.h"
 #include "addons/TokenHelper.h"
 
 void FireLogger::print_error()
 {
   Serial.printf("Error:\ncode: %d\nmsg: ", fbdo_.errorCode());
+  Serial.printf("HTTP code: %d\n", fbdo_.httpCode());
+  Serial.printf(
+    "Firebase http connected: %s\n", fbdo_.httpConnected() ? "true" : "false");
   Serial.println(fbdo_.errorReason());
 }
+
+bool FireLogger::is_keep_alive() { return fbdo_.isKeepAlive(); }
+
+bool FireLogger::is_connected() { return fbdo_.httpConnected(); }
 
 FireLogger::FireLogger() : path_prefix_("/users/") {}
 
@@ -28,12 +36,13 @@ void FireLogger::begin(
   auth_.user.email = email;
   auth_.user.password = pass;
 
-  Firebase.reconnectWiFi(true);
   fbdo_.setResponseSize(4096);
 
   /* Assign the callback function for the long running token generation task */
   config_.token_status_callback =
     tokenStatusCallback;  // see addons/TokenHelper.h
+  // Assign the maximum retry of token generation
+  config_.max_token_generation_retry = 5;
 
   Firebase.begin(&config_, &auth_);
   // Getting the user UID might take a few seconds
@@ -89,3 +98,13 @@ void FireLogger::push_time(const char * path, time_t timestamp)
 }
 
 bool FireLogger::is_ready() { return Firebase.ready(); }
+
+bool FireLogger::check_and_refresh_token()
+{
+  if (Firebase.isTokenExpired()) {
+    Firebase.refreshToken(&config_);
+    Serial.println("Refreshed token");
+    return true;
+  }
+  return false;
+}

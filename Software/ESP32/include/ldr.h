@@ -4,8 +4,11 @@
 #include <Arduino.h>
 
 #include "adc.h"
-#include "utility.h"
 
+/**
+ * @brief Light dependent resistor wrapper
+ * 
+ */
 class LDR
 {
 private:
@@ -13,24 +16,20 @@ private:
   const size_t samples_;
 
 public:
-  LDR(int samples, ADC * adc) : samples_(samples), adc_(adc) {}
+  /**
+   * @brief Construct a new LDR object
+   * 
+   * @param samples total samples to use for voltage calculation (uses median to compute final value)
+   * @param adc The adc to use to read samples
+   */
+  LDR(int samples, ADC * adc);
 
-  // void begin();
-
-  float read_voltage()
-  {
-    // return voltage in v
-    float v[samples_] = {0.f};
-    for (int i = 0; i < samples_; ++i) {
-      v[i] = adc_->read_voltage(ADCChannel::ldr);
-      delay(10);
-    }
-    return median(v, samples_);
-  }
-
-  // float read_tds(float temperature_c = 25.f);
-
-  // void calibration(float temperature_c);
+  /**
+   * @brief Read voltage from ADC for LDR. Make sure ADC is initialised before calling this method
+   * 
+   * @return float LDR voltage at junction
+   */
+  float read_voltage();
 };
 
 #endif
