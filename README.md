@@ -20,7 +20,7 @@ C++ API documentation in arduino platform for the ESP32 controller can be found 
 
 ## System Architecture
 
-![block diagram](Images/diagrams/mistygro_block.png)
+![block diagram](Images/diagrams/MistyGroBlock.png)
 
 The system hardware consists of
 
