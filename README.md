@@ -25,7 +25,8 @@ C++ API documentation in arduino platform for the ESP32 controller can be found 
 
 ## System Architecture
 
-<img src="Images/diagrams/MistyGroBlock.png" alt="block diagram" width="400"/>
+![block diagram](Images/diagrams/MistyGroBlock.png)
+System hardware diagram
 
 The system hardware consists of
 
