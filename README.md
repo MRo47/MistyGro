@@ -20,12 +20,12 @@ C++ API documentation in arduino platform for the ESP32 controller can be found 
 **Images:** Any images related to this project.
 
 **Software:** For controls and reading sensor data from hardware.
-    - **app:** MistyGro App designed in Flutter.
-    - **ESP32:** Controller code based on arduino framework.
+  - **app:** MistyGro App designed in Flutter.
+  - **ESP32:** Controller code based on arduino framework.
 
 ## System Architecture
 
-![block diagram](Images/diagrams/MistyGroBlock.png)
+<img src="Images/diagrams/MistyGroBlock.png" alt="block diagram" width="400"/>
 
 The system hardware consists of
 
@@ -50,7 +50,7 @@ A temperature sensor [DS18B20](https://www.adafruit.com/product/381) is used to 
 - These properties are now externally measured by using ph and ec meters which can be cheaply obtained from [amazon](https://amzn.eu/d/4d1FXgC) or elsewhere and don't need a complex calibration routine.
 - The app has provisions to log this data to firebase (recommend at-least 1 reading everyday for both properties)
 
-<img src="Images/ec_n_ph_meter.jpg" alt="misters" width="400"/>
+<img src="Images/ec_n_ph_meter.jpg" alt="ec and ph meter" width="400"/>
 
 EC and ph meters to manually read solution properties.
 
@@ -74,7 +74,7 @@ All devices are controlled via 5v relays.
 
 2 x [Ultrasonic misters](https://amzn.eu/d/a5XIISg) are used to atomize the nutrient solution.
 
-<img src="Images/UltrasonicMister.jpg" alt="misters" width="400"/>
+<img src="Images/us_mister.jpg" alt="misters" width="400"/>
 
 Ultrasonic mister
 
@@ -84,7 +84,7 @@ Ultrasonic mister
 
 The grow lamp was modified to a different configuration best suited for the planter.
 
-<img src="Images/grow_lamp_original.jpg" alt="misters" width="400"/>
+<img src="Images/grow_lamp_original.jpg" alt="grow_lamp" width="400"/>
 
 original grow lamp
 
