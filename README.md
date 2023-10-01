@@ -5,7 +5,7 @@ An aeroponics/fogponics planter to monitor and study crop growth and yeild. Has 
 - Made to be hacked
 - Open source hardware and software with docs
 
-<img src="Images/system.jpg" alt="ec and ph meter" width="600"/>
+<img src="Images/system.jpg" alt="system" width="600"/>
 
 ## API documentation
 
@@ -27,7 +27,7 @@ C++ API documentation in arduino platform for the ESP32 controller can be found 
 
 ## System Architecture
 
-![block diagram](Images/diagrams/block_diag.png)
+<img src="Images/diagrams/block_diag.png" alt="system" width="600"/>
 
 System hardware diagram
 
@@ -98,11 +98,17 @@ Most of the system is designed from available parts in and around my house, I be
 
 Each part design can be found in the links to documents below.
 
-- ### [Light](Docs/light_design.md)
+- ### [Lights](Docs/light_design.md)
+
+<img src="Images/grow_lights.jpg" alt="grow lights" width="400"/>
 
 - ### [Reservoir](Docs/reservoir_design.md)
 
+<img src="Images/tub.jpg" alt="tub" width="400"/>
+
 - ### [Enclosure](Docs/enclosure_design.md)
+
+<img src="Images/pcb_enclosure.jpg" alt="pcb enclosure" width="400"/>
 
 ## Installation and use
 
