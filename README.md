@@ -54,10 +54,6 @@ A temperature sensor [DS18B20](https://www.adafruit.com/product/381) is used to 
 - These properties are now externally measured by using ph and ec meters which can be cheaply obtained from [amazon](https://amzn.eu/d/4d1FXgC) or elsewhere and don't need a complex calibration routine.
 - The app has provisions to log this data to firebase (recommend at-least 1 reading everyday for both properties)
 
-<img src="Images/ec_n_ph_meter.jpg" alt="ec and ph meter" width="400"/>
-
-EC and ph meters to manually read solution properties.
-
 ## Communication
 
 ### ESP32 WiFi
@@ -78,19 +74,11 @@ All devices are controlled via 5v relays.
 
 2 x [Ultrasonic misters](https://amzn.eu/d/a5XIISg) are used to atomize the nutrient solution.
 
-<img src="Images/us_mister.jpg" alt="misters" width="400"/>
-
-Ultrasonic mister
-
 ### Grow lights
 
 [Grow lights](https://amzn.eu/d/02rRoom) are wired up via relay and are switched on for a fixed time cycle from the ESP32 controller. Keeping the planter near a well lit window will switch off the lights when it gets bright (This can be set manually using the LDR voltage threshold).
 
 The grow lamp was modified to a different configuration best suited for the planter.
-
-<img src="Images/grow_lamp_original.jpg" alt="grow_lamp" width="400"/>
-
-original grow lamp
 
 ## Design
 
@@ -98,7 +86,7 @@ Most of the system is designed from available parts in and around my house, I be
 
 Each part design can be found in the links to documents below.
 
-- ### [Lights](Docs/light_design.md)
+- ### [Grow lamp](Docs/grow_lamp_design.md)
 
 <img src="Images/grow_lights.jpg" alt="grow lights" width="400"/>
 
@@ -118,3 +106,17 @@ Instructions in [Docs/install.md](Docs/install.md)
 ## Contributing
 
 Check issues page on [github](https://github.com/MRo47/MistyGro/issues) for things that need to be developed/fixed and open PRs.
+
+## Appendix
+
+<img src="Images/us_mister.jpg" alt="misters" width="300"/>
+
+Ultrasonic mister
+
+<img src="Images/ec_n_ph_meter.jpg" alt="ec and ph meter" width="300"/>
+
+EC and ph meters to manually read solution properties.
+
+<img src="Images/grow_lamp_original.jpg" alt="grow_lamp" width="300"/>
+
+original grow lamp
