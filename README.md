@@ -102,6 +102,9 @@ Each part design can be found in the links to documents below.
 
 Instructions in [Docs/install.md](Docs/install.md)
 
+## Preparing nutrient solution
+
+Instructions in [Docs/nutrient_solution.md](Docs/nutrient_solution.md)
 
 ## Contributing
 
