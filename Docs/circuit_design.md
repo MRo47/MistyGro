@@ -7,4 +7,3 @@ The Easy EDA project file (*.zip) and schematics are included in the [Circuit](.
 3. The switch for misters was not used but simply the terminals were selected for normally open position of the relay.
 4. The ESP32 is mounted on 2 single row 0.1" female pin headers (makes it easy to replace the ESP32 if its damaged).
 5. Connectors were crimped for power, temperature sensor and LDR and then connected to the circuit.
-
