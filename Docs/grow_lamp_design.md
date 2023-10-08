@@ -32,6 +32,11 @@ The lamp was designed using
 
 <img src="../Images/dismantled_light.jpg" alt="dismantled light" width="800"/>
 
+The wiring for relay is shown below. The only other change was to install longer wires and the
+converter was placed near the pipe joint for easy access.
+
+<img src="../Images/diagrams/light_rewiring.png" alt="light rewiring" width="800"/>
+
 7. The light units are then mounted as shown below using zip ties to the hanger mounts. The wire is then routed through a third hole into the pipe.
 
 <img src="../Images/light_mount.jpg" alt="light mount" width="800"/>
