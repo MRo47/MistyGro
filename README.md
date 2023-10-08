@@ -120,6 +120,6 @@ Instructions in [Docs/nutrient_solution.md](Docs/nutrient_solution.md)
 
 Check issues page on [github](https://github.com/MRo47/MistyGro/issues) for things that need to be developed/fixed and open PRs.
 
-## [Part images](Docs/parts.md)
+## Part images
 
-Images of parts used in this project
+Images of parts used in this project are in [Docs/parts.md](Docs/parts.md)
