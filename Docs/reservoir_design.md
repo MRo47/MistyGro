@@ -16,6 +16,9 @@ The reservoir was designed using
 <img src="../Images/pot.jpg" alt="pot" width="800"/>
 
 3. The reservoir was then calibrated for volume as this helped making the correct amount of nutrient mix without requiring another large vessel.
+
+<img src="../Images/reservoir_calib.jpg" alt="reservoir calib" width="800"/>
+
 4. Mister floats were made using polystyrene pieces I had lying around from packaging. and netpots. I stole the idea from an [ebay product](https://www.ebay.co.uk/itm/324444872905?mkcid=16&mkevt=1&mkrid=711-127632-2357-0&ssspo=x7EEvAxJT_K&sssrc=2047675&ssuid=Eep4KVD9SkS&widget_ver=artemis&media=COPY) seen below.
 
 <img src="../Images/mister_float.jpg" alt="mister float" width="800"/>
