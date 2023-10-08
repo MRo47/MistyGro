@@ -3,7 +3,7 @@
 An aeroponics/fogponics planter to monitor and study crop growth and yeild. Has a Flutter based app to monitor daily stats.
 
 - Made to be hacked
-- Open source hardware and software with docs
+- Open source hardware and software with documentation
 
 <img src="Images/system.jpg" alt="system" width="600"/>
 
@@ -107,16 +107,6 @@ Instructions in [Docs/install.md](Docs/install.md)
 
 Check issues page on [github](https://github.com/MRo47/MistyGro/issues) for things that need to be developed/fixed and open PRs.
 
-## Appendix
+## [Part images](Docs/parts.md)
 
-<img src="Images/us_mister.jpg" alt="misters" width="300"/>
-
-Ultrasonic mister
-
-<img src="Images/ec_n_ph_meter.jpg" alt="ec and ph meter" width="300"/>
-
-EC and ph meters to manually read solution properties.
-
-<img src="Images/grow_lamp_original.jpg" alt="grow_lamp" width="300"/>
-
-original grow lamp
+Images of parts used in this project
