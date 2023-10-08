@@ -1,9 +1,9 @@
 # Reservoir design
 
-The reservoir was designed using
+## Requirements
 
-- Storage box (food safe plastic)
-- Net pots
+- [Storage box (food safe plastic)](https://www.wilko.com/en-uk/wilko-45l-modular-storage-box-with-lid/p/0449324)
+- [Net pots]()
 - Misters
 - Mister floats
 - Weights for misters

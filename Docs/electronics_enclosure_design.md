@@ -1,6 +1,6 @@
 # Electronics enclosure design
 
-The enclosure was made from
+## Requirements
 
 - Takeaway container (comes with an easy access lid ;) )
 - Covid test, test tube for the LDR casing (great for diffusing light)

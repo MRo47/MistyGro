@@ -1,6 +1,6 @@
 # Lamp design
 
-The lamp was designed using
+## Requirements
 
 - A brick for the base
 - Piece of waste pipe from a plumbing job which had an elbow joint 
