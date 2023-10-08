@@ -7,6 +7,16 @@ An aeroponics/fogponics planter to monitor and study crop growth and yeild. Has 
 
 <img src="Images/system.jpg" alt="system" width="600"/>
 
+## [App](Docs/app.md)
+
+The app shows the current and a 24 hour history of the system.
+
+<p float="left">
+  <img src="Images/app_main.jpg" width="200" />
+  <img src="Images/app_analytics1.jpg" width="200" />
+  <img src="Images/app_analytics2.jpg" width="200" />
+</p>
+
 ## API documentation
 
 C++ API documentation in arduino platform for the ESP32 controller can be found [here](https://mro47.github.io/MistyGro/annotated.html)
