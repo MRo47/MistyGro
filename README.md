@@ -94,7 +94,7 @@ Each part design can be found in the links to documents below.
 
 <img src="Images/tub.jpg" alt="tub" width="400"/>
 
-- ### [Enclosure](Docs/enclosure_design.md)
+- ### [Electronics enclosure](Docs/electronics_enclosure_design.md)
 
 <img src="Images/pcb_enclosure.jpg" alt="pcb enclosure" width="400"/>
 

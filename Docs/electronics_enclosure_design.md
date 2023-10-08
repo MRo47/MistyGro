@@ -1,4 +1,4 @@
-# Enclosure design
+# Electronics enclosure design
 
 The enclosure was made from
 
