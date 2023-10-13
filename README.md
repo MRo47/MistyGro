@@ -33,7 +33,7 @@ C++ API documentation in arduino platform for the ESP32 controller can be found 
 
 **Software:** For controls and reading sensor data from hardware.
   - **app:** MistyGro App designed in Flutter.
-  - **ESP32:** Controller code based on arduino framework.
+  - **esp32_firmware:** Controller code based on arduino framework.
 
 ## System Architecture
 
