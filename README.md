@@ -7,9 +7,9 @@ An aeroponics/fogponics planter to monitor and study crop growth and yeild. Has 
 
 <img src="Images/system.jpg" alt="system" width="600"/>
 
-## [App](Docs/app.md)
+## App
 
-The app shows the current and a 24 hour history of the system.
+The app shows the current and a 24 hour history of the system. More details [here](Docs/app.md)
 
 <p float="left">
   <img src="Images/app_main.jpg" width="200" />
@@ -96,15 +96,21 @@ Most of the system is designed from available parts in and around my house, I be
 
 Each part design can be found in the links to documents below.
 
-- ### [Grow lamp](Docs/grow_lamp_design.md)
+- ### Grow lamp
+
+Grow lamp [design docs](Docs/grow_lamp_design.md)
 
 <img src="Images/grow_lights.jpg" alt="grow lights" width="400"/>
 
-- ### [Reservoir](Docs/reservoir_design.md)
+- ### Reservoir
+
+Reservoir [design docs](Docs/reservoir_design.md)
 
 <img src="Images/tub.jpg" alt="tub" width="400"/>
 
-- ### [Circuit](Docs/circuit_design.md) and [Electronics enclosure](Docs/electronics_enclosure_design.md)
+- ### Circuit and Electronics enclosure
+
+Circuit [design docs](Docs/circuit_design.md) and electronics enclosure [design docs](Docs/electronics_enclosure_design.md)
 
 <img src="Images/pcb_enclosure.jpg" alt="pcb enclosure" width="400"/>
 
