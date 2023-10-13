@@ -6,7 +6,7 @@
 
 * Syncing timer with NTC will require WiFi credentials which can be set up following the instructions below.
 * Firebase logging will also require firebase credentials. Which can be set up using [this](https://randomnerdtutorials.com/esp32-data-logging-firebase-realtime-database/) article from Random Nerd tutorials.
-* Add a `secrets.h` file in `Software/ESP32/include` and fill in the details.
+* Add a `secrets.h` file in `Software/esp32_firmware/include` and fill in the details.
 
 ```cpp
 #ifndef _SECRETS_H_
