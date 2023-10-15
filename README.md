@@ -1,6 +1,6 @@
 # MistyGro
 
-An aeroponics/fogponics planter to monitor and study crop growth and yeild. Has a Flutter based app to monitor daily stats.
+An open source aeroponics/fogponics planter to monitor and study crop growth and yeild. Comes with a Flutter app to monitor daily stats.
 
 - Made to be hacked
 - Open source hardware and software with documentation
