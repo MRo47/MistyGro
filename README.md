@@ -3,7 +3,7 @@
 An open source aeroponics/fogponics planter to monitor and study crop growth and yeild. Comes with a Flutter app to monitor daily stats.
 
 - Made to be hacked
-- Open source hardware and software with documentation
+- Open source hardware and software
 
 <img src="Images/system.jpg" alt="system" width="600"/>
 
@@ -17,23 +17,9 @@ The app shows the current and a 24 hour history of the system. More details [her
   <img src="Images/app_analytics2.jpg" width="200" />
 </p>
 
-## API documentation
+## Firmware API documentation
 
-C++ API documentation in arduino platform for the ESP32 controller can be found [here](https://mro47.github.io/MistyGro/annotated.html)
-
-## Where stuff lives
-
-**BOM:** Bill of materials for hardware.
-
-**Circuit:** Circuit designs made using [Easy EDA](https://easyeda.com/). This should have the schematic as PDF, Easy EDA project file as json and the PCB zip.
-
-**Docs:** Any literature or manuals related to this project.
-
-**Images:** Any images related to this project.
-
-**Software:** For controls and reading sensor data from hardware.
-  - **app:** MistyGro App designed in Flutter.
-  - **esp32_firmware:** Controller code based on arduino framework.
+C++ firmware API documentation in can be found [here](https://mro47.github.io/MistyGro/annotated.html)
 
 ## System Architecture
 
@@ -50,7 +36,7 @@ The system hardware consists of
 A photoresistor is used to measure ambient light which is then used to control the grow lights.
 
 - In sunny conditions the grow lights will be switched off.
-- No better source of light than the sun?
+- No better source of grow light than the sun?
 
 ### Temperature sensor
 
@@ -124,7 +110,22 @@ Instructions in [Docs/nutrient_solution.md](Docs/nutrient_solution.md)
 
 ## Contributing
 
-Check issues page on [github](https://github.com/MRo47/MistyGro/issues) for things that need to be developed/fixed and open PRs.
+Check [issues](https://github.com/MRo47/MistyGro/issues) page on github for things that need to be developed/fixed and open PRs.
+
+## Where stuff lives
+
+**BOM:** Bill of materials for hardware.
+
+**Circuit:** Circuit designs made using [Easy EDA](https://easyeda.com/). This should have the schematic as PDF, Easy EDA project file as json and the PCB zip.
+
+**Docs:** Any literature or manuals related to this project.
+
+**Images:** Any images related to this project.
+
+**Software:** For controls and reading sensor data from hardware.
+
+- **app:** MistyGro App designed in Flutter.
+- **esp32_firmware:** Controller code based on arduino framework.
 
 ## Part images
 
