@@ -15,4 +15,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: hw_api_docs/html
-          config_file: Software/ESP32/Doxyfile
+          config_file: Software/esp32_firmware/Doxyfile
